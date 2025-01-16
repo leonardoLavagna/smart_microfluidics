@@ -20,7 +20,7 @@ option = st.sidebar.selectbox(
     "Choose a Visualization:",
     [
         "Correlation heatmap",
-        "Clustered correlation heatmap"
+        "Clustered correlation heatmap",
         "Tree map"
         
     ],
