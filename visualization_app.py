@@ -25,12 +25,7 @@ option = st.sidebar.selectbox(
     ],
 )
 
-
-# Plot heatmap
-plt.figure(figsize=(12, 8))
-sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
-plt.title("Correlation Heatmap")
-plt.show()
+# Correlation heatmap
 # Define visualizations
 if option == "Correlation Heatmap":
     st.header("Correlation Heatmap")
@@ -41,6 +36,7 @@ if option == "Correlation Heatmap":
     numeric_yes_data = yes_data[numeric_cols]
     # Compute the correlation matrix
     correlation_matrix = numeric_yes_data.corr()
+    plt.figure(figsize=(12, 8))
     # Plot heatmap
     plt.figure(figsize=(10, 8))
     sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm")
