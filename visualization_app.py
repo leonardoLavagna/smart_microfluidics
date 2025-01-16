@@ -45,9 +45,13 @@ if option == "Correlation heatmap":
         st.pyplot(plt)
         # Plot heatmap by IDs
         st.subheader("Correlations by IDs")
-        correlation_matrix_t = numeric_yes_data.T.corr()
+        data_red = data[:n_ids]
+        numeric_cols = data_red.select_dtypes(include=['number']).columns
+        yes_data = data_red[data_red['OUTPUT'] == 'YES']
+        numeric_yes_data_red = yes_data[numeric_cols]
+        correlation_matrix_t = numeric_yes_data_red.T.corr()
         plt.figure(figsize=(10, 8))
-        sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm")
+        sns.heatmap(correlation_matrix_t, annot=True, fmt=".2f", cmap="coolwarm")
         st.pyplot(plt)
     else:
         # Select numeric columns for correlation calculation corresponding to no-formation
@@ -61,7 +65,11 @@ if option == "Correlation heatmap":
         st.pyplot(plt)        
         # Plot heatmap by IDs
         st.subheader("Correlations by IDs")
-        correlation_matrix_t = numeric_no_data.T.corr()
+        data_red = data[:n_ids]
+        numeric_cols = data_red.select_dtypes(include=['number']).columns
+        yes_data = data_red[data_red['OUTPUT'] == 'NO']
+        numeric_no_data_red = no_data[numeric_cols]
+        correlation_matrix_t = numeric_no_data_red.T.corr()
         plt.figure(figsize=(10, 8))
         sns.heatmap(correlation_matrix_t, annot=True, fmt=".2f", cmap="coolwarm")
         st.pyplot(plt)
