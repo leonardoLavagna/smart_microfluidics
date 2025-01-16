@@ -5,6 +5,7 @@ import seaborn as sns
 import squarify
 import plotly.express as px
 
+# Load data
 file_path = 'data.csv'
 data = pd.read_csv(file_path, encoding='latin1')
 data = data.set_index('ID')
@@ -19,21 +20,27 @@ option = st.sidebar.selectbox(
     "Choose a Visualization:",
     [
         "Correlation Heatmap",
-        "Tree Map",
-        "Alluvial Plot",
-        "Pair Plot",
+        "Clustered Correlation Heatmap"
+        
     ],
 )
 
+
+# Plot heatmap
+plt.figure(figsize=(12, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
+plt.title("Correlation Heatmap")
+plt.show()
 # Define visualizations
 if option == "Correlation Heatmap":
     st.header("Correlation Heatmap")
     st.write("Displays the correlation between numerical features in the dataset.")
-
-    # Compute correlation
-    numeric_data = data.select_dtypes(include=['float64', 'int64'])
-    correlation_matrix = numeric_data.corr()
-
+    # Select numeric columns for correlation calculation corresponding to formation
+    numeric_cols = data.select_dtypes(include=['number']).columns
+    yes_data = data[data['OUTPUT'] == 'YES']
+    numeric_yes_data = yes_data[numeric_cols]
+    # Compute the correlation matrix
+    correlation_matrix = numeric_yes_data.corr()
     # Plot heatmap
     plt.figure(figsize=(10, 8))
     sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm")
