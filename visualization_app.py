@@ -13,7 +13,7 @@ data = data.set_index('ID')
 
 # Streamlit app title
 st.title("Data Visualization Dashboard")
-st.write("Data explorations with smart visualizations, including treemaps, correlation heatmaps, and more.")
+st.write("Data explorations with smart visualizations, including correlation heatmaps, alluvional plots, and more.")
 
 # Sidebar for navigation
 st.sidebar.title("Visualization Options")
