@@ -20,41 +20,66 @@ option = st.sidebar.selectbox(
     "Choose a Visualization:",
     [
         "Correlation heatmap",
-        "Clustered correlation heatmap",
-        "Tree map"
+        "Clustered correlation heatmap"
         
     ],
 )
 
-################################################
-#     VISUALIZATIONS
-################################################
+# Visualizations
 # 1. Correlation heatmap
 if option == "Correlation heatmap":
     st.header("Correlation heatmap")
-    st.write("Displays the correlation between numerical features in the dataset of formed liposomes.")
-    # Select numeric columns for correlation calculation corresponding to formation
-    numeric_cols = data.select_dtypes(include=['number']).columns
-    yes_data = data[data['OUTPUT'] == 'YES']
-    numeric_yes_data = yes_data[numeric_cols]
-    # Compute the correlation matrix
-    correlation_matrix = numeric_yes_data.corr()
-    plt.figure(figsize=(12, 8))
-    # Plot heatmap
-    plt.figure(figsize=(10, 8))
-    sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm")
-    st.pyplot(plt)
+    st.write("Displays the correlation between numerical features in the dataset.")
+    formed = st.text_input("Are you interested in the dataset of formed liposomes? Answer YES (Y) or NO (N):", "YES")
+    n_ids = st.number_input("Enter the number of formulations you desire to visualize:", min_value=2, max_value=20, value=10)
+    st.subheader("Correlations by features")
+    if formed == "YES" or formed == "Y":
+        # Select numeric columns for correlation calculation corresponding to formation
+        numeric_cols = data.select_dtypes(include=['number']).columns
+        yes_data = data[data['OUTPUT'] == 'YES']
+        numeric_yes_data = yes_data[numeric_cols]
+        # Plot heatmap
+        correlation_matrix = numeric_yes_data.corr()
+        plt.figure(figsize=(10, 8))
+        sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm")
+        st.pyplot(plt)
+        # Plot heatmap by IDs
+        st.subheader("Correlations by IDs")
+        correlation_matrix_t = numeric_yes_data_red.T.corr()
+        plt.figure(figsize=(10, 8))
+        sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm")
+        st.pyplot(plt)
+    else:
+        # Select numeric columns for correlation calculation corresponding to no-formation
+        numeric_cols = data.select_dtypes(include=['number']).columns
+        yes_data = data[data['OUTPUT'] == 'NO']
+        numeric_no_data = no_data[numeric_cols]
+        # Plot heatmap
+        correlation_matrix = numeric_no_data.corr()
+        plt.figure(figsize=(10, 8))
+        sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm")
+        st.pyplot(plt)        
+        # Plot heatmap by IDs
+        st.subheader("Correlations by IDs")
+        correlation_matrix_t = numeric_no_data_red.T.corr()
+        plt.figure(figsize=(10, 8))
+        sns.heatmap(correlation_matrix_t, annot=True, fmt=".2f", cmap="coolwarm")
+        st.pyplot(plt)
 
-# Tree map
-elif option == "Tree map":
-    st.header("Tree map")
-    st.write("Displays hierarchies using a treemap.")
+# 2. Clustered correlation heatmap
+elif option == "Clustered correlation heatmap":
+    st.header("Clustered correlation heatmapp")
+    st.write("Displays hierarchies in the correlation heatmap via dendrograms.")
+    num_ids = st.number_input("Enter the number of formulations you desire to visualize:", min_value=2, max_value=20, value=10)
+    formed = st.text_input("Are you interested in the dataset of formed liposomes? Answer YES (Y) or NO (N):", "YES")
+    if formed == "YES" or formed == "Y":
+        # Select numeric columns for correlation calculation corresponding to formation
+        data_red = data[:10]
+        numeric_cols = data_red.select_dtypes(include=['number']).columns
+        yes_data = data_red[data_red['OUTPUT'] == 'YES']
+        numeric_yes_data_red = yes_data[numeric_cols]
 
-    # Define categories and size columns
-    category_col = st.selectbox("Select a categorical column:", data.select_dtypes(include=['object']).columns)
-    size_col = st.selectbox("Select a size column:", data.select_dtypes(include=['float64', 'int64']).columns)
-
-    # Prepare treemap data
+        # Prepare treemap data
     treemap_data = data.groupby(category_col)[size_col].sum().reset_index()
 
     # Plot treemap
