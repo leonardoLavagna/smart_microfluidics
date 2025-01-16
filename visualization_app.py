@@ -26,7 +26,7 @@ option = st.sidebar.selectbox(
 
 # Visualizations
 # 1. Correlation heatmap
-if option == "Correlation heatmap":
+if option == "Correlation heatmaps":
     st.header("Correlation heatmap")
     st.write("Displays the correlation between numerical features in the dataset.")
     formed = st.text_input("Are you interested in the dataset of formed liposomes? Answer YES (Y) or NO (N):", "Y")
