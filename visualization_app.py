@@ -19,8 +19,7 @@ st.sidebar.title("Visualization Options")
 option = st.sidebar.selectbox(
     "Choose a Visualization:",
     [
-        "Correlation heatmap",
-        "Clustered correlation heatmap"
+        "Correlation heatmaps",
         
     ],
 )
@@ -31,19 +30,18 @@ if option == "Correlation heatmap":
     st.header("Correlation heatmap")
     st.write("Displays the correlation between numerical features in the dataset.")
     formed = st.text_input("Are you interested in the dataset of formed liposomes? Answer YES (Y) or NO (N):", "Y")
-    n_ids = st.number_input("Enter the number of formulations you desire to visualize:", min_value=2, max_value=15, value=10)
-    st.subheader("Correlations by features")
+    n_ids = st.number_input("Enter the number of formulations you desire to visualize:", min_value=9, max_value=15, value=10)
     if formed == "YES" or formed == "Y":
-        # Select numeric columns for correlation calculation corresponding to formation
+        # 1.1(Y) Correlations by features
+        st.subheader("Correlations by features")
         numeric_cols = data.select_dtypes(include=['number']).columns
         yes_data = data[data['OUTPUT'] == 'YES']
         numeric_yes_data = yes_data[numeric_cols]
-        # Plot heatmap
         correlation_matrix = numeric_yes_data.corr()
         plt.figure(figsize=(10, 8))
         sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm")
         st.pyplot(plt)
-        # Plot heatmap by IDs
+        # 1.2(Y) Correlations by IDs
         st.subheader("Correlations by IDs")
         data_red = data[:n_ids]
         yes_data_red = data_red[data_red['OUTPUT'] == 'YES']
@@ -51,6 +49,16 @@ if option == "Correlation heatmap":
         correlation_matrix_t = numeric_yes_data_red.T.corr()
         plt.figure(figsize=(10, 8))
         sns.heatmap(correlation_matrix_t, annot=True, fmt=".2f", cmap="coolwarm")
+        st.pyplot(plt)
+        # 1.3(Y) Clustered correlations by features
+        st.subheader("Clustered correlations by features")
+        linkage_matrix = sch.linkage(numeric_yes_data, method='ward')
+        sns.clustermap(numeric_yes_data.corr(),method='ward',cmap='coolwarm',annot=True,figsize=(10, 8))
+        st.pyplot(plt)
+        # 1.2(Y) Clustered correlations by IDs
+        st.subheader("Clustered correlations by IDs")
+        linkage_matrix_red = sch.linkage(numeric_yes_data_red.T, method='ward')
+        sns.clustermap(numeric_yes_data_red.T.corr(),method='ward',cmap='coolwarm',annot=True,figsize=(10, 8))
         st.pyplot(plt)
     else:
         # Select numeric columns for correlation calculation corresponding to no-formation
