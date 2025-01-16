@@ -12,24 +12,27 @@ data = data.set_index('ID')
 
 # Streamlit app title
 st.title("Data Visualization Dashboard")
-st.write("Explore visualizations of your data, including treemaps, correlation heatmaps, and more.")
+st.write("Data explorations with smart visualizations, including treemaps, correlation heatmaps, and more.")
 
 # Sidebar for navigation
 st.sidebar.title("Visualization Options")
 option = st.sidebar.selectbox(
     "Choose a Visualization:",
     [
-        "Correlation Heatmap",
-        "Clustered Correlation Heatmap"
+        "Correlation heatmap",
+        "Clustered correlation heatmap"
+        "Tree map"
         
     ],
 )
 
-# Correlation heatmap
-# Define visualizations
-if option == "Correlation Heatmap":
-    st.header("Correlation Heatmap")
-    st.write("Displays the correlation between numerical features in the dataset.")
+################################################
+#     VISUALIZATIONS
+################################################
+# 1. Correlation heatmap
+if option == "Correlation heatmap":
+    st.header("Correlation heatmap")
+    st.write("Displays the correlation between numerical features in the dataset of formed liposomes.")
     # Select numeric columns for correlation calculation corresponding to formation
     numeric_cols = data.select_dtypes(include=['number']).columns
     yes_data = data[data['OUTPUT'] == 'YES']
@@ -42,9 +45,10 @@ if option == "Correlation Heatmap":
     sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm")
     st.pyplot(plt)
 
-elif option == "Tree Map":
-    st.header("Tree Map")
-    st.write("Displays hierarchical data visualization using a treemap.")
+# Tree map
+elif option == "Tree map":
+    st.header("Tree map")
+    st.write("Displays hierarchies using a treemap.")
 
     # Define categories and size columns
     category_col = st.selectbox("Select a categorical column:", data.select_dtypes(include=['object']).columns)
