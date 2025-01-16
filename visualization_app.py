@@ -5,12 +5,9 @@ import seaborn as sns
 import squarify
 import plotly.express as px
 
-# Load the dataset
-@st.cache
-def load_data():
-    return pd.read_csv("data.csv")
-
-data = load_data()
+file_path = 'data.csv'
+data = pd.read_csv(file_path, encoding='latin1')
+data = data.set_index('ID')
 
 # Streamlit app title
 st.title("Data Visualization Dashboard")
