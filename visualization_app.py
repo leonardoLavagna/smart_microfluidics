@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import squarify
 import plotly.express as px
+import scipy.cluster.hierarchy as sch
 
 # Load data
 file_path = 'data.csv'
