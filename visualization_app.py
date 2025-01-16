@@ -31,7 +31,7 @@ if option == "Correlation heatmap":
     st.header("Correlation heatmap")
     st.write("Displays the correlation between numerical features in the dataset.")
     formed = st.text_input("Are you interested in the dataset of formed liposomes? Answer YES (Y) or NO (N):", "Y")
-    n_ids = st.number_input("Enter the number of formulations you desire to visualize:", min_value=2, max_value=20, value=10)
+    n_ids = st.number_input("Enter the number of formulations you desire to visualize:", min_value=2, max_value=20, value=5)
     st.subheader("Correlations by features")
     if formed == "YES" or formed == "Y":
         # Select numeric columns for correlation calculation corresponding to formation
