@@ -89,7 +89,7 @@ elif option == "Alluvial Plot":
     # 2.1 Sankey diagram  of two variables
     st.subheader("Sankey diagram of two variables")
     source = st.text_input("Choose the first categorical variable of interest. Answer ML, CHIP, BUFFER or OUTPUT:", "ML")
-    target = st.text_input("Choose the second categorical variable of interest (different from the first). Answer ML, CHIP, BUFFER or OUTPUT:", "BUFFER")
+    target = st.text_input("Choose the second categorical variable of interest (different from the first). Answer ML, CHIP, BUFFER or OUTPUT:", "OUTPUT")
     value_counts = data.groupby([source, target]).size().reset_index(name='value')
     categories = list(set(value_counts[source]).union(set(value_counts[target])))
     category_to_index = {category: i for i, category in enumerate(categories)}
