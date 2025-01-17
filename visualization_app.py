@@ -82,31 +82,6 @@ if option == "Correlation heatmaps":
         sns.heatmap(correlation_matrix_t, annot=True, fmt=".2f", cmap="coolwarm")
         st.pyplot(plt)
 
-# 2. Clustered correlation heatmap
-elif option == "Clustered correlation heatmap":
-    st.header("Clustered correlation heatmapp")
-    st.write("Displays hierarchies in the correlation heatmap via dendrograms.")
-    num_ids = st.number_input("Enter the number of formulations you desire to visualize:", min_value=2, max_value=20, value=10)
-    formed = st.text_input("Are you interested in the dataset of formed liposomes? Answer YES (Y) or NO (N):", "YES")
-    if formed == "YES" or formed == "Y":
-        # Select numeric columns for correlation calculation corresponding to formation
-        data_red = data[:10]
-        numeric_cols = data_red.select_dtypes(include=['number']).columns
-        yes_data = data_red[data_red['OUTPUT'] == 'YES']
-        numeric_yes_data_red = yes_data[numeric_cols]
-
-        # Prepare treemap data
-    treemap_data = data.groupby(category_col)[size_col].sum().reset_index()
-
-    # Plot treemap
-    fig = px.treemap(
-        treemap_data,
-        path=[category_col],
-        values=size_col,
-        title=f"Treemap of {category_col} by {size_col}",
-    )
-    st.plotly_chart(fig)
-
 elif option == "Alluvial Plot":
     st.header("Alluvial Plot")
     st.write("Displays the flow of categorical data using an alluvial plot.")
