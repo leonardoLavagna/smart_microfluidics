@@ -85,7 +85,7 @@ if option == "Correlation heatmaps":
 elif option == "Alluvial Plot":
     st.header("Alluvial Plot")
     st.write("Displays the flow of categorical data using an alluvial plot.")
-
+    formed = st.text_input("Choose the first categorical variable of interest. Answer ML, CHIP, BUFFER or OUTPUT:", "ML")
     # Example columns
     col1 = st.selectbox("Select the first categorical column:", data.select_dtypes(include=['object']).columns)
     col2 = st.selectbox("Select the second categorical column:", data.select_dtypes(include=['object']).columns)
