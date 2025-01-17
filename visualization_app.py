@@ -86,10 +86,10 @@ if option == "Correlation heatmaps":
 elif option == "Alluvial Plot":
     st.header("Alluvial Plot")
     st.write("Displays the flow of categorical data using an alluvial plot.")
-    # 2.1 Sankey diagram
-    st.subheader("Sankey diagram")
-    source = st.text_input("Choose the source categorical variable of interest. Answer ML, CHIP, BUFFER or OUTPUT:", "ML")
-    target = st.text_input("Choose the target categorical variable of interest (different from source). Answer ML, CHIP, BUFFER or OUTPUT:", "BUFFER")
+    # 2.1 Sankey diagram  of two variables
+    st.subheader("Sankey diagram of two variables")
+    source = st.text_input("Choose the first categorical variable of interest. Answer ML, CHIP, BUFFER or OUTPUT:", "ML")
+    target = st.text_input("Choose the second categorical variable of interest (different from the first). Answer ML, CHIP, BUFFER or OUTPUT:", "BUFFER")
     value_counts = data.groupby([source, target]).size().reset_index(name='value')
     categories = list(set(value_counts[source]).union(set(value_counts[target])))
     category_to_index = {category: i for i, category in enumerate(categories)}
@@ -99,6 +99,30 @@ elif option == "Alluvial Plot":
     sankey_fig = go.Figure(data=[go.Sankey(node=dict(pad=15,thickness=20,line=dict(color="black", width=0.5),label=categories),
                                            link=dict(source=sources,target=targets,value=values))])
     st.plotly_chart(sankey_fig)
+    # 2.2 Sankey diagram of the flow ML->CHIP->BUFFER->OUTPUT
+    st.subheader("Sankey diagram of the flow ML->CHIP->BUFFER->OUTPUT")
+    value_counts = data.groupby(['ML', 'CHIP', 'BUFFER', 'OUTPUT']).size().reset_index(name='value')
+    all_categories = []
+    for col in ['ML', 'CHIP', 'BUFFER', 'OUTPUT']:
+        all_categories.extend(value_counts[col].unique())
+    all_categories = list(set(all_categories))  # Remove duplicates
+    category_to_index = {category: index for index, category in enumerate(all_categories)}
+    sources = []
+    targets = []
+    values = []
+    for index, row in value_counts.iterrows():
+        sources.append(category_to_index[row['ML']])
+        targets.append(category_to_index[row['CHIP']])
+        values.append(row['value'])
+        sources.append(category_to_index[row['CHIP']])
+        targets.append(category_to_index[row['BUFFER']])
+        values.append(row['value'])
+        sources.append(category_to_index[row['BUFFER']])
+        targets.append(category_to_index[row['OUTPUT']])
+        values.append(row['value'])
+    fig = go.Figure(data=[go.Sankey(node=dict(pad=15,thickness=20,line=dict(color="black", width=0.5),label=all_categories),
+                                    link=dict(source=sources,target=targets,value=values))])
+    st.plotly_chart(fig)
 
 elif option == "Pair Plot":
     st.header("Pair Plot")
