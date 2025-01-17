@@ -85,16 +85,24 @@ if option == "Correlation heatmaps":
 elif option == "Alluvial Plot":
     st.header("Alluvial Plot")
     st.write("Displays the flow of categorical data using an alluvial plot.")
-    formed = st.text_input("Choose the first categorical variable of interest. Answer ML, CHIP, BUFFER or OUTPUT:", "ML")
-    # Example columns
-    col1 = st.selectbox("Select the first categorical column:", data.select_dtypes(include=['object']).columns)
-    col2 = st.selectbox("Select the second categorical column:", data.select_dtypes(include=['object']).columns)
-    col3 = st.selectbox("Select the third categorical column (optional):", ["None"] + data.select_dtypes(include=['object']).columns.tolist())
-
-    # Plot alluvial diagram
-    alluvial_data = data[[col1, col2] + ([col3] if col3 != "None" else [])].dropna()
-    fig = px.parallel_categories(alluvial_data, dimensions=[col1, col2] + ([col3] if col3 != "None" else []))
-    st.plotly_chart(fig)
+    # 2.1 Sankey diagram
+    st.subheader("Sankey diagram")
+    source = st.text_input("Choose the source categorical variable of interest. Answer ML, CHIP, BUFFER or OUTPUT:", "ML")
+    target = st.text_input("Choose the target categorical variable of interest (different from source). Answer ML, CHIP, BUFFER or OUTPUT:", "BUFFER")
+    value_counts = data.groupby([source, target]).size().reset_index(name='value')
+    categories = list(set(value_counts[source]).union(set(value_counts[target])))
+    category_to_index = {category: i for i, category in enumerate(categories)}
+    sources = value_counts[source].map(category_to_index).tolist()
+    targets = value_counts[target].map(category_to_index).tolist()
+    values = value_counts['value'].tolist()
+    sankey_fig = go.Figure(data=[go.Sankey(node=dict(pad=15,thickness=20,line=dict(color="black", width=0.5),label=categories),
+                                           link=dict(source=sources,target=targets,value=values))])
+    sankey_fig.update_layout(title_text="Alluvial Plot of Main Lipid to Buffer Flow",font_size=10)
+    # 2.2 Parallel categories plot
+    st.subheader("Parallel categories plot")
+    st.plotly_chart(sankey_fig)
+    parallel_fig = px.parallel_categories(alluvial_data,dimensions=[col1, col2] + ([col3] if col3 != "None" else []))
+    st.plotly_chart(parallel_fig)
 
 elif option == "Pair Plot":
     st.header("Pair Plot")
