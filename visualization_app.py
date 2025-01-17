@@ -5,6 +5,7 @@ import seaborn as sns
 import squarify
 import plotly.express as px
 import scipy.cluster.hierarchy as sch
+from plotly import graph_objects as go
 
 # Load data
 file_path = 'data.csv'
