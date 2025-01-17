@@ -99,8 +99,8 @@ elif option == "Alluvial Plot":
     sankey_fig = go.Figure(data=[go.Sankey(node=dict(pad=15,thickness=20,line=dict(color="black", width=0.5),label=categories),
                                            link=dict(source=sources,target=targets,value=values))])
     st.plotly_chart(sankey_fig)
-    # 2.2 Sankey diagram of the flow ML->CHIP->BUFFER->OUTPUT
-    st.subheader("Sankey diagram of the flow ML->CHIP->BUFFER->OUTPUT")
+    # 2.2 Sankey diagram of the ML->CHIP->BUFFER->OUTPUT flow
+    st.subheader("Sankey diagram of the ML->CHIP->BUFFER->OUTPUT flow")
     value_counts = data.groupby(['ML', 'CHIP', 'BUFFER', 'OUTPUT']).size().reset_index(name='value')
     all_categories = []
     for col in ['ML', 'CHIP', 'BUFFER', 'OUTPUT']:
