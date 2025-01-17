@@ -98,7 +98,6 @@ elif option == "Alluvial Plot":
     values = value_counts['value'].tolist()
     sankey_fig = go.Figure(data=[go.Sankey(node=dict(pad=15,thickness=20,line=dict(color="black", width=0.5),label=categories),
                                            link=dict(source=sources,target=targets,value=values))])
-    #sankey_fig.update_layout(title_text="Alluvial Plot of Main Lipid to Buffer Flow",font_size=10)
     st.plotly_chart(sankey_fig)
 
 elif option == "Pair Plot":
