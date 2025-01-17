@@ -21,6 +21,7 @@ option = st.sidebar.selectbox(
     "Choose a Visualization:",
     [
         "Correlation heatmaps",
+        "Alluvial Plot"
         
     ],
 )
