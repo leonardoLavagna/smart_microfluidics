@@ -91,42 +91,43 @@ elif option == "Alluvial plot":
     # 2.1 Sankey diagram  of two variables
     st.subheader("Sankey diagram of two variables")
     source = st.selectbox("Choose the first categorical variable of interest.", ("ML", "CHIP", "BUFFER", "OUTPUT"))
-    target = st.selectbox("Choose the second categorical variable of interest (different from the first).", ("ML", "CHIP", "BUFFER", "OUTPUT"))
+    target = st.selectbox("Choose the second categorical variable of interest (different from the first).", ("CHIP", "ML", "BUFFER", "OUTPUT"))
     if source == target:
         st.write("Input error. The selected variables cannot be equal.")
-    value_counts = data.groupby([source, target]).size().reset_index(name='value')
-    categories = list(set(value_counts[source]).union(set(value_counts[target])))
-    category_to_index = {category: i for i, category in enumerate(categories)}
-    sources = value_counts[source].map(category_to_index).tolist()
-    targets = value_counts[target].map(category_to_index).tolist()
-    values = value_counts['value'].tolist()
-    sankey_fig = go.Figure(data=[go.Sankey(node=dict(pad=15,thickness=20,line=dict(color="black", width=0.5),label=categories),
-                                           link=dict(source=sources,target=targets,value=values))])
-    st.plotly_chart(sankey_fig)
-    # 2.2 Sankey diagram of the ML->CHIP->BUFFER->OUTPUT flow
-    st.subheader("Sankey diagram of the ML->CHIP->BUFFER->OUTPUT flow")
-    value_counts = data.groupby(['ML', 'CHIP', 'BUFFER', 'OUTPUT']).size().reset_index(name='value')
-    all_categories = []
-    for col in ['ML', 'CHIP', 'BUFFER', 'OUTPUT']:
-        all_categories.extend(value_counts[col].unique())
-    all_categories = list(set(all_categories))  # Remove duplicates
-    category_to_index = {category: index for index, category in enumerate(all_categories)}
-    sources = []
-    targets = []
-    values = []
-    for index, row in value_counts.iterrows():
-        sources.append(category_to_index[row['ML']])
-        targets.append(category_to_index[row['CHIP']])
-        values.append(row['value'])
-        sources.append(category_to_index[row['CHIP']])
-        targets.append(category_to_index[row['BUFFER']])
-        values.append(row['value'])
-        sources.append(category_to_index[row['BUFFER']])
-        targets.append(category_to_index[row['OUTPUT']])
-        values.append(row['value'])
-    fig = go.Figure(data=[go.Sankey(node=dict(pad=15,thickness=20,line=dict(color="black", width=0.5),label=all_categories),
+    elif source != target:
+      value_counts = data.groupby([source, target]).size().reset_index(name='value')
+      categories = list(set(value_counts[source]).union(set(value_counts[target])))
+      category_to_index = {category: i for i, category in enumerate(categories)}
+      sources = value_counts[source].map(category_to_index).tolist()
+      targets = value_counts[target].map(category_to_index).tolist()
+      values = value_counts['value'].tolist()
+      sankey_fig = go.Figure(data=[go.Sankey(node=dict(pad=15,thickness=20,line=dict(color="black", width=0.5),label=categories),
+                                             link=dict(source=sources,target=targets,value=values))])
+      st.plotly_chart(sankey_fig)
+      # 2.2 Sankey diagram of the ML->CHIP->BUFFER->OUTPUT flow
+      st.subheader("Sankey diagram of the ML->CHIP->BUFFER->OUTPUT flow")
+      value_counts = data.groupby(['ML', 'CHIP', 'BUFFER', 'OUTPUT']).size().reset_index(name='value')
+      all_categories = []
+      for col in ['ML', 'CHIP', 'BUFFER', 'OUTPUT']:
+          all_categories.extend(value_counts[col].unique())
+      all_categories = list(set(all_categories))  # Remove duplicates
+      category_to_index = {category: index for index, category in enumerate(all_categories)}
+      sources = []
+      targets = []
+      values = []
+      for index, row in value_counts.iterrows():
+          sources.append(category_to_index[row['ML']])
+          targets.append(category_to_index[row['CHIP']])
+          values.append(row['value'])
+          sources.append(category_to_index[row['CHIP']])
+          targets.append(category_to_index[row['BUFFER']])
+          values.append(row['value'])
+          sources.append(category_to_index[row['BUFFER']])
+          targets.append(category_to_index[row['OUTPUT']])
+          values.append(row['value'])
+      fig = go.Figure(data=[go.Sankey(node=dict(pad=15,thickness=20,line=dict(color="black", width=0.5),label=all_categories),
                                     link=dict(source=sources,target=targets,value=values))])
-    st.plotly_chart(fig)
+      st.plotly_chart(fig)
 
 elif option == "Feature importance":
     st.header("Feature importance with a Random Forest Regressor")
