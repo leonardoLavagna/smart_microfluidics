@@ -8,9 +8,11 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.pipeline import Pipeline
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # App title
-st.title("Data Modellization Dashboard")
+st.title("Regression Model Training, Prediction, and Visualization")
 
 # Upload dataset
 uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
@@ -102,5 +104,28 @@ if uploaded_file:
                     prediction_df = pd.DataFrame(prediction, columns=target_columns)
                     st.write("Predicted Values:")
                     st.write(prediction_df)
+
+                    # Visualization Options
+                    st.subheader("Visualize Prediction Results")
+                    visualization_type = st.selectbox("Select a visualization type", ["Bar Chart", "Scatter Plot"])
+
+                    if visualization_type == "Bar Chart":
+                        fig, ax = plt.subplots(figsize=(8, 4))
+                        prediction_df.plot(kind="bar", ax=ax, legend=False, color=['skyblue', 'orange'])
+                        ax.set_title("Prediction Results (Bar Chart)")
+                        ax.set_ylabel("Predicted Values")
+                        ax.set_xticks(range(len(target_columns)))
+                        ax.set_xticklabels(target_columns, rotation=0)
+                        st.pyplot(fig)
+
+                    elif visualization_type == "Scatter Plot":
+                        fig, ax = plt.subplots(figsize=(8, 4))
+                        ax.scatter(target_columns, prediction[0], color='green')
+                        ax.set_title("Prediction Results (Scatter Plot)")
+                        ax.set_ylabel("Predicted Values")
+                        ax.set_xlabel("Target Features")
+                        for i, txt in enumerate(prediction[0]):
+                            ax.annotate(f"{txt:.2f}", (target_columns[i], prediction[0][i]), ha='center', va='bottom')
+                        st.pyplot(fig)
                 else:
                     st.error("No trained model available. Please train or load a model first.")
