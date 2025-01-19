@@ -106,7 +106,7 @@ elif option == "XGBoost":
         st.write(f"`SIZE`: {size:.2f}")
         st.write(f"`PDI`: {pdi:.2f}")
 
-# 3. Inverse model
+    # 3. Inverse model
 elif option == "Inverse problem":
     st.header("Inverse problem")
     st.write("Inverse problem solver: given target `SIZE` and `PDI` returns predictions for the other numerical features.")
@@ -117,11 +117,8 @@ elif option == "Inverse problem":
     size = st.number_input("SIZE", min_value=0.0, max_value=100.0, step=0.1)
     pdi = st.number_input("PDI", min_value=0.0, max_value=1.0, step=0.01)
     if st.button("Predict"):
-    # Create a DataFrame with the target values
-    input_data = pd.DataFrame({"SIZE": [size],"PDI": [pdi]})
-    predictions = inverse_model.predict(input_data)
-    predicted_features = pd.DataFrame(predictions, columns=["TLP", "ESM", "HSPC", "CHOL", "PEG", "TFR ", "FRR", "FR-O", "FR-W"])
-    st.subheader("Predicted Numerical Features:")
-    st.write(predicted_features)
-
-    
+        input_data = pd.DataFrame({"SIZE": [size],"PDI": [pdi]})
+        predictions = inverse_model.predict(input_data)
+        predicted_features = pd.DataFrame(predictions, columns=["TLP", "ESM", "HSPC", "CHOL", "PEG", "TFR ", "FRR", "FR-O", "FR-W"])
+        st.subheader("Predicted Numerical Features:")
+        st.write(predicted_features)
