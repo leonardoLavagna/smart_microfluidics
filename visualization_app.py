@@ -132,8 +132,7 @@ elif option == "Alluvial plot":
 elif option == "Feature importance":
     st.header("Feature importance with a Random Forest Regressor")
     st.write("Displays the importance of each feature for predicting an input target.")
-    target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", 
-                                                              "FR-O", "FR-W", "SIZE", "PDI"))
+    target_feature = st.selectbox("Select a target feature.", ("SIZE", "PDI", "TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "FR-O", "FR-W"))
     numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
     X = numeric_data.drop(columns=[target_feature])  
     y = numeric_data[target_feature]  
