@@ -93,7 +93,7 @@ elif option == "Alluvial plot":
     source = st.selectbox("Choose the first categorical variable of interest.", ("ML", "CHIP", "BUFFER", "OUTPUT"))
     target = st.selectbox("Choose the second categorical variable of interest (different from the first).", ("CHIP", "ML", "BUFFER", "OUTPUT"))
     if source == target:
-        st.write("Input error. The selected variables cannot be equal.")
+        st.write(":red[INPUT ERROR. The selected variables cannot be equal.]")
     elif source != target:
       value_counts = data.groupby([source, target]).size().reset_index(name='value')
       categories = list(set(value_counts[source]).union(set(value_counts[target])))
