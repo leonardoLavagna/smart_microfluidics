@@ -16,7 +16,7 @@ st.title("Data Modelization Dashboard")
 file_path = 'data.csv'
 data = pd.read_csv(file_path, encoding='latin1')
 data = data.set_index('ID')
-numerical_features = ['TLP', 'ESM', 'HSPC', 'CHOL', 'PEG', 'TFR', 'FRR', 'FR-O', 'FR-W',]
+numerical_features = data.select_dtypes(include=['number']).columns
 categorical_features = ['ML', 'CHIP', 'BUFFER', 'OUTPUT']
 target_columns = ['SIZE', 'PDI']
 X = data[numerical_features + categorical_features]
