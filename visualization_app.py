@@ -6,6 +6,7 @@ import squarify
 import plotly.express as px
 import scipy.cluster.hierarchy as sch
 from plotly import graph_objects as go
+from sklearn.ensemble import RandomForestRegressor
 
 # Load data
 file_path = 'data.csv'
@@ -22,7 +23,8 @@ option = st.sidebar.selectbox(
     "Choose a Visualization:",
     [
         "Correlation heatmaps",
-        "Alluvial Plot",
+        "Alluvial plot",
+        "Feature importance",
         
     ],
 )
@@ -88,8 +90,10 @@ elif option == "Alluvial Plot":
     st.write("Displays the flow of categorical data using an alluvial plot.")
     # 2.1 Sankey diagram  of two variables
     st.subheader("Sankey diagram of two variables")
-    source = st.text_input("Choose the first categorical variable of interest. Answer ML, CHIP, BUFFER or OUTPUT:", "ML")
-    target = st.text_input("Choose the second categorical variable of interest (different from the first). Answer ML, CHIP, BUFFER or OUTPUT:", "OUTPUT")
+    source = st.selectbox("Choose the first categorical variable of interest.", ("ML", "CHIP", "BUFFER", "OUTPUT"))
+    target = st.selectbox("Choose the second categorical variable of interest (different from the first).", ("ML", "CHIP", "BUFFER", "OUTPUT"))
+    if source == target:
+        st.write("Input error. The selected variables cannot be equal.")
     value_counts = data.groupby([source, target]).size().reset_index(name='value')
     categories = list(set(value_counts[source]).union(set(value_counts[target])))
     category_to_index = {category: i for i, category in enumerate(categories)}
@@ -124,11 +128,17 @@ elif option == "Alluvial Plot":
                                     link=dict(source=sources,target=targets,value=values))])
     st.plotly_chart(fig)
 
-elif option == "Pair Plot":
-    st.header("Pair Plot")
-    st.write("Displays pairwise relationships between numerical features.")
-
-    # Plot pairplot
-    plt.figure()
-    sns.pairplot(data.select_dtypes(include=['float64', 'int64']))
+elif option == "Feature importance":
+    st.header("Feature importance with a Random Forest Regressor")
+    st.write("Displays the importance of each feature for predicting an input target.")
+    target_feature = st.selectbox("Select a target feature.", ("ML", "CHIP", "TLP", "ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR", 
+                                                              "FR-O", "FR-W", "BUFFER", "OUTPUT", "SIZE", "PDI"))
+    numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
+    X = numeric_data.drop(columns=['SIZE'])  
+    y = numeric_data['SIZE']  
+    rf = RandomForestRegressor(n_estimators=100, random_state=42)
+    rf.fit(X, y)
+    feature_importances = pd.DataFrame({'Feature': X.columns,'Importance': rf.feature_importances_}).sort_values(by='Importance', ascending=False)
+    plt.figure(figsize=(10, 8))
+    sns.barplot(data=feature_importances, x='Importance', y='Feature', hue='Feature', palette='viridis', dodge=False, legend=False)
     st.pyplot(plt)
