@@ -67,6 +67,6 @@ if st.button("Predict"):
     })
     predictions = model.predict(input_data)
     size, pdi = predictions[0]
-    st.subheader("Random forest model predictions:")
+    st.subheader("Model predictions:")
     st.write(f"`SIZE`: {size:.2f}")
     st.write(f"`PDI`: {pdi:.2f}")
