@@ -85,8 +85,8 @@ if option == "Correlation heatmaps":
         sns.heatmap(correlation_matrix_t, annot=True, fmt=".2f", cmap="coolwarm")
         st.pyplot(plt)
 
-elif option == "Alluvial Plot":
-    st.header("Alluvial Plot")
+elif option == "Alluvial plot":
+    st.header("Alluvial plot")
     st.write("Displays the flow of categorical data using an alluvial plot.")
     # 2.1 Sankey diagram  of two variables
     st.subheader("Sankey diagram of two variables")
