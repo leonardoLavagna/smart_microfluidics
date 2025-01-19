@@ -34,8 +34,10 @@ def get_user_input(features):
     """
     input_values = {}
     st.write("Enter values for the following features:")
-    for feature in features:
+    for feature in numerical_features:
         input_values[feature] = st.number_input(f"{feature}", value=0.0)
+    for feature in categorical_columns:
+        categorical_inputs[feature] = st.selectbox(f"Select value for {feature}", options=data[feature].unique())
     return input_values
 
 # Function to predict 'Size' and 'PDI' based on user input
