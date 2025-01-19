@@ -39,7 +39,7 @@ if st.button("Train Model"):
 
 if st.button("Load Saved Model"):
     try:
-        with open("trained_model.pkl", "rb") as file:
+        with open("RFR_trained_model.pkl", "rb") as file:
             saved_pipeline = pickle.load(file)
         st.success("Model loaded successfully!")
     except FileNotFoundError:
