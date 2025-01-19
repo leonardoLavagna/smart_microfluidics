@@ -12,23 +12,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 st.title("Data Modelization Dashboard")
-#uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
-#if uploaded_file:
-#    data = pd.read_csv(uploaded_file, encoding='latin1')
-#    data = data.set_index('ID')
-#    st.write("Dataset Preview:", data.head())
-#    numerical_features = ['TLP', 'CHOL', 'TFR', 'FRR']
-#    categorical_features = ['CHIP', 'MEDIUM']
-#   target_columns = ['SIZE', 'PDI']
-#    required_columns = numerical_features + categorical_features + target_columns
-#    if not all(col in data.columns for col in required_columns):
-#       st.error(f"The dataset must contain the following columns: {required_columns}")
 
 file_path = 'data.csv'
 data = pd.read_csv(file_path, encoding='latin1')
 data = data.set_index('ID')
-numerical_features = ['TLP', 'CHOL', 'TFR', 'FRR']
-categorical_features = ['CHIP', 'MEDIUM']
+numerical_features = ['TLP', 'ESM', 'HSPC', 'CHOL', 'PEG', 'TFR', 'FRR', 'FR-O', 'FR-W',]
+categorical_features = ['ML', 'CHIP', 'BUFFER', 'OUTPUT']
 target_columns = ['SIZE', 'PDI']
 X = data[numerical_features + categorical_features]
 y = data[target_columns]
