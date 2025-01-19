@@ -149,7 +149,7 @@ elif option == "Feature importance":
     target_features = st.multiselect("What are your favorite colors",["SIZE", "PDI", "TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "FR-O", "FR-W"],
                               ["SIZE", "PDI"])
     correlation_matrix = numeric_data.corr()
-    joint_correlation = correlation_matrix[target_features[0][0],target_features[0][1]].drop(index=[target_features]).mean(axis=1)
+    joint_correlation = correlation_matrix[target_features[0],target_features[1]].drop(index=[target_features]).mean(axis=1)
     joint_correlation_df = joint_correlation.reset_index()
     joint_correlation_df.columns = ['Feature', 'Mean Correlation']
     joint_correlation_df = joint_correlation_df.sort_values(by='Mean Correlation', ascending=False)
