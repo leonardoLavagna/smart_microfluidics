@@ -28,9 +28,9 @@ def get_user_input(features):
     st.write("Enter values for the following features:")
     for feature in numerical_features:
         input_values[feature] = st.number_input(f"{feature}", value=0.0)
-    categorical_features = {}
+    input_category = {}
     for feature in categorical_features:
-        categorical_features[feature] = st.selectbox(f"Select value for {feature}", options=data[feature].unique())
+        input_category[feature] = st.selectbox(f"Select value for {feature}", options=data[feature].unique())
     return input_values
 
 def predict_size_pdi(input_values, model, feature_columns):
