@@ -13,8 +13,8 @@ import seaborn as sns
 
 st.title("Data Modelization Dashboard")
 
-uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
-data = pd.read_csv(uploaded_file, encoding='latin1')
+file_path = 'data.csv'
+data = pd.read_csv(file_path, encoding='latin1')
 data = data.set_index('ID')
 st.write("Dataset Preview:", data.head())
 numeric_columns = data.select_dtypes(include=['float64', 'int64']).columns.tolist()
