@@ -30,12 +30,12 @@ base_model = RandomForestRegressor(random_state=42)
 model = MultiOutputRegressor(base_model)
 pipeline = Pipeline(steps=[('preprocessor', preprocessor),('regressor', model)])
 
-if st.button("Train Model"):
-    pipeline.fit(X_train, y_train)
-    st.success("Model trained successfully!")
-    with open("RFR_trained_model.pkl", "wb") as file:
-        pickle.dump(pipeline, file)
-    st.info("Model saved as 'RFR_trained_model.pkl'.")
+#if st.button("Train Model"):
+#    pipeline.fit(X_train, y_train)
+#    st.success("Model trained successfully!")
+#    with open("RFR_trained_model.pkl", "wb") as file:
+#        pickle.dump(pipeline, file)
+#    st.info("Model saved as 'RFR_trained_model.pkl'.")
 
 if st.button("Load Saved Model"):
     try:
