@@ -27,6 +27,9 @@ st.title("Data Modelization Dashboard")
 file_path = 'data.csv'
 data = pd.read_csv(file_path, encoding='latin1')
 data = data.set_index('ID')
+numerical_features = ['TLP', 'CHOL', 'TFR', 'FRR']
+categorical_features = ['CHIP', 'MEDIUM']
+target_columns = ['SIZE', 'PDI']
 X = data[numerical_features + categorical_features]
 y = data[target_columns]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
