@@ -15,7 +15,7 @@ option = st.sidebar.selectbox(
     ],
 )
 
-file_path = 'data.csv'
+file_path = 'data/data.csv'
 data = pd.read_csv(file_path, encoding='latin1')
 data = data.set_index('ID')
 st.write("Dataset Preview:", data.head())
@@ -24,7 +24,7 @@ st.write("Dataset Preview:", data.head())
 if option == "Random forest regressor":
     st.header("Random forest regressor")
     st.write("Using multiple decision trees in parallel and bagging this model provide robust predictions for `SIZE` and `PDI`.")
-    MODEL_PATH = "random_forest_model.pkl"  
+    MODEL_PATH = "models/random_forest_model.pkl"  
     with open(MODEL_PATH, "rb") as file:
         model = pickle.load(file)
     st.write(f"Loaded {MODEL_PATH}")
@@ -67,7 +67,7 @@ if option == "Random forest regressor":
 elif option == "XGBoost":
     st.header("XGBoost")
     st.write("eXtreme Gradient Boosting predictions for `SIZE` and `PDI`.")
-    MODEL_PATH = "xgboost_model.pkl"  
+    MODEL_PATH = "models/xgboost_model.pkl"  
     with open(MODEL_PATH, "rb") as file:
         model = pickle.load(file)
     st.write(f"Loaded {MODEL_PATH}")
@@ -106,11 +106,11 @@ elif option == "XGBoost":
         st.write(f"`SIZE`: {size:.2f}")
         st.write(f"`PDI`: {pdi:.2f}")
 
-    # 3. Inverse model
+# 3. Inverse model
 elif option == "Inverse problem":
     st.header("Inverse problem")
     st.write("Inverse problem solver: given target `SIZE` and `PDI` returns predictions for the other numerical features.")
-    MODEL_PATH = "inverse_xgboost_model.pkl"  
+    MODEL_PATH = "models/inverse_xgboost_model.pkl"  
     with open(MODEL_PATH, "rb") as file:
         model = pickle.load(file)
     st.write(f"Loaded {MODEL_PATH}")
