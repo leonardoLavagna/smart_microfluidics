@@ -49,12 +49,12 @@ def main():
 
     feature_columns = numerical_features + categorical_features
     st.write(f"Feature columns: {feature_columns}")
-    st.header("Predict 'Size' and 'PDI'")
+    st.header("Predict Size and PDI")
     user_input = get_user_input(feature_columns)
     if st.button("Predict"):
         prediction = predict_size_pdi(user_input, model, feature_columns)
-        st.write(f"Predicted 'Size': {prediction[0]:.2f}")
-        st.write(f"Predicted 'PDI': {prediction[1]:.2f}")
+        st.write(f"Predicted Size: {prediction[0]:.2f}")
+        st.write(f"Predicted PDI: {prediction[1]:.2f}")
 
 if __name__ == "__main__":
     main()
