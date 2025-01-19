@@ -17,16 +17,16 @@ file_path = 'data.csv'
 data = pd.read_csv(file_path, encoding='latin1')
 data = data.set_index('ID')
 st.write("Dataset Preview:", data.head())
+numerical_features = data.select_dtypes(include=['float64', 'int64']).columns.tolist()
+categorical_features = data.select_dtypes(include=['object']).columns.tolist()
+target_columns = ['SIZE', 'PDI']
+X = data[numerical_features + categorical_features]
 
 def get_user_input(features):
     input_values = {}
     st.write("Enter values for the following features:")
-    
-    # Loop through features to get input from the user
     for feature in features:
-        # Number input for each feature
         input_values[feature] = st.number_input(f"{feature}", value=0.0)
-        
     return input_values
 
 def predict_size_pdi(input_values, model, feature_columns):
@@ -35,24 +35,15 @@ def predict_size_pdi(input_values, model, feature_columns):
     return prediction[0]
     
 def main():
-    # Load pre-trained model (assuming the model is saved as 'trained_model.pkl')
     try:
-        with open('trained_model.pkl', 'rb') as file:
+        with open('RFR_trained_model.pkl', 'rb') as file:
             model = pickle.load(file)
         st.write("Model loaded successfully!")
     except FileNotFoundError:
         st.error("Model file not found. Please train and save the model first.")
         return
-
-    # Define feature columns (adjust this based on your trained model's features)
-    feature_columns = ['feature1', 'feature2', 'feature3', 'feature4']  # Example feature names
-    st.write(f"Features: {feature_columns}")
-    
-    # User input section
     st.header("Predict 'Size' and 'PDI'")
-    user_input = get_user_input(feature_columns)
-    
-    # Button to make prediction
+    user_input = get_user_input(X)
     if st.button("Predict"):
         prediction = predict_size_pdi(user_input, model, feature_columns)
         st.write(f"Predicted 'Size': {prediction[0]:.2f}")
