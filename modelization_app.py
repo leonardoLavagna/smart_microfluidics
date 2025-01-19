@@ -118,7 +118,7 @@ elif option == "Inverse problem":
     pdi = st.number_input("PDI", min_value=0.0, max_value=1.0, step=0.01)
     if st.button("Predict"):
         input_data = pd.DataFrame({"SIZE": [size],"PDI": [pdi]})
-        predictions = inverse_model.predict(input_data)
+        predictions = model.predict(input_data)
         predicted_features = pd.DataFrame(predictions, columns=["TLP", "ESM", "HSPC", "CHOL", "PEG", "TFR ", "FRR", "FR-O", "FR-W"])
         st.subheader("Predicted Numerical Features:")
         st.write(predicted_features)
