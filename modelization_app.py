@@ -33,7 +33,7 @@ pipeline = Pipeline(steps=[('preprocessor', preprocessor),('regressor', model)])
 if st.button("Train Model"):
     pipeline.fit(X_train, y_train)
     st.success("Model trained successfully!")
-    with open("trained_model.pkl", "wb") as file:
+    with open("RFR_trained_model.pkl", "wb") as file:
         pickle.dump(pipeline, file)
     st.info("Model saved as 'trained_model.pkl'.")
 
