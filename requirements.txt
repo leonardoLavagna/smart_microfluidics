@@ -7,4 +7,3 @@ numpy
 squarify
 scipy
 scikit-learn
-pickle
