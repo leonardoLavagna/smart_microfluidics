@@ -10,6 +10,7 @@ option = st.sidebar.selectbox(
     [
         "Random forest regressor",
         "XGBoost",
+        "Inverse problem",
         
     ],
 )
@@ -28,13 +29,22 @@ if option == "Random forest regressor":
         model = pickle.load(file)
     st.write(f"Loaded {MODEL_PATH}")
 # 2. XGBoost
-if option == "XGBoost":
+elif option == "XGBoost":
     st.header("XGBoost")
     st.write("eXtreme Gradient Boosting predictions for `SIZE` and `PDI`.")
     MODEL_PATH = "xgboost_model.pkl"  
     with open(MODEL_PATH, "rb") as file:
         model = pickle.load(file)
     st.write(f"Loaded {MODEL_PATH}")
+# 3. Inverse model
+elif option == "Inverse problem":
+    st.header("Inverse problem")
+    st.write("Inverse problem solver: given target `SIZE` and `PDI` returns predictions for the other numerical features.")
+    MODEL_PATH = "inverse_xgboost_model.pkl"  
+    with open(MODEL_PATH, "rb") as file:
+        model = pickle.load(file)
+    st.write(f"Loaded {MODEL_PATH}")
+    
 ml = st.selectbox("ML", ["HSPC", "Other"])
 chip = st.selectbox("CHIP", ["Micromixer", "Other"])
 tlp = st.number_input("TLP", min_value=0.0, max_value=100.0, step=0.1)
