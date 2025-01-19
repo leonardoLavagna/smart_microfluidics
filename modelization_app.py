@@ -37,7 +37,7 @@ if st.button("Predict"):
         "HSPC": [hspc],
         "CHOL": [chol],
         "PEG": [peg],
-        "TFR": [tfr],
+        "TFR ": [tfr],
         "FRR": [frr],
         "FR-O": [fr_o],
         "FR-W": [fr_w],
