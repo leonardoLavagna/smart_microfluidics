@@ -131,7 +131,9 @@ elif option == "Alluvial plot":
 
 elif option == "Feature importance":
     st.header("Feature importance with a Random Forest Regressor")
-    st.write("Displays the importance of each feature for predicting an input target.")
+    st.write("Displays the importance of each feature for predicting a set of input targets.")
+    # 3.1 Single target feature importance
+    st.subheader("Single target feature importance")
     target_feature = st.selectbox("Select a target feature.", ("SIZE", "PDI", "TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "FR-O", "FR-W"))
     numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
     X = numeric_data.drop(columns=[target_feature])  
@@ -141,4 +143,16 @@ elif option == "Feature importance":
     feature_importances = pd.DataFrame({'Feature': X.columns,'Importance': rf.feature_importances_}).sort_values(by='Importance', ascending=False)
     plt.figure(figsize=(10, 8))
     sns.barplot(data=feature_importances, x='Importance', y='Feature', hue='Feature', palette='viridis', dodge=False, legend=False)
+    st.pyplot(plt)
+    # 3.2 Two targets feature importance
+    st.subheader("Two targets feature importance")
+    target_features = st.multiselect("What are your favorite colors",["SIZE", "PDI", "TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "FR-O", "FR-W"],
+                              ["SIZE", "PDI"])
+    correlation_matrix = numeric_data.corr()
+    joint_correlation = correlation_matrix[[target_features]].drop(index=[target_features]).mean(axis=1)
+    joint_correlation_df = joint_correlation.reset_index()
+    joint_correlation_df.columns = ['Feature', 'Mean Correlation']
+    joint_correlation_df = joint_correlation_df.sort_values(by='Mean Correlation', ascending=False)
+    plt.figure(figsize=(10, 6))
+    sns.barplot(data=joint_correlation_df, x='Mean Correlation', y='Feature', hue='Feature', palette='viridis', dodge=False, legend=False)
     st.pyplot(plt)
