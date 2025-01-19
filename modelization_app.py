@@ -56,30 +56,19 @@ with st.form("prediction_form"):
         categorical_inputs[feature] = st.selectbox(f"Select value for {feature}", options=data[feature].unique())
 
     submitted = st.form_submit_button("Predict")
-    if submitted:
-        input_data = {**numerical_inputs, **categorical_inputs}
-        input_df = pd.DataFrame([input_data])
-        if 'saved_pipeline' in locals():
-            prediction = saved_pipeline.predict(input_df)
-            prediction_df = pd.DataFrame(prediction, columns=target_columns)
-            st.write("Predicted Values:")
-            st.write(prediction_df)
-            st.subheader("Visualize Prediction Results")
-            visualization_type = st.selectbox("Select a visualization type", ["Bar Chart", "Scatter Plot"])
-            if visualization_type == "Bar Chart":
-                fig, ax = plt.subplots(figsize=(8, 4))
-                prediction_df.plot(kind="bar", ax=ax, legend=False, color=['skyblue', 'orange'])
-                ax.set_title("Prediction Results (Bar Chart)")
-                ax.set_ylabel("Predicted Values")
-                ax.set_xticks(range(len(target_columns)))
-                ax.set_xticklabels(target_columns, rotation=0)
-                st.pyplot(fig)
-            elif visualization_type == "Scatter Plot":
-                fig, ax = plt.subplots(figsize=(8, 4))
-                ax.scatter(target_columns, prediction[0], color='green')
-                ax.set_title("Prediction Results (Scatter Plot)")
-                ax.set_ylabel("Predicted Values")
-                ax.set_xlabel("Target Features")
-                for i, txt in enumerate(prediction[0]):
-                    ax.annotate(f"{txt:.2f}", (target_columns[i], prediction[0][i]), ha='center', va='bottom')
-                st.pyplot(fig)
+    input_data = {**numerical_inputs, **categorical_inputs}
+    input_df = pd.DataFrame([input_data])
+    prediction = saved_pipeline.predict(input_df)
+    prediction_df = pd.DataFrame(prediction, columns=target_columns)
+    st.write("Predicted Values:")
+    st.write(prediction_df)
+    st.subheader("Visualize Prediction Results")
+    visualization_type = st.selectbox("Select a visualization type", ["Bar Chart", "Scatter Plot"])
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.scatter(target_columns, prediction[0], color='green')
+    ax.set_title("Prediction Results (Scatter Plot)")
+    ax.set_ylabel("Predicted Values")
+    ax.set_xlabel("Target Features")
+    for i, txt in enumerate(prediction[0]):
+        ax.annotate(f"{txt:.2f}", (target_columns[i], prediction[0][i]), ha='center', va='bottom')
+    st.pyplot(fig)
