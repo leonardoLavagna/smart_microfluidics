@@ -45,7 +45,7 @@ def main():
     st.header("Predict 'Size' and 'PDI'")
     user_input = get_user_input(X)
     if st.button("Predict"):
-        prediction = predict_size_pdi(user_input, model, feature_columns)
+        prediction = predict_size_pdi(user_input, model, X)
         st.write(f"Predicted 'Size': {prediction[0]:.2f}")
         st.write(f"Predicted 'PDI': {prediction[1]:.2f}")
 
