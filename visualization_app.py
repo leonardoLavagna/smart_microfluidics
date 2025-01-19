@@ -150,7 +150,7 @@ elif option == "Feature importance":
     target_feature_2 = st.selectbox("Select the second target feature (different from the first).", ("PDI", "SIZE", "TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "FR-O", "FR-W"))
     if target_feature_1 == target_feature_2:
         st.write(":red[INPUT ERROR. The selected variables cannot be equal.]")
-    elif target_feature_1 != target_feature_1:
+    elif target_feature_1 != target_feature_2:
         correlation_matrix = numeric_data.corr()
         joint_correlation = correlation_matrix[target_feature_1,target_feature_2].drop(index=[target_features]).mean(axis=1)
         joint_correlation_df = joint_correlation.reset_index()
