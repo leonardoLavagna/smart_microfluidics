@@ -35,7 +35,7 @@ if st.button("Train Model"):
     st.success("Model trained successfully!")
     with open("RFR_trained_model.pkl", "wb") as file:
         pickle.dump(pipeline, file)
-    st.info("Model saved as 'trained_model.pkl'.")
+    st.info("Model saved as 'RFR_trained_model.pkl'.")
 
 if st.button("Load Saved Model"):
     try:
