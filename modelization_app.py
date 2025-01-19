@@ -17,8 +17,8 @@ file_path = 'data.csv'
 data = pd.read_csv(file_path, encoding='latin1')
 data = data.set_index('ID')
 st.write("Dataset Preview:", data.head())
-numeric_columns = data.select_dtypes(include=['float64', 'int64']).columns.tolist()
-categorical_columns = data.select_dtypes(include=['object']).columns.tolist()
+numeric_features = data.select_dtypes(include=['float64', 'int64']).columns.tolist()
+categorical_features = data.select_dtypes(include=['object']).columns.tolist()
 target_columns = ['SIZE', 'PDI']
 X = data[numerical_features + categorical_features]
 y = data[target_columns]
