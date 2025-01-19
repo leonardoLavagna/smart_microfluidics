@@ -48,7 +48,7 @@ if st.button("Load Saved Model"):
 st.subheader("Make Predictions")
 with st.form("prediction_form"):
     numerical_inputs = {}
-    for feature in numerical_features:
+    for feature in numerical_features[:len(numerical_features)-2]:
         numerical_inputs[feature] = st.number_input(f"Enter value for {feature}", value=0.0)
 
     categorical_inputs = {}
