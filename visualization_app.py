@@ -152,7 +152,7 @@ elif option == "Feature importance":
         st.write(":red[INPUT ERROR. The selected variables cannot be equal.]")
     elif target_feature_1 != target_feature_2:
         correlation_matrix = numeric_data.corr()
-        joint_correlation = correlation_matrix[[target_feature_1,target_feature_2]].drop(index=[target_features]).mean(axis=1)
+        joint_correlation = correlation_matrix[[target_feature_1,target_feature_2]].drop(index=[[target_feature_1,target_feature_2]]).mean(axis=1)
         joint_correlation_df = joint_correlation.reset_index()
         joint_correlation_df.columns = ['Feature', 'Mean Correlation']
         joint_correlation_df = joint_correlation_df.sort_values(by='Mean Correlation', ascending=False)
