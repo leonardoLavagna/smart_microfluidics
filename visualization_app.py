@@ -146,13 +146,16 @@ elif option == "Feature importance":
     st.pyplot(plt)
     # 3.2 Two targets feature importance
     st.subheader("Two targets feature importance")
-    target_features = st.multiselect("What are your favorite colors",["SIZE", "PDI", "TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "FR-O", "FR-W"],
-                              ["SIZE", "PDI"])
-    correlation_matrix = numeric_data.corr()
-    joint_correlation = correlation_matrix[target_features[0],target_features[1]].drop(index=[target_features]).mean(axis=1)
-    joint_correlation_df = joint_correlation.reset_index()
-    joint_correlation_df.columns = ['Feature', 'Mean Correlation']
-    joint_correlation_df = joint_correlation_df.sort_values(by='Mean Correlation', ascending=False)
-    plt.figure(figsize=(10, 6))
-    sns.barplot(data=joint_correlation_df, x='Mean Correlation', y='Feature', hue='Feature', palette='viridis', dodge=False, legend=False)
-    st.pyplot(plt)
+    target_feature_1 = st.selectbox("Select the first target feature.", ("SIZE", "PDI", "TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "FR-O", "FR-W"))
+    target_feature_2 = st.selectbox("Select the second target feature (different from the first).", ("PDI", "SIZE", "TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "FR-O", "FR-W"))
+    if target_feature_1 == target_feature_2:
+        st.write(":red[INPUT ERROR. The selected variables cannot be equal.]")
+    elif target_feature_1 != target_feature_1:
+        correlation_matrix = numeric_data.corr()
+        joint_correlation = correlation_matrix[target_feature_1,target_feature_2].drop(index=[target_features]).mean(axis=1)
+        joint_correlation_df = joint_correlation.reset_index()
+        joint_correlation_df.columns = ['Feature', 'Mean Correlation']
+        joint_correlation_df = joint_correlation_df.sort_values(by='Mean Correlation', ascending=False)
+        plt.figure(figsize=(10, 6))
+        sns.barplot(data=joint_correlation_df, x='Mean Correlation', y='Feature', hue='Feature', palette='viridis', dodge=False, legend=False)
+        st.pyplot(plt)
