@@ -114,7 +114,7 @@ elif option == "Inverse problem":
     with open(MODEL_PATH, "rb") as file:
         model = pickle.load(file)
     st.write(f"Loaded {MODEL_PATH}")
-    size = st.number_input("SIZE", min_value=0.0, max_value=100.0, step=0.1)
+    size = st.number_input("SIZE", min_value=0.0, max_value=1000.0, step=0.1)
     pdi = st.number_input("PDI", min_value=0.0, max_value=1.0, step=0.01)
     if st.button("Predict"):
         input_data = pd.DataFrame({"SIZE": [size],"PDI": [pdi]})
