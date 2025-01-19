@@ -83,5 +83,3 @@ with st.form("prediction_form"):
                 for i, txt in enumerate(prediction[0]):
                     ax.annotate(f"{txt:.2f}", (target_columns[i], prediction[0][i]), ha='center', va='bottom')
                 st.pyplot(fig)
-        else:
-            st.error("No trained model available. Please train or load a model first.")
