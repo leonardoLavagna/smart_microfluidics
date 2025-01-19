@@ -17,58 +17,47 @@ file_path = 'data.csv'
 data = pd.read_csv(file_path, encoding='latin1')
 data = data.set_index('ID')
 st.write("Dataset Preview:", data.head())
-numerical_features = data.select_dtypes(include=['float64', 'int64']).columns.tolist()
-categorical_features = data.select_dtypes(include=['object']).columns.tolist()
-target_columns = ['SIZE', 'PDI']
-X = data[numerical_features + categorical_features]
-y = data[target_columns]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-numerical_transformer = StandardScaler()
-categorical_transformer = OneHotEncoder(handle_unknown='ignore')
-preprocessor = ColumnTransformer(transformers=[('num', numerical_transformer, numerical_features),('cat', categorical_transformer, categorical_features)])
-base_model = RandomForestRegressor(random_state=42)
-model = MultiOutputRegressor(base_model)
-pipeline = Pipeline(steps=[('preprocessor', preprocessor),('regressor', model)])
 
-#if st.button("Train Model"):
-#    pipeline.fit(X_train, y_train)
-#    st.success("Model trained successfully!")
-#    with open("RFR_trained_model.pkl", "wb") as file:
-#        pickle.dump(pipeline, file)
-#    st.info("Model saved as 'RFR_trained_model.pkl'.")
-
-if st.button("Load Saved Model"):
-    try:
-        with open("RFR_trained_model.pkl", "rb") as file:
-            saved_pipeline = pickle.load(file)
-        st.success("Model loaded successfully!")
-    except FileNotFoundError:
-        st.error("No saved model found. Please train and save the model first.")
+def get_user_input(features):
+    input_values = {}
+    st.write("Enter values for the following features:")
+    
+    # Loop through features to get input from the user
+    for feature in features:
+        # Number input for each feature
+        input_values[feature] = st.number_input(f"{feature}", value=0.0)
         
-st.subheader("Make Predictions")
-with st.form("prediction_form"):
-    numerical_inputs = {}
-    for feature in numerical_features[:len(numerical_features)-2]:
-        numerical_inputs[feature] = st.number_input(f"Enter value for {feature}", value=0.0)
+    return input_values
 
-    categorical_inputs = {}
-    for feature in categorical_features:
-        categorical_inputs[feature] = st.selectbox(f"Select value for {feature}", options=data[feature].unique())
+def predict_size_pdi(input_values, model, feature_columns):
+    input_array = np.array([input_values[feature] for feature in feature_columns]).reshape(1, -1)
+    prediction = model.predict(input_array)
+    return prediction[0]
+    
+def main():
+    # Load pre-trained model (assuming the model is saved as 'trained_model.pkl')
+    try:
+        with open('trained_model.pkl', 'rb') as file:
+            model = pickle.load(file)
+        st.write("Model loaded successfully!")
+    except FileNotFoundError:
+        st.error("Model file not found. Please train and save the model first.")
+        return
 
-    submitted = st.form_submit_button("Predict")
-    input_data = {**numerical_inputs, **categorical_inputs}
-    input_df = pd.DataFrame([input_data])
-    prediction = saved_pipeline.predict(input_df)
-    prediction_df = pd.DataFrame(prediction, columns=target_columns)
-    st.write("Predicted Values:")
-    st.write(prediction_df)
-    st.subheader("Visualize Prediction Results")
-    visualization_type = st.selectbox("Select a visualization type", ["Bar Chart", "Scatter Plot"])
-    fig, ax = plt.subplots(figsize=(8, 4))
-    ax.scatter(target_columns, prediction[0], color='green')
-    ax.set_title("Prediction Results (Scatter Plot)")
-    ax.set_ylabel("Predicted Values")
-    ax.set_xlabel("Target Features")
-    for i, txt in enumerate(prediction[0]):
-        ax.annotate(f"{txt:.2f}", (target_columns[i], prediction[0][i]), ha='center', va='bottom')
-    st.pyplot(fig)
+    # Define feature columns (adjust this based on your trained model's features)
+    feature_columns = ['feature1', 'feature2', 'feature3', 'feature4']  # Example feature names
+    st.write(f"Features: {feature_columns}")
+    
+    # User input section
+    st.header("Predict 'Size' and 'PDI'")
+    user_input = get_user_input(feature_columns)
+    
+    # Button to make prediction
+    if st.button("Predict"):
+        prediction = predict_size_pdi(user_input, model, feature_columns)
+        st.write(f"Predicted 'Size': {prediction[0]:.2f}")
+        st.write(f"Predicted 'PDI': {prediction[1]:.2f}")
+
+if __name__ == "__main__":
+    main()
+
