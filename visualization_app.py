@@ -134,8 +134,8 @@ elif option == "Feature importance":
     target_feature = st.selectbox("Select a target feature.", ("ML", "CHIP", "TLP", "ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR", 
                                                               "FR-O", "FR-W", "BUFFER", "OUTPUT", "SIZE", "PDI"))
     numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
-    X = numeric_data.drop(columns=['SIZE'])  
-    y = numeric_data['SIZE']  
+    X = numeric_data.drop(columns=[target_feature])  
+    y = numeric_data[target_feature]  
     rf = RandomForestRegressor(n_estimators=100, random_state=42)
     rf.fit(X, y)
     feature_importances = pd.DataFrame({'Feature': X.columns,'Importance': rf.feature_importances_}).sort_values(by='Importance', ascending=False)
