@@ -40,7 +40,8 @@ if option == "Random forest regressor":
     fr_o = st.number_input("FR-O", min_value=0.0, max_value=100.0, step=0.1)
     fr_w = st.number_input("FR-W", min_value=0.0, max_value=100.0, step=0.1)
     buffer = st.selectbox("BUFFER", ["PBS ", "MQ"])
-    output = st.selectbox("OUTPUT", ["YES", "NO"])
+    #output = st.selectbox("OUTPUT", ["YES", "NO"])
+    #"OUTPUT": [output]
     if st.button("Predict"):
         input_data = pd.DataFrame({
             "ML": [ml],
@@ -55,7 +56,6 @@ if option == "Random forest regressor":
             "FR-O": [fr_o],
             "FR-W": [fr_w],
             "BUFFER": [buffer],
-            "OUTPUT": [output]
         })
         predictions = model.predict(input_data)
         size, pdi = predictions[0]
