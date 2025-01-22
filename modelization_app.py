@@ -16,7 +16,18 @@ option = st.sidebar.selectbox(
     ],
 )
 
-
+uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
+if uploaded_file is not None:
+    try:
+        df = pd.read_csv(uploaded_file)
+        st.success("File uploaded successfully!")
+        st.write("Preview of the file:")
+        st.write(df.head())
+    except Exception as e:
+        st.error(f"Error reading the file: {e}")
+else:
+    st.info("Please upload a CSV file.")
+    
 # 1. Random forest regressor
 if option == "Random forest regressor":
     st.header("Random forest regressor")
@@ -49,9 +60,11 @@ if option == "Random forest regressor":
         })
         predictions = model.predict(input_data)
         size, pdi = predictions[0]
-        st.subheader("Model predictions:")
+        st.subheader("Model predictions")
         st.write(f"`SIZE`: {size:.2f}")
         st.write(f"`PDI`: {pdi:.2f}")
+        st.subheader("Real data")
+        st.dataframe(df)
     
 # 2. XGBoost
 elif option == "XGBoost":
@@ -86,9 +99,11 @@ elif option == "XGBoost":
         })
         predictions = model.predict(input_data)
         size, pdi = predictions[0]
-        st.subheader("Model predictions:")
+        st.subheader("Model predictions")
         st.write(f"`SIZE`: {size:.2f}")
         st.write(f"`PDI`: {pdi:.2f}")
+        st.subheader("Real data")
+        st.dataframe(df)
 
 # 3. Inverse model
 elif option == "Inverse problem":
@@ -105,6 +120,8 @@ elif option == "Inverse problem":
         predictions = model.predict(input_data)
         predictions = np.abs(predictions)
         predictions = np.where(predictions < 0.5, 0, predictions)
-        st.subheader("Predicted Numerical Features")
+        st.subheader("Model predictions")
         prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
         st.write(prediction_df)
+        st.subheader("Real data")
+        st.dataframe(df)
