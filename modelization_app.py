@@ -15,10 +15,10 @@ option = st.sidebar.selectbox(
     ],
 )
 
-file_path = 'data/data.csv'
+file_path = 'data/cleaned_data.csv'
 data = pd.read_csv(file_path, encoding='latin1')
-data = data.set_index('ID')
-st.write("Dataset Preview:", data.head())
+yes_data = data[data["OUTPUT"] == 1]
+st.write("Dataset Preview:", yes_data.head())
 
 # 1. Random forest regressor
 if option == "Random forest regressor":
@@ -28,33 +28,26 @@ if option == "Random forest regressor":
     with open(MODEL_PATH, "rb") as file:
         model = pickle.load(file)
     st.write(f"Loaded {MODEL_PATH}")
-    ml = st.selectbox("ML", ["HSPC", "Other"])
-    chip = st.selectbox("CHIP", ["Micromixer", "Other"])
-    tlp = st.number_input("TLP", min_value=0.0, max_value=100.0, step=0.1)
-    esm = st.number_input("ESM", min_value=0.0, max_value=100.0, step=0.1)
-    hspc = st.number_input("HSPC", min_value=0.0, max_value=100.0, step=0.1)
-    chol = st.number_input("CHOL", min_value=0.0, max_value=100.0, step=0.1)
-    peg = st.number_input("PEG", min_value=0.0, max_value=100.0, step=0.1)
-    tfr = st.number_input("TFR", min_value=0.0, max_value=100.0, step=0.1)
-    frr = st.number_input("FRR", min_value=0.0, max_value=100.0, step=0.1)
-    fr_o = st.number_input("FR-O", min_value=0.0, max_value=100.0, step=0.1)
-    fr_w = st.number_input("FR-W", min_value=0.0, max_value=100.0, step=0.1)
+    ml = st.selectbox("ML", ["HSPC", "ESM"])
+    chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
+    tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
+    esm = st.number_input("ESM", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
+    hspc = st.number_input("HSPC", value=3.75, min_value=0.0, max_value=100.0, step=0.1)
+    chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
+    peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
+    tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
+    frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
     buffer = st.selectbox("BUFFER", ["PBS ", "MQ"])
-    #output = st.selectbox("OUTPUT", ["YES", "NO"])
-    #"OUTPUT": [output]
     if st.button("Predict"):
         input_data = pd.DataFrame({
             "ML": [ml],
             "CHIP": [chip],
-            "TLP": [tlp],
             "ESM": [esm],
             "HSPC": [hspc],
             "CHOL": [chol],
             "PEG": [peg],
             "TFR ": [tfr],
             "FRR": [frr],
-            "FR-O": [fr_o],
-            "FR-W": [fr_w],
             "BUFFER": [buffer],
         })
         predictions = model.predict(input_data)
@@ -71,19 +64,16 @@ elif option == "XGBoost":
     with open(MODEL_PATH, "rb") as file:
         model = pickle.load(file)
     st.write(f"Loaded {MODEL_PATH}")
-    ml = st.selectbox("ML", ["HSPC", "Other"])
-    chip = st.selectbox("CHIP", ["Micromixer", "Other"])
-    tlp = st.number_input("TLP", min_value=0.0, max_value=100.0, step=0.1)
-    esm = st.number_input("ESM", min_value=0.0, max_value=100.0, step=0.1)
-    hspc = st.number_input("HSPC", min_value=0.0, max_value=100.0, step=0.1)
-    chol = st.number_input("CHOL", min_value=0.0, max_value=100.0, step=0.1)
-    peg = st.number_input("PEG", min_value=0.0, max_value=100.0, step=0.1)
-    tfr = st.number_input("TFR", min_value=0.0, max_value=100.0, step=0.1)
-    frr = st.number_input("FRR", min_value=0.0, max_value=100.0, step=0.1)
-    fr_o = st.number_input("FR-O", min_value=0.0, max_value=100.0, step=0.1)
-    fr_w = st.number_input("FR-W", min_value=0.0, max_value=100.0, step=0.1)
+    ml = st.selectbox("ML", ["HSPC", "ESM"])
+    chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
+    tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
+    esm = st.number_input("ESM", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
+    hspc = st.number_input("HSPC", value=3.75, min_value=0.0, max_value=100.0, step=0.1)
+    chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
+    peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
+    tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
+    frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
     buffer = st.selectbox("BUFFER", ["PBS ", "MQ"])
-    output = st.selectbox("OUTPUT", ["YES", "NO"])
     if st.button("Predict"):
         input_data = pd.DataFrame({
             "ML": [ml],
@@ -114,11 +104,12 @@ elif option == "Inverse problem":
     with open(MODEL_PATH, "rb") as file:
         model = pickle.load(file)
     st.write(f"Loaded {MODEL_PATH}")
-    size = st.number_input("SIZE", min_value=0.0, max_value=1000.0, step=0.1)
-    pdi = st.number_input("PDI", min_value=0.0, max_value=1.0, step=0.01)
+    size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=500.0, step=0.1)
+    pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.01)
     if st.button("Predict"):
         input_data = pd.DataFrame({"SIZE": [size],"PDI": [pdi]})
         predictions = model.predict(input_data)
-        predicted_features = pd.DataFrame(predictions, columns=["TLP", "ESM", "HSPC", "CHOL", "PEG", "TFR ", "FRR", "FR-O", "FR-W"])
-        st.subheader("Predicted Numerical Features:")
-        st.write(predicted_features)
+        predictions = np.abs(predictions)
+        predictions = np.where(predictions < 0.5, 0, predictions)
+        st.subheader("Predicted Numerical Features")
+        st.write("Predicted values for ESM, HSPC, CHOL, PEG, TFR, and FRR:", predictions)
