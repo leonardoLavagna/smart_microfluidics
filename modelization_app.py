@@ -69,7 +69,7 @@ elif option == "XGBoost":
     peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
     tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
     frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
-    buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
+    buffer = st.selectbox("BUFFER", ["PBS", "MQ"]) 
     if st.button("Predict"):
         input_data = pd.DataFrame({
             "ML": [ml],
