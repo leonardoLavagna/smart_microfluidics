@@ -15,10 +15,24 @@ option = st.sidebar.selectbox(
     ],
 )
 
-file_path = 'data/cleaned_data.csv'
+file_path = 'data/data.csv'
 data = pd.read_csv(file_path, encoding='latin1')
-yes_data = data[data["OUTPUT"] == 1]
-st.write("Dataset Preview:", yes_data.head())
+data = data.drop(columns=['ID', 'FR-O', 'FR-W', 'TLP'])
+data.OUTPUT = data.OUTPUT.apply(lambda x: 1 if x == "YES" else 0)
+data.BUFFER = data.BUFFER.astype(str).str.strip()
+data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
+data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
+data.SIZE = data.SIZE.astype(float)
+for col in data.columns:
+    if data[col].dtype == 'object':
+        data[col] = data[col].astype(str)
+allowed_strings = ["PBS", "MQ", "YES", "NO", "Micromixer", "Droplet junction", "HSPC", "ESM"]
+for col in data.columns:
+    if data[col].dtype == 'object':
+        for val in data[col].unique():
+            if val not in allowed_strings:
+                print(f"Invalid string found in column '{col}': {val}")
+
 
 # 1. Random forest regressor
 if option == "Random forest regressor":
