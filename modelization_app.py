@@ -123,5 +123,6 @@ elif option == "Inverse problem":
         st.subheader("Model predictions")
         prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
         st.write(prediction_df)
-        st.subheader("Real data")
-        st.dataframe(df)
+        if uploaded_file is not None:
+            st.subheader("Real data")
+            st.dataframe(df)
