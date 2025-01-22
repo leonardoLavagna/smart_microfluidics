@@ -74,17 +74,13 @@ elif option == "XGBoost":
         input_data = pd.DataFrame({
             "ML": [ml],
             "CHIP": [chip],
-            "TLP": [tlp],
             "ESM": [esm],
             "HSPC": [hspc],
             "CHOL": [chol],
             "PEG": [peg],
             "TFR ": [tfr],
             "FRR": [frr],
-            "FR-O": [fr_o],
-            "FR-W": [fr_w],
             "BUFFER": [buffer],
-            "OUTPUT": [output]
         })
         predictions = model.predict(input_data)
         size, pdi = predictions[0]
