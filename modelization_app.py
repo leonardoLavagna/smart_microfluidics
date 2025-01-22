@@ -81,6 +81,7 @@ elif option == "XGBoost":
             "TFR ": [tfr],
             "FRR": [frr],
             "BUFFER": [buffer],
+            "OUTPUT": [1]
         })
         predictions = model.predict(input_data)
         size, pdi = predictions[0]
