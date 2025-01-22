@@ -63,8 +63,9 @@ if option == "Random forest regressor":
         st.subheader("Model predictions")
         st.write(f"`SIZE`: {size:.2f}")
         st.write(f"`PDI`: {pdi:.2f}")
-        st.subheader("Real data")
-        st.dataframe(df)
+        if uploaded_file is not None:
+            st.subheader("Real data")
+            st.dataframe(df)
     
 # 2. XGBoost
 elif option == "XGBoost":
@@ -102,8 +103,9 @@ elif option == "XGBoost":
         st.subheader("Model predictions")
         st.write(f"`SIZE`: {size:.2f}")
         st.write(f"`PDI`: {pdi:.2f}")
-        st.subheader("Real data")
-        st.dataframe(df)
+        if uploaded_file is not None:
+            st.subheader("Real data")
+            st.dataframe(df)
 
 # 3. Inverse model
 elif option == "Inverse problem":
