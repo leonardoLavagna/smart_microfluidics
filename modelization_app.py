@@ -106,4 +106,5 @@ elif option == "Inverse problem":
         predictions = np.abs(predictions)
         predictions = np.where(predictions < 0.5, 0, predictions)
         st.subheader("Predicted Numerical Features")
-        st.write("Predicted values for ESM, HSPC, CHOL, PEG, TFR, and FRR:", list(predictions[0]))
+        prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
+        st.write(prediction_df)
