@@ -11,6 +11,13 @@ from sklearn.ensemble import RandomForestRegressor
 # Title of the app
 st.title("Smart Microfluidics: Modeling and Visualization")
 
+file_path = 'data/cleaned_data.csv'
+    try:
+        data = pd.read_csv(file_path, encoding='latin1')
+        data = data.set_index('ID')
+    except FileNotFoundError:
+        st.warning("Default dataset not found. Please upload your dataset in the 'Upload Dataset' section.")
+        
 # Sidebar for navigation
 st.sidebar.title("Choose an Option")
 section = st.sidebar.selectbox(
