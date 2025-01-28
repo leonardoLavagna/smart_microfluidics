@@ -3,9 +3,9 @@ import pandas as pd
 import numpy as np
 import pickle
 
-st.title("Data Modelization Dashboard")
+st.title("Data Modelization and Visualization Dashboard")
 
-st.sidebar.title("Choose a model")
+st.sidebar.title("Choose an option")
 option = st.sidebar.selectbox(
     "Choose a model:",
     [
@@ -15,18 +15,6 @@ option = st.sidebar.selectbox(
         
     ],
 )
-
-uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
-if uploaded_file is not None:
-    try:
-        df = pd.read_csv(uploaded_file)
-        st.success("File uploaded successfully!")
-        st.write("Preview of the file:")
-        st.write(df.head())
-    except Exception as e:
-        st.error(f"Error reading the file: {e}")
-else:
-    st.info("Please upload a CSV file.")
     
 # 1. Random forest regressor
 if option == "Random forest regressor":
