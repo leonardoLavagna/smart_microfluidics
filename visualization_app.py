@@ -9,7 +9,7 @@ from plotly import graph_objects as go
 from sklearn.ensemble import RandomForestRegressor
 
 # Load data
-file_path = 'data/data.csv'
+file_path = 'data/data_2.csv'
 data = pd.read_csv(file_path, encoding='latin1')
 data = data.set_index('ID')
 
