@@ -11,6 +11,25 @@ import pickle
 from sklearn.ensemble import RandomForestRegressor
 
 # Load data
+uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
+
+if uploaded_file is not None:
+    # Read the uploaded CSV file
+    try:
+        df = pd.read_csv(uploaded_file)
+        st.success("File uploaded successfully!")
+        
+        # Display the dataframe
+        st.dataframe(df)
+        
+        # Optionally show more insights or a preview
+        st.write("Preview of the file:")
+        st.write(df.head())
+    except Exception as e:
+        st.error(f"Error reading the file: {e}")
+else:
+    st.info("Please upload a CSV file.")
+    
 file_path = 'data/data.csv'
 data = pd.read_csv(file_path, encoding='latin1')
 data = data.set_index('ID')
