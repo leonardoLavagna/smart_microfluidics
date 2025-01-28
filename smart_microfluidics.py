@@ -16,7 +16,7 @@ data = pd.read_csv(file_path, encoding='latin1')
 data = data.set_index('ID')
 
 # Streamlit app title
-st.title("Unified Data Dashboard: Modeling and Visualization")
+st.title("Smart Microfluidics: Modeling and Visualization")
 
 # Sidebar for navigation
 st.sidebar.title("Choose an Option")
