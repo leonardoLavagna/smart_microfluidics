@@ -23,11 +23,6 @@ section = st.sidebar.selectbox(
 )
 
 file_path = 'data/cleaned_data.csv'
-try:
-    data = pd.read_csv(file_path, encoding='latin1')
-    data = data.set_index('ID')
-except FileNotFoundError:
-    st.warning("Default dataset not found. Please upload your dataset in the 'Upload Dataset' section.")
         
 # Upload dataset section
 if section == "Upload Dataset":
