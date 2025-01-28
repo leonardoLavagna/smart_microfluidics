@@ -131,24 +131,24 @@ if section == "Modeling":
             st.write(f"`SIZE`: {size:.2f}")
             st.write(f"`PDI`: {pdi:.2f}")
     
-        # 3. Inverse model
-        elif option == "Inverse problem":
-            st.header("Inverse problem")
-            st.write("Inverse problem solver: given target `SIZE` and `PDI` returns predictions for the other numerical features.")
-            MODEL_PATH = "models/inverse_xgboost_model.pkl"  
-            with open(MODEL_PATH, "rb") as file:
-                model = pickle.load(file)
-            st.write(f"Loaded {MODEL_PATH}")
-            size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=500.0, step=0.1)
-            pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.01)
-            if st.button("Predict"):
-                input_data = pd.DataFrame({"SIZE": [size],"PDI": [pdi]})
-                predictions = model.predict(input_data)
-                predictions = np.abs(predictions)
-                predictions = np.where(predictions < 0.5, 0, predictions)
-                st.subheader("Model predictions")
-                prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
-                st.write(prediction_df)
+    # 3. Inverse model
+    elif option == "Inverse problem":
+        st.header("Inverse problem")
+        st.write("Inverse problem solver: given target `SIZE` and `PDI` returns predictions for the other numerical features.")
+        MODEL_PATH = "models/inverse_xgboost_model.pkl"  
+        with open(MODEL_PATH, "rb") as file:
+            model = pickle.load(file)
+        st.write(f"Loaded {MODEL_PATH}")
+        size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=500.0, step=0.1)
+        pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.01)
+        if st.button("Predict"):
+            input_data = pd.DataFrame({"SIZE": [size],"PDI": [pdi]})
+            predictions = model.predict(input_data)
+            predictions = np.abs(predictions)
+            predictions = np.where(predictions < 0.5, 0, predictions)
+            st.subheader("Model predictions")
+            prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
+            st.write(prediction_df)
     
 # Visualization section
 elif section == "Visualization":
