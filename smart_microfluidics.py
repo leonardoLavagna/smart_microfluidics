@@ -93,9 +93,6 @@ if section == "Modeling":
             st.subheader("Model predictions")
             st.write(f"`SIZE`: {size:.2f}")
             st.write(f"`PDI`: {pdi:.2f}")
-            if uploaded_file is not None:
-                st.subheader("Real data")
-                st.dataframe(df)
         
     # 2. XGBoost
     elif option == "XGBoost":
