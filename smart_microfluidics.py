@@ -29,7 +29,9 @@ if uploaded_file is not None:
         st.error(f"Error reading the file: {e}")
 else:
     st.info("Please upload a CSV file.")
-    
+
+st.write(df.head())
+
 file_path = 'data/data.csv'
 data = pd.read_csv(file_path, encoding='latin1')
 data = data.set_index('ID')
