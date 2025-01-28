@@ -39,7 +39,7 @@ if section == "Upload Dataset":
         st.info("Please upload a CSV file.")
 
 # Static file path (for demonstration purposes)
-file_path = 'data/data.csv'
+file_path = 'data/data_2.csv'
 try:
     data = pd.read_csv(file_path, encoding='latin1')
     data = data.set_index('ID')
