@@ -322,7 +322,11 @@ elif section == "Visualization":
             numeric_data = numeric_data.drop(columns=["PDI"])
         if target_feature == "PDI":
             numeric_data = numeric_data.drop(columns=["SIZE"])        
-        X = numeric_data.drop(columns=[target_feature, "SIZE", "PDI"]) 
+        X = numeric_data.drop(columns=[target_feature])
+        if "SIZE" in X.columns:
+            X = X.drop(columns=["SIZE"])
+        if "PDI" in X.columns:
+            X = X.drop(columns=["PDI"])
         y = numeric_data[target_feature]  
         rf = RandomForestRegressor(n_estimators=100, random_state=42)
         rf.fit(X, y)
