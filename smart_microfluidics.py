@@ -163,8 +163,7 @@ elif section == "Visualization":
         st.write("Displays the correlation between numerical features in the dataset.")
         file_path = "data/data.csv"
         data = pd.read_csv(file_path, encoding="latin1")
-        data = data.drop(columns=['FR-O', 'FR-W', 'SIZE', 'PDI'])
-        #data.OUTPUT = data.OUTPUT.apply(lambda x: 1 if x == "YES" else 0)
+        data = data.drop(columns=['FR-O', 'FR-W'])
         data.BUFFER = data.BUFFER.astype(str).str.strip()
         data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
         data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
