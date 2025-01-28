@@ -161,7 +161,7 @@ elif section == "Visualization":
     if option == "Correlation heatmaps":
         st.header("Correlation heatmap")
         st.write("Displays the correlation between numerical features in the dataset.")
-        file_path = "data.csv"
+        file_path = "data/data.csv"
         data = pd.read_csv(file_path, encoding="latin1")
         data = data.drop(columns=['FR-O', 'FR-W', 'SIZE', 'PDI'])
         #data.OUTPUT = data.OUTPUT.apply(lambda x: 1 if x == "YES" else 0)
