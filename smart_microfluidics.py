@@ -318,13 +318,11 @@ elif section == "Visualization":
         st.subheader("Single target feature importance")
         target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
         numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
-        if target_feature != ("SIZE" and "PDI"):
-            numeric_data = numeric_data.drop(columns=["SIZE","PDI"])
-        elif target_feature == "SIZE":
+        if target_feature == "SIZE":
             numeric_data = numeric_data.drop(columns=["PDI"])
-        elif target_feature == "PDI":
-            numeric_data = numeric_data.drop(columns=["SIZE"])
-        X = numeric_data.drop(columns=[target_feature]) 
+        if target_feature == "PDI":
+            numeric_data = numeric_data.drop(columns=["SIZE"])        
+        X = numeric_data.drop(columns=[target_feature, "SIZE", "PDI"]) 
         y = numeric_data[target_feature]  
         rf = RandomForestRegressor(n_estimators=100, random_state=42)
         rf.fit(X, y)
