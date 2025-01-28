@@ -304,7 +304,7 @@ elif section == "Visualization":
         st.write("Displays the importance of each feature for predicting a set of input targets.")
         file_path = "data/data.csv"
         data = pd.read_csv(file_path, encoding="latin1")
-        data = data.drop(columns=['FR-O', 'FR-W', 'PDI', 'SIZE'])
+        data = data.drop(columns=['FR-O', 'FR-W'])
         data.BUFFER = data.BUFFER.astype(str).str.strip()
         data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
         data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
@@ -316,8 +316,12 @@ elif section == "Visualization":
                         data[col] = data[col].astype(str)
         # 3.1 Single target feature importance
         st.subheader("Single target feature importance")
-        target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR"))
+        target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
         numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
+        if "SIZE" not in target_feature:
+             data.drop(columns=["SIZE"])
+        if "PDI" not in target_feature:
+             data.drop(columns=["PDI"])
         X = numeric_data.drop(columns=[target_feature])  
         y = numeric_data[target_feature]  
         rf = RandomForestRegressor(n_estimators=100, random_state=42)
