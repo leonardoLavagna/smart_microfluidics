@@ -330,7 +330,7 @@ elif section == "Visualization":
         # 3.2 Two targets feature importance
         st.subheader("Two targets feature importance")
         target_feature_1 = st.selectbox("Select the first target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR"))
-        target_feature_2 = st.selectbox("Select the second target feature (different from the first).", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR"))
+        target_feature_2 = st.selectbox("Select the second target feature (different from the first).", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
         if target_feature_1 == target_feature_2:
             st.write(":red[INPUT ERROR. The selected variables cannot be equal.]")
         elif target_feature_1 != target_feature_2:
