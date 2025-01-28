@@ -38,14 +38,6 @@ if section == "Upload Dataset":
     else:
         st.info("Please upload a CSV file.")
 
-# Static file path (for demonstration purposes)
-file_path = 'data/cleaned_data.csv'
-try:
-    data = pd.read_csv(file_path, encoding='latin1')
-    data = data.set_index('ID')
-except FileNotFoundError:
-    st.warning("Default dataset not found. Please upload your dataset in the 'Upload Dataset' section.")
-
 # Modeling section
 if section == "Modeling":
     st.sidebar.title("Model Selection")
@@ -58,6 +50,13 @@ if section == "Modeling":
         ],
     )
 
+    file_path = 'data/cleaned_data.csv'
+    try:
+        data = pd.read_csv(file_path, encoding='latin1')
+        data = data.set_index('ID')
+    except FileNotFoundError:
+        st.warning("Default dataset not found. Please upload your dataset in the 'Upload Dataset' section.")
+        
     # 1. Random forest regressor
     if option == "Random forest regressor":
         st.header("Random forest regressor")
@@ -161,7 +160,13 @@ elif section == "Visualization":
             "Feature importance",
         ],
     )
-
+    
+    file_path = 'data/data.csv'
+    try:
+        data = pd.read_csv(file_path, encoding='latin1')
+        data = data.set_index('ID')
+    except FileNotFoundError:
+        st.warning("Default dataset not found. Please upload your dataset in the 'Upload Dataset' section.")
     # Visualizations
     # 1. Correlation heatmap
     if option == "Correlation heatmaps":
