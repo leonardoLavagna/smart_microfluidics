@@ -18,13 +18,11 @@ if uploaded_file is not None:
     try:
         df = pd.read_csv(uploaded_file)
         st.success("File uploaded successfully!")
-        st.write(df.head())
         # Display the dataframe
         st.dataframe(df)
-        
         # Optionally show more insights or a preview
-        st.write("Preview of the file:")
-        st.write(df.head())
+        #st.write("Preview of the file:")
+        #st.write(df.head())
     except Exception as e:
         st.error(f"Error reading the file: {e}")
 else:
