@@ -18,7 +18,7 @@ if uploaded_file is not None:
     try:
         df = pd.read_csv(uploaded_file)
         st.success("File uploaded successfully!")
-        
+        st.write(df.head())
         # Display the dataframe
         st.dataframe(df)
         
@@ -30,7 +30,6 @@ if uploaded_file is not None:
 else:
     st.info("Please upload a CSV file.")
 
-st.write(df.head())
 
 file_path = 'data/data.csv'
 data = pd.read_csv(file_path, encoding='latin1')
