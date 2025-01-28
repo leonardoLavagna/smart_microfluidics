@@ -39,7 +39,7 @@ if section == "Upload Dataset":
         st.info("Please upload a CSV file.")
 
 # Static file path (for demonstration purposes)
-file_path = 'data/data.csv'
+file_path = 'data/cleaned_data.csv'
 try:
     data = pd.read_csv(file_path, encoding='latin1')
     data = data.set_index('ID')
@@ -155,9 +155,6 @@ if section == "Modeling":
                 st.subheader("Model predictions")
                 prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
                 st.write(prediction_df)
-                if uploaded_file is not None:
-                    st.subheader("Real data")
-                    st.dataframe(df)
     
 
 
