@@ -156,12 +156,9 @@ elif section == "Visualization":
         ],
     )
     
-    file_path = 'data/data.csv'
-    try:
-        data = pd.read_csv(file_path, encoding='latin1')
-        data = data.set_index('ID')
-    except FileNotFoundError:
-        st.warning("Default dataset not found. Please upload your dataset in the 'Upload Dataset' section.")
+    file_path = 'data/cleaned_data_heat.csv'
+    data = pd.read_csv(file_path, encoding='latin1')
+    data = data.set_index('ID')
     # Visualizations
     # 1. Correlation heatmap
     if option == "Correlation heatmaps":
@@ -221,11 +218,9 @@ elif section == "Visualization":
     elif option == "Alluvial plot":
         st.header("Alluvial plot")
         st.write("Displays the flow of categorical data using an alluvial plot.")
-        file_path = 'data/cleaned_data.csv'
-        try:
-            data = pd.read_csv(file_path, encoding='latin1')
-            data = data.set_index('ID')
-        except FileNotFoundError:
+        file_path = 'data/cleaned_data_all.csv'
+        data = pd.read_csv(file_path, encoding='latin1')
+        data = data.set_index('ID')
         st.warning("Default dataset not found. Please upload your dataset in the 'Upload Dataset' section.")
         # 2.1 Sankey diagram  of two variables
         st.subheader("Sankey diagram of two variables")
@@ -272,10 +267,8 @@ elif section == "Visualization":
         st.header("Feature importance with a Random Forest Regressor")
         st.write("Displays the importance of each feature for predicting a set of input targets.")
         file_path = 'data/cleaned_data_heat.csv'
-        try:
-            data = pd.read_csv(file_path, encoding='latin1')
-            data = data.set_index('ID')
-        except FileNotFoundError:
+        data = pd.read_csv(file_path, encoding='latin1')
+        data = data.set_index('ID')
         st.warning("Default dataset not found. Please upload your dataset in the 'Upload Dataset' section.")
         # 3.1 Single target feature importance
         st.subheader("Single target feature importance")
