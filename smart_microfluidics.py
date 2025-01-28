@@ -319,9 +319,9 @@ elif section == "Visualization":
         target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
         numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
         if "SIZE" not in target_feature:
-             data.drop(columns=["SIZE"])
+             data = data.drop(columns=["SIZE"])
         if "PDI" not in target_feature:
-             data.drop(columns=["PDI"])
+             data = data.drop(columns=["PDI"])
         X = numeric_data.drop(columns=[target_feature])  
         y = numeric_data[target_feature]  
         rf = RandomForestRegressor(n_estimators=100, random_state=42)
