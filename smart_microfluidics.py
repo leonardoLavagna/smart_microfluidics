@@ -272,7 +272,7 @@ elif section == "Visualization":
         st.warning("Default dataset not found. Please upload your dataset in the 'Upload Dataset' section.")
         # 3.1 Single target feature importance
         st.subheader("Single target feature importance")
-        target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR")
+        target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR"))
         numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
         X = numeric_data.drop(columns=[target_feature])  
         y = numeric_data[target_feature]  
