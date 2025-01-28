@@ -39,7 +39,7 @@ if section == "Upload Dataset":
         st.info("Please upload a CSV file.")
 
 # Static file path (for demonstration purposes)
-file_path = 'data/data_3.csv'
+file_path = 'data/cleaned_data.csv'
 try:
     data = pd.read_csv(file_path, encoding='latin1')
     data = data.set_index('ID')
@@ -112,7 +112,7 @@ if section == "Modeling":
         tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
         frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
         buffer = st.selectbox("BUFFER", ["PBS", "MQ"]) 
-        if st.button("Predict"):#"OUTPUT": [1]
+        if st.button("Predict"):
             input_data = pd.DataFrame({
                 "ML": [ml],
                 "CHIP": [chip],
@@ -123,6 +123,7 @@ if section == "Modeling":
                 "TFR ": [tfr],
                 "FRR": [frr],
                 "BUFFER": [buffer],
+                "OUTPUT": [1]
             })
             predictions = model.predict(input_data)
             size, pdi = predictions[0]
@@ -149,8 +150,6 @@ if section == "Modeling":
                 prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
                 st.write(prediction_df)
     
-
-
 # Visualization section
 elif section == "Visualization":
     st.sidebar.title("Visualization Options")
