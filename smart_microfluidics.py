@@ -285,7 +285,6 @@ for col in data.columns:
         file_path = 'data/cleaned_data_heat.csv'
         data = pd.read_csv(file_path, encoding='latin1')
         data = data.set_index('ID')
-        st.warning("Default dataset not found. Please upload your dataset in the 'Upload Dataset' section.")
         # 3.1 Single target feature importance
         st.subheader("Single target feature importance")
         target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR"))
