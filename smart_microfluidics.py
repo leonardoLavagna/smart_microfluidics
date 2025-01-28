@@ -112,7 +112,7 @@ if section == "Modeling":
         tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
         frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
         buffer = st.selectbox("BUFFER", ["PBS", "MQ"]) 
-        if st.button("Predict"):
+        if st.button("Predict"):#"OUTPUT": [1]
             input_data = pd.DataFrame({
                 "ML": [ml],
                 "CHIP": [chip],
@@ -123,7 +123,6 @@ if section == "Modeling":
                 "TFR ": [tfr],
                 "FRR": [frr],
                 "BUFFER": [buffer],
-                "OUTPUT": [1]
             })
             predictions = model.predict(input_data)
             size, pdi = predictions[0]
