@@ -21,8 +21,6 @@ section = st.sidebar.selectbox(
         "Visualization",
     ],
 )
-
-file_path = 'data/cleaned_data.csv'
         
 # Upload dataset section
 if section == "Upload Dataset":
