@@ -319,7 +319,8 @@ elif section == "Visualization":
         target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
         numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
         X = numeric_data.drop(columns=[target_feature]) 
-        X = X.drop(columns=["SIZE","PDI"])
+        if target_feature != ("SIZE" or "PDI"):
+            X = X.drop(columns=["SIZE","PDI"])
         y = numeric_data[target_feature]  
         rf = RandomForestRegressor(n_estimators=100, random_state=42)
         rf.fit(X, y)
@@ -334,7 +335,6 @@ elif section == "Visualization":
         if target_feature_1 == target_feature_2:
             st.write(":red[INPUT ERROR. The selected variables cannot be equal.]")
         elif target_feature_1 != target_feature_2:
-            numeric_data = numeric_data.drop(columns=["SIZE","PDI"])
             correlation_matrix = numeric_data.corr()
             target_features = [target_feature_1, target_feature_2]
             joint_correlation = correlation_matrix[target_features].drop(index=target_features).mean(axis=1)
