@@ -156,7 +156,7 @@ elif section == "Visualization":
         ],
     )
     
-    file_path = 'data/cleaned_data_heat.csv'
+    file_path = 'data/cleaned_data.csv'
     data = pd.read_csv(file_path, encoding='latin1')
     data = data.set_index('ID')
     # Visualizations
