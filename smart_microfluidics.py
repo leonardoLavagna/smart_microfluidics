@@ -226,6 +226,12 @@ elif section == "Visualization":
     elif option == "Alluvial plot":
         st.header("Alluvial plot")
         st.write("Displays the flow of categorical data using an alluvial plot.")
+        file_path = 'data/cleaned_data.csv'
+        try:
+            data = pd.read_csv(file_path, encoding='latin1')
+            data = data.set_index('ID')
+        except FileNotFoundError:
+        st.warning("Default dataset not found. Please upload your dataset in the 'Upload Dataset' section.")
         # 2.1 Sankey diagram  of two variables
         st.subheader("Sankey diagram of two variables")
         source = st.selectbox("Choose the first categorical variable of interest.", ("ML", "CHIP", "BUFFER", "OUTPUT"))
@@ -270,9 +276,15 @@ elif section == "Visualization":
     elif option == "Feature importance":
         st.header("Feature importance with a Random Forest Regressor")
         st.write("Displays the importance of each feature for predicting a set of input targets.")
+        file_path = 'data/cleaned_data_heat.csv'
+        try:
+            data = pd.read_csv(file_path, encoding='latin1')
+            data = data.set_index('ID')
+        except FileNotFoundError:
+        st.warning("Default dataset not found. Please upload your dataset in the 'Upload Dataset' section.")
         # 3.1 Single target feature importance
         st.subheader("Single target feature importance")
-        target_feature = st.selectbox("Select a target feature.", ("SIZE", "PDI", "TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "FR-O", "FR-W"))
+        target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR")
         numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
         X = numeric_data.drop(columns=[target_feature])  
         y = numeric_data[target_feature]  
@@ -284,8 +296,8 @@ elif section == "Visualization":
         st.pyplot(plt)
         # 3.2 Two targets feature importance
         st.subheader("Two targets feature importance")
-        target_feature_1 = st.selectbox("Select the first target feature.", ("SIZE", "PDI", "TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "FR-O", "FR-W"))
-        target_feature_2 = st.selectbox("Select the second target feature (different from the first).", ("PDI", "SIZE", "TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "FR-O", "FR-W"))
+        target_feature_1 = st.selectbox("Select the first target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR"))
+        target_feature_2 = st.selectbox("Select the second target feature (different from the first).", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR"))
         if target_feature_1 == target_feature_2:
             st.write(":red[INPUT ERROR. The selected variables cannot be equal.]")
         elif target_feature_1 != target_feature_2:
