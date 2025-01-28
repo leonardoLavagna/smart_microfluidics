@@ -250,10 +250,18 @@ elif section == "Visualization":
             else:
                 return 'L'
         data['SIZE'] = data['SIZE'].apply(categorize_size)
+        def categorize_pdi(pdi):
+            if pdi < 0.1:
+                return 'HMD'
+            elif 0.1 < pdi < 0.25:
+                return 'MD'
+            else:
+                return 'PLD'
+        data['PDI'] = data['PDI'].apply(categorize_pdi)
         # 2.1 Sankey diagram  of two variables
         st.subheader("Sankey diagram of two variables")
-        source = st.selectbox("Choose the first categorical variable of interest.", ("ML", "CHIP", "BUFFER", "OUTPUT", "SIZE"))
-        target = st.selectbox("Choose the second categorical variable of interest (different from the first).", ("CHIP", "ML", "BUFFER", "OUTPUT", "SIZE"))
+        source = st.selectbox("Choose the first categorical variable of interest.", ("ML", "CHIP", "BUFFER", "OUTPUT", "SIZE"."PDI"))
+        target = st.selectbox("Choose the second categorical variable of interest (different from the first).", ("CHIP", "ML", "BUFFER", "OUTPUT", "SIZE","PDI"))
         if source == target:
             st.write(":red[INPUT ERROR. The selected variables cannot be equal.]")
         elif source != target:
