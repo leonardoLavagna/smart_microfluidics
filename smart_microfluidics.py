@@ -155,31 +155,25 @@ elif section == "Visualization":
             "Feature importance",
         ],
     )
-    
-    file_path = 'data/data.csv'
-    data = pd.read_csv(file_path, encoding='latin1')
-    data = data.set_index('ID')
-    data = data.drop(columns=['FR-O', 'FR-W'])
-    data.OUTPUT = data.OUTPUT.apply(lambda x: 1 if x == "YES" else 0)
-    data.BUFFER = data.BUFFER.astype(str).str.strip()
-    data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
-    data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
 
-for col in data.columns:
-    if data[col].dtype == 'object':
-        data[col] = data[col].astype(str)
-
-allowed_strings = ["PBS", "MQ", "YES", "NO", "Micromixer", "Droplet junction", "HSPC", "ESM"]
-for col in data.columns:
-    if data[col].dtype == 'object':
-        for val in data[col].unique():
-            if val not in allowed_strings:
-                print(f"Invalid string found in column '{col}': {val}")
     # Visualizations
     # 1. Correlation heatmap
     if option == "Correlation heatmaps":
         st.header("Correlation heatmap")
         st.write("Displays the correlation between numerical features in the dataset.")
+        file_path = 'data/data.csv'
+        data = pd.read_csv(file_path, encoding='latin1')
+        data = data.set_index('ID')
+        data = data.drop(columns=['FR-O', 'FR-W', 'SIZE', 'PDI'])
+        data.OUTPUT = data.OUTPUT.apply(lambda x: 1 if x == "YES" else 0)
+        data.BUFFER = data.BUFFER.astype(str).str.strip()
+        data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
+        data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
+        data.SIZE = data.SIZE.astype(float)
+        for col in data.columns:
+            if data[col].dtype == 'object':
+                data[col] = data[col].astype(str)
+    
         formed = st.text_input("Are you interested in the dataset of formed liposomes? Answer YES (Y) or NO (N):", "Y")
         n_ids = st.number_input("Enter the number of formulations you desire to visualize:", min_value=9, max_value=15, value=10)
         if formed == "YES" or formed == "Y":
