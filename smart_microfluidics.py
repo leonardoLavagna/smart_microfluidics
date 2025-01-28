@@ -302,9 +302,18 @@ elif section == "Visualization":
     elif option == "Feature importance":
         st.header("Feature importance with a Random Forest Regressor")
         st.write("Displays the importance of each feature for predicting a set of input targets.")
-        file_path = 'data/cleaned_data_heat.csv'
-        data = pd.read_csv(file_path, encoding='latin1')
-        data = data.set_index('ID')
+        file_path = "data/data.csv"
+        data = pd.read_csv(file_path, encoding="latin1")
+        data = data.drop(columns=['FR-O', 'FR-W', 'PDI', 'SIZE'])
+        data.BUFFER = data.BUFFER.astype(str).str.strip()
+        data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
+        data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
+        for col in data.columns:
+            if data[col].dtype == 'object':
+                data[col] = data[col].astype(str)
+                for col in data.columns:
+                    if data[col].dtype == 'object':
+                        data[col] = data[col].astype(str)
         # 3.1 Single target feature importance
         st.subheader("Single target feature importance")
         target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR"))
