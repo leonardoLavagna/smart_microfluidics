@@ -229,10 +229,27 @@ elif section == "Visualization":
     elif option == "Alluvial plot":
         st.header("Alluvial plot")
         st.write("Displays the flow of categorical data using an alluvial plot.")
-        file_path = 'data/cleaned_data_all.csv'
-        data = pd.read_csv(file_path, encoding='latin1')
-        data = data.set_index('ID')
-        st.warning("Default dataset not found. Please upload your dataset in the 'Upload Dataset' section.")
+        file_path = "data/data.csv"
+        data = pd.read_csv(file_path, encoding="latin1")
+        data = data.drop(columns=['FR-O', 'FR-W'])
+        data.BUFFER = data.BUFFER.astype(str).str.strip()
+        data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
+        data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
+        data.SIZE = data.SIZE.astype(float)
+        for col in data.columns:
+            if data[col].dtype == 'object':
+                data[col] = data[col].astype(str)
+                for col in data.columns:
+                    if data[col].dtype == 'object':
+                        data[col] = data[col].astype(str)
+        def categorize_size(size):
+            if size < 100:
+                return 'S'
+            elif size < 200:
+                return 'M'
+            else:
+                return 'L'
+        data['SIZE'] = data['SIZE'].apply(categorize_size)
         # 2.1 Sankey diagram  of two variables
         st.subheader("Sankey diagram of two variables")
         source = st.selectbox("Choose the first categorical variable of interest.", ("ML", "CHIP", "BUFFER", "OUTPUT"))
