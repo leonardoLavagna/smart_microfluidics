@@ -141,7 +141,9 @@ if section == "Modeling":
             st.subheader("Model predictions")
             prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
             st.write(prediction_df)
-    
+
+
+
 # Visualization section
 elif section == "Visualization":
     st.sidebar.title("Visualization Options")
@@ -159,11 +161,10 @@ elif section == "Visualization":
     if option == "Correlation heatmaps":
         st.header("Correlation heatmap")
         st.write("Displays the correlation between numerical features in the dataset.")
-        file_path = 'data/data.csv'
-        data = pd.read_csv(file_path, encoding='latin1')
-        data = data.set_index('ID')
+        file_path = "data.csv"
+        data = pd.read_csv(file_path, encoding="latin1")
         data = data.drop(columns=['FR-O', 'FR-W', 'SIZE', 'PDI'])
-        data.OUTPUT = data.OUTPUT.apply(lambda x: 1 if x == "YES" else 0)
+        #data.OUTPUT = data.OUTPUT.apply(lambda x: 1 if x == "YES" else 0)
         data.BUFFER = data.BUFFER.astype(str).str.strip()
         data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
         data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
@@ -171,7 +172,10 @@ elif section == "Visualization":
         for col in data.columns:
             if data[col].dtype == 'object':
                 data[col] = data[col].astype(str)
-    
+                for col in data.columns:
+                    if data[col].dtype == 'object':
+                        data[col] = data[col].astype(str)
+
         formed = st.text_input("Are you interested in the dataset of formed liposomes? Answer YES (Y) or NO (N):", "Y")
         n_ids = st.number_input("Enter the number of formulations you desire to visualize:", min_value=9, max_value=15, value=10)
         if formed == "YES" or formed == "Y":
