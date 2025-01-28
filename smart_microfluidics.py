@@ -159,7 +159,7 @@ elif section == "Visualization":
     file_path = 'data/data.csv'
     data = pd.read_csv(file_path, encoding='latin1')
     data = data.set_index('ID')
-    data = data.drop(columns=['FR-O', 'FR-W')
+    data = data.drop(columns=['FR-O', 'FR-W'])
     data.OUTPUT = data.OUTPUT.apply(lambda x: 1 if x == "YES" else 0)
     data.BUFFER = data.BUFFER.astype(str).str.strip()
     data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
