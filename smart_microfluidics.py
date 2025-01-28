@@ -334,6 +334,7 @@ elif section == "Visualization":
         if target_feature_1 == target_feature_2:
             st.write(":red[INPUT ERROR. The selected variables cannot be equal.]")
         elif target_feature_1 != target_feature_2:
+            numeric_data = numeric_data.drop(columns=["SIZE","PDI"])
             correlation_matrix = numeric_data.corr()
             target_features = [target_feature_1, target_feature_2]
             joint_correlation = correlation_matrix[target_features].drop(index=target_features).mean(axis=1)
