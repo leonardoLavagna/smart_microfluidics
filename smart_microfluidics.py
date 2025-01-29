@@ -357,19 +357,19 @@ elif section == "Visualization":
             st.error("INPUT ERROR: The selected variables cannot be the same.")
         elif target_feature_1 != target_feature_2:
             correlation_matrix = numeric_data.corr()
-        filtered_data = numeric_data.copy()
-        if target_feature_1 == "SIZE" or target_feature_2 == "SIZE":
-            filtered_data = filtered_data.drop(columns=["PDI"], errors='ignore')
-        if target_feature_1 == "PDI" or target_feature_2 == "PDI":
-            filtered_data = filtered_data.drop(columns=["SIZE"], errors='ignore')
-        target_features = [target_feature_1, target_feature_2]
-        joint_correlation = correlation_matrix[target_features].drop(index=target_features, errors='ignore').mean(axis=1)
-        joint_correlation_df = joint_correlation.reset_index()
-        joint_correlation_df.columns = ['Feature', 'Mean Correlation']
-        joint_correlation_df = joint_correlation_df.sort_values(by='Mean Correlation', ascending=False)
-        plt.figure(figsize=(10, 6))
-        sns.barplot(data=joint_correlation_df, x='Mean Correlation', y='Feature', palette='viridis', dodge=False)
-        plt.xlabel("Mean Correlation with Targets")
-        plt.ylabel("Feature")
-        plt.title("Feature Importance for Selected Targets")
-        st.pyplot(plt)
+            filtered_data = numeric_data.copy()
+            if target_feature_1 == "SIZE" or target_feature_2 == "SIZE":
+                filtered_data = filtered_data.drop(columns=["PDI"], errors='ignore')
+            if target_feature_1 == "PDI" or target_feature_2 == "PDI":
+                filtered_data = filtered_data.drop(columns=["SIZE"], errors='ignore')
+            target_features = [target_feature_1, target_feature_2]
+            joint_correlation = correlation_matrix[target_features].drop(index=target_features, errors='ignore').mean(axis=1)
+            joint_correlation_df = joint_correlation.reset_index()
+            joint_correlation_df.columns = ['Feature', 'Mean Correlation']
+            joint_correlation_df = joint_correlation_df.sort_values(by='Mean Correlation', ascending=False)
+            plt.figure(figsize=(10, 6))
+            sns.barplot(data=joint_correlation_df, x='Mean Correlation', y='Feature', palette='viridis', dodge=False)
+            plt.xlabel("Mean Correlation with Targets")
+            plt.ylabel("Feature")
+            plt.title("Feature Importance for Selected Targets")
+            st.pyplot(plt)
