@@ -60,7 +60,7 @@ if section == "Dataset":
                 st.dataframe(df)
             except Exception as e:
                 st.error(f"Error reading the file: {e}")
-    else:
+    elif !st.button("Upload custom dataset?"):
         st.info("Reading default CSV file...")
         file_path = "data/data.csv"
         data = pd.read_csv(file_path, encoding="latin1")
