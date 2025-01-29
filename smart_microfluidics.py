@@ -50,35 +50,30 @@ section = st.sidebar.selectbox(
 if section == "Dataset":
     st.header("Dataset")
     st.write("Get the data for subsequent processing.")
-    if st.button("Upload custom dataset?"):
+    upload_mode = st.button("Upload custom dataset?")
+    uploaded_file = None
+    if upload_mode:
         uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
-        if uploaded_file is not None:
-            bool_ = False
-            try:
-                df = pd.read_csv(uploaded_file)
-                st.success("File uploaded successfully!")
-                st.write("Preview of the uploaded data:")
-                st.dataframe(df)
-            except Exception as e:
-                st.error(f"Error reading the file: {e}")
-        else:
-            bool_ = True
-            st.write("No file uploaded")
-            st.write("Reading default CSV file...")
-            file_path = "data/data.csv"
-            data = pd.read_csv(file_path, encoding="latin1")
-            data = data.drop(columns=['FR-O', 'FR-W'])
-            data.BUFFER = data.BUFFER.astype(str).str.strip()
-            data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
+    if uploaded_file is not None:
+        try:
+            df = pd.read_csv(uploaded_file)
+            st.success("File uploaded successfully!")
+            st.write("Preview of the uploaded data:")
+            st.dataframe(df)
+        except Exception as e:
+            st.error(f"Error reading the file: {e}")
+    else:
+        st.write("No file uploaded. Loading default dataset...")
+        file_path = "data/data.csv"
+        try:
+            data = pd.read_csv(file_path, encoding="latin1").drop(columns=['FR-O', 'FR-W'])
+            data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
             data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
-            for col in data.columns:
-                if data[col].dtype == 'object':
-                    data[col] = data[col].astype(str)
-                    for col in data.columns:
-                        if data[col].dtype == 'object':
-                            data[col] = data[col].astype(str)
+            data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
             st.write("Preview of the default data:")
             st.dataframe(data)
+        except Exception as e:
+            st.error(f"Error loading default dataset: {e}")
 
 
 ################################################
