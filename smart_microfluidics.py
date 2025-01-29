@@ -50,7 +50,7 @@ section = st.sidebar.selectbox(
 if section == "Dataset":
     st.header("Dataset")
     st.write("Get the data for subsequent processing.")
-    user_choice = st.radio("Upload custom data?", ("Yes", "No"))
+    user_choice = st.radio("Upload custom data?", ("No", "Yes"))
     if user_choice == "Yes":
         uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
         if uploaded_file is not None:
