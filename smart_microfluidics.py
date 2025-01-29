@@ -159,6 +159,7 @@ if section == "Modeling":
             st.subheader("Model predictions")
             st.write(f"`SIZE`: {size:.2f}")
             st.write(f"`PDI`: {pdi:.2f}")
+            st.write(data.head())
     
     # 2.3 Inverse model
     elif option == "Inverse problem":
@@ -178,6 +179,7 @@ if section == "Modeling":
             st.subheader("Model predictions")
             prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
             st.write(prediction_df)
+            st.write(data.head())
 
         
 ################################################
