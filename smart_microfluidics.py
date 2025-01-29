@@ -42,7 +42,7 @@ data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
 st.title("Smart Microfluidics: Modeling and Visualization")
 st.sidebar.title("Choose an Option")
 section = st.sidebar.selectbox(
-    "Section:",
+    "Data preprocessing, data modelization or data visualization :",
     [
         "Dataset",
         "Modeling",
