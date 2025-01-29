@@ -70,7 +70,6 @@ if section == "Dataset":
     else: 
         st.write("Loading default dataset...")
         st.dataframe(data)
-        st.error(f"Error loading default dataset: {e}")
 
 
 ################################################
