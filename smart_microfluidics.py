@@ -50,7 +50,9 @@ section = st.sidebar.selectbox(
 if section == "Dataset":
     st.header("Dataset")
     st.write("Get the data for subsequent processing.")
-    if st.button("Upload custom dataset?"):
+    bool_ = True
+    if st.button("Upload custom dataset?") and bool:
+        bool_ = False
         uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
         if uploaded_file is not None:
             try:
@@ -60,7 +62,7 @@ if section == "Dataset":
                 st.dataframe(df)
             except Exception as e:
                 st.error(f"Error reading the file: {e}")
-    elif not st.button("Upload custom dataset?"):
+    elif bool_:
         st.info("Reading default CSV file...")
         file_path = "data/data.csv"
         data = pd.read_csv(file_path, encoding="latin1")
