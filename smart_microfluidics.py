@@ -63,22 +63,23 @@ if section == "Dataset":
                 st.error(f"Error reading the file: {e}")
         else:
             bool_ = True
-      if bool_:
-          st.info("Reading default CSV file...")
-          file_path = "data/data.csv"
-          data = pd.read_csv(file_path, encoding="latin1")
-          data = data.drop(columns=['FR-O', 'FR-W'])
-          data.BUFFER = data.BUFFER.astype(str).str.strip()
-          data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
-          data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
-          for col in data.columns:
-              if data[col].dtype == 'object':
-                  data[col] = data[col].astype(str)
-                  for col in data.columns:
-                      if data[col].dtype == 'object':
-                          data[col] = data[col].astype(str)
-          st.write("Preview of the default data:")
-          st.dataframe(data)
+            st.write("No file uploaded")
+            st.write("Reading default CSV file...")
+            file_path = "data/data.csv"
+            data = pd.read_csv(file_path, encoding="latin1")
+            data = data.drop(columns=['FR-O', 'FR-W'])
+            data.BUFFER = data.BUFFER.astype(str).str.strip()
+            data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
+            data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
+            for col in data.columns:
+                if data[col].dtype == 'object':
+                    data[col] = data[col].astype(str)
+                    for col in data.columns:
+                        if data[col].dtype == 'object':
+                            data[col] = data[col].astype(str)
+            st.write("Preview of the default data:")
+            st.dataframe(data)
+
 
 ################################################
 # 2.MODELS
