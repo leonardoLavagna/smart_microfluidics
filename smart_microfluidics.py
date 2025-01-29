@@ -355,7 +355,7 @@ elif section == "Visualization":
         target_feature_2 = st.selectbox("Select the second target feature (different from the first).", available_features)
         if target_feature_1 == target_feature_2:
             st.error("INPUT ERROR: The selected variables cannot be the same.")
-        else:
+        elif target_feature_1 != target_feature_2:
             correlation_matrix = numeric_data.corr()
         filtered_data = numeric_data.copy()
         if target_feature_1 == "SIZE" or target_feature_2 == "SIZE":
