@@ -72,7 +72,7 @@ if section == "Upload Dataset":
                 for col in data.columns:
                     if data[col].dtype == 'object':
                         data[col] = data[col].astype(str)
-        st.dataframe(df)
+        st.dataframe(data)
 
 
 ################################################
