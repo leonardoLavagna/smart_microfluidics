@@ -28,6 +28,13 @@ def categorize_pdi(pdi):
     else:
         return 'PLD'
 
+file_path = "data/data.csv"
+data = pd.read_csv(file_path, encoding="latin1").drop(columns=['FR-O', 'FR-W'])
+data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
+data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
+data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
+
+
 
 ################################################
 # COLOPHON
@@ -66,16 +73,8 @@ if section == "Dataset":
     
     else: 
         st.write("Loading default dataset...")
-        file_path = "data/data.csv"
-        try:
-            data = pd.read_csv(file_path, encoding="latin1").drop(columns=['FR-O', 'FR-W'])
-            data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
-            data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
-            data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
-            st.write("Preview of the default data:")
-            st.dataframe(data)
-        except Exception as e:
-            st.error(f"Error loading default dataset: {e}")
+        st.dataframe(data)
+        st.error(f"Error loading default dataset: {e}")
 
 
 ################################################
@@ -127,6 +126,7 @@ if section == "Modeling":
             st.subheader("Model predictions")
             st.write(f"`SIZE`: {size:.2f}")
             st.write(f"`PDI`: {pdi:.2f}")
+            st.write(data.head())
         
     # 2.2 XGBoost
     elif option == "XGBoost":
