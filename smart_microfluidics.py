@@ -37,7 +37,7 @@ st.sidebar.title("Choose an Option")
 section = st.sidebar.selectbox(
     "Section:",
     [
-        "Upload Dataset",
+        "Dataset",
         "Modeling",
         "Visualization",
     ],
@@ -47,32 +47,35 @@ section = st.sidebar.selectbox(
 ################################################
 # 1. DATA
 ################################################
-if section == "Upload Dataset":
-    st.header("Upload Your Dataset")
-    uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
-    if uploaded_file is not None:
-        try:
-            df = pd.read_csv(uploaded_file)
-            st.success("File uploaded successfully!")
-            st.write("Preview of the uploaded data:")
-            st.dataframe(df)
-        except Exception as e:
-            st.error(f"Error reading the file: {e}")
-    else:
-        st.info("Reading default CSV file...")
-        file_path = "data/data.csv"
-        data = pd.read_csv(file_path, encoding="latin1")
-        data = data.drop(columns=['FR-O', 'FR-W'])
-        data.BUFFER = data.BUFFER.astype(str).str.strip()
-        data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
-        data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
-        for col in data.columns:
-            if data[col].dtype == 'object':
-                data[col] = data[col].astype(str)
-                for col in data.columns:
-                    if data[col].dtype == 'object':
-                        data[col] = data[col].astype(str)
-        st.dataframe(data)
+if section == "Dataset":
+    st.header("Dataset")
+    st.write("Get the data for subsequent processing.")
+    if st.button("Upload custom dataset?"):
+        uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
+        if uploaded_file is not None:
+            try:
+                df = pd.read_csv(uploaded_file)
+                st.success("File uploaded successfully!")
+                st.write("Preview of the uploaded data:")
+                st.dataframe(df)
+            except Exception as e:
+                st.error(f"Error reading the file: {e}")
+        else:
+            st.info("Reading default CSV file...")
+            file_path = "data/data.csv"
+            data = pd.read_csv(file_path, encoding="latin1")
+            data = data.drop(columns=['FR-O', 'FR-W'])
+            data.BUFFER = data.BUFFER.astype(str).str.strip()
+            data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
+            data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
+            for col in data.columns:
+                if data[col].dtype == 'object':
+                    data[col] = data[col].astype(str)
+                    for col in data.columns:
+                        if data[col].dtype == 'object':
+                            data[col] = data[col].astype(str)
+            st.write("Preview of the default data:")
+            st.dataframe(data)
 
 
 ################################################
