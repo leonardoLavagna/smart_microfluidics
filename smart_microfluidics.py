@@ -335,18 +335,41 @@ elif section == "Visualization":
         sns.barplot(data=feature_importances, x='Importance', y='Feature', hue='Feature', palette='viridis', dodge=False, legend=False)
         st.pyplot(plt)
         # 3.2 Two targets feature importance
-        st.subheader("Two targets feature importance")
-        target_feature_1 = st.selectbox("Select the first target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
-        target_feature_2 = st.selectbox("Select the second target feature (different from the first).", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
+        #st.subheader("Two targets feature importance")
+        #target_feature_1 = st.selectbox("Select the first target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
+        #target_feature_2 = st.selectbox("Select the second target feature (different from the first).", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
+        #if target_feature_1 == target_feature_2:
+        #    st.write(":red[INPUT ERROR. The selected variables cannot be equal.]")
+        #elif target_feature_1 != target_feature_2:
+        #    correlation_matrix = numeric_data.corr()
+        #    target_features = [target_feature_1, target_feature_2]
+        #    joint_correlation = correlation_matrix[target_features].drop(index=target_features).mean(axis=1)
+        #    joint_correlation_df = joint_correlation.reset_index()
+        #    joint_correlation_df.columns = ['Feature', 'Mean Correlation']
+        #    joint_correlation_df = joint_correlation_df.sort_values(by='Mean Correlation', ascending=False)
+        #    plt.figure(figsize=(10, 6))
+        #    sns.barplot(data=joint_correlation_df, x='Mean Correlation', y='Feature', hue='Feature', palette='viridis', dodge=False, legend=False)
+        #    st.pyplot(plt)
+        available_features = numeric_data.columns.tolist()
+        target_feature_1 = st.selectbox("Select the first target feature.", available_features)
+        target_feature_2 = st.selectbox("Select the second target feature (different from the first).", available_features)
         if target_feature_1 == target_feature_2:
-            st.write(":red[INPUT ERROR. The selected variables cannot be equal.]")
-        elif target_feature_1 != target_feature_2:
+            st.error("INPUT ERROR: The selected variables cannot be the same.")
+        else:
             correlation_matrix = numeric_data.corr()
-            target_features = [target_feature_1, target_feature_2]
-            joint_correlation = correlation_matrix[target_features].drop(index=target_features).mean(axis=1)
-            joint_correlation_df = joint_correlation.reset_index()
-            joint_correlation_df.columns = ['Feature', 'Mean Correlation']
-            joint_correlation_df = joint_correlation_df.sort_values(by='Mean Correlation', ascending=False)
-            plt.figure(figsize=(10, 6))
-            sns.barplot(data=joint_correlation_df, x='Mean Correlation', y='Feature', hue='Feature', palette='viridis', dodge=False, legend=False)
-            st.pyplot(plt)
+        filtered_data = numeric_data.copy()
+        if target_feature_1 == "SIZE" or target_feature_2 == "SIZE":
+            filtered_data = filtered_data.drop(columns=["PDI"], errors='ignore')
+        if target_feature_1 == "PDI" or target_feature_2 == "PDI":
+            filtered_data = filtered_data.drop(columns=["SIZE"], errors='ignore')
+        target_features = [target_feature_1, target_feature_2]
+        joint_correlation = correlation_matrix[target_features].drop(index=target_features, errors='ignore').mean(axis=1)
+        joint_correlation_df = joint_correlation.reset_index()
+        joint_correlation_df.columns = ['Feature', 'Mean Correlation']
+        joint_correlation_df = joint_correlation_df.sort_values(by='Mean Correlation', ascending=False)
+        plt.figure(figsize=(10, 6))
+        sns.barplot(data=joint_correlation_df, x='Mean Correlation', y='Feature', palette='viridis', dodge=False)
+        plt.xlabel("Mean Correlation with Targets")
+        plt.ylabel("Feature")
+        plt.title("Feature Importance for Selected Targets")
+        st.pyplot(plt)
