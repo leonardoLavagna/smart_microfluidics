@@ -61,16 +61,12 @@ if section == "Dataset":
     if user_choice == "Yes":
         uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
         if uploaded_file is not None:
-            try:
-                df = pd.read_csv(uploaded_file)
-                st.success("File uploaded successfully!")
-                st.write("Preview of the uploaded data:")
-                st.dataframe(df)
-            except Exception as e:
-                st.error(f"Error reading the uploaded file: {e}")
+            df = pd.read_csv(uploaded_file)
+            st.success("File uploaded successfully!")
+            st.write("Preview of the uploaded data:")
+            st.dataframe(df)
         else:
             st.warning("No file uploaded. Please upload a CSV file.")
-    
     else: 
         st.write("Loading default dataset...")
         st.dataframe(data)
