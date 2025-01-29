@@ -50,18 +50,16 @@ section = st.sidebar.selectbox(
 if section == "Dataset":
     st.header("Dataset")
     st.write("Get the data for subsequent processing.")
-    upload_mode = st.button("Upload custom dataset?")
-    uploaded_file = None
-    if upload_mode:
-        uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
+    uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
     if uploaded_file is not None:
+        # If a file is uploaded, show only the uploaded file
         try:
             df = pd.read_csv(uploaded_file)
             st.success("File uploaded successfully!")
             st.write("Preview of the uploaded data:")
             st.dataframe(df)
         except Exception as e:
-            st.error(f"Error reading the file: {e}")
+            st.error(f"Error reading the uploaded file: {e}")
     else:
         st.write("No file uploaded. Loading default dataset...")
         file_path = "data/data.csv"
