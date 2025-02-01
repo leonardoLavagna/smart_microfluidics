@@ -327,7 +327,7 @@ elif section == "Visualization":
         rf.fit(X, y)
         feature_importances = pd.DataFrame({'Feature': X.columns,'Importance': rf.feature_importances_}).sort_values(by='Importance', ascending=False)
         plt.figure(figsize=(10, 8))
-        sns.barplot(data=feature_importances, x='Importance', y='Feature', hue='Feature', palette='viridis', dodge=False, legend=False)
+        sns.barplot(data=feature_importances, x='Importance', y='Feature', hue='Feature', palette='viridis', dodge=False)
         st.pyplot(plt)
         # 3.3.2 Two targets feature importance
         available_features = numeric_data.columns.tolist()
