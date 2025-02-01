@@ -28,12 +28,6 @@ def categorize_pdi(pdi):
     else:
         return 'PLD'
 
-file_path = "data/data.csv"
-data = pd.read_csv(file_path, encoding="latin1").drop(columns=['FR-O', 'FR-W'])
-data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
-data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
-data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
-
 
 
 ################################################
@@ -54,6 +48,7 @@ section = st.sidebar.selectbox(
 ################################################
 # 1. DATA
 ################################################
+
 if section == "Dataset":
     st.header("Dataset")
     st.write("Get the data for subsequent processing.")
@@ -69,6 +64,11 @@ if section == "Dataset":
             st.warning("No file uploaded. Please upload a CSV file.")
     else: 
         st.write("Loading default dataset...")
+        file_path = "data/data.csv"
+        data = pd.read_csv(file_path, encoding="latin1").drop(columns=['FR-O', 'FR-W'])
+        data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
+        data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
+        data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
         st.dataframe(data)
 
 
@@ -121,7 +121,6 @@ if section == "Modeling":
             st.subheader("Model predictions")
             st.write(f"`SIZE`: {size:.2f}")
             st.write(f"`PDI`: {pdi:.2f}")
-            st.write(data.head())
         
     # 2.2 XGBoost
     elif option == "XGBoost":
@@ -165,8 +164,8 @@ if section == "Modeling":
     elif option == "Inverse problem":
         st.header("Inverse problem")
         st.write("Inverse problem solver: given target `SIZE` and `PDI` returns predictions for the other numerical features.")
-        MODEL_PATH = "models/inverse_xgboost_model.pkl"  
-        with open(MODEL_PATH, "rb") as file:
+        model_path = "models/inverse_xgboost_model.pkl"  
+        with open(model_path, "rb") as file:
             model = pickle.load(file)
         st.write(f"Loaded {MODEL_PATH}")
         size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=500.0, step=0.1)
@@ -179,7 +178,6 @@ if section == "Modeling":
             st.subheader("Model predictions")
             prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
             st.write(prediction_df)
-            st.write(data.head())
 
         
 ################################################
@@ -195,24 +193,16 @@ elif section == "Visualization":
             "Feature importance",
         ],
     )
+    file_path = "data/data.csv"
+    data = pd.read_csv(file_path, encoding="latin1").drop(columns=['FR-O', 'FR-W'])
+    data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
+    data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
+    data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
 
     # 3.1 Correlation heatmap
     if option == "Correlation heatmaps":
         st.header("Correlation heatmap")
         st.write("Displays the correlation between numerical features in the dataset.")
-        file_path = "data/data.csv"
-        data = pd.read_csv(file_path, encoding="latin1")
-        data = data.drop(columns=['FR-O', 'FR-W'])
-        data.BUFFER = data.BUFFER.astype(str).str.strip()
-        data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
-        data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
-        data.SIZE = data.SIZE.astype(float)
-        for col in data.columns:
-            if data[col].dtype == 'object':
-                data[col] = data[col].astype(str)
-                for col in data.columns:
-                    if data[col].dtype == 'object':
-                        data[col] = data[col].astype(str)
         formed = st.text_input("Are you interested in the dataset of formed liposomes? Answer YES (Y) or NO (N):", "Y")
         n_ids = st.number_input("Enter the number of formulations you desire to visualize:", min_value=9, max_value=15, value=10)
         if formed == "YES" or formed == "Y":
@@ -267,13 +257,6 @@ elif section == "Visualization":
     elif option == "Alluvial plot":
         st.header("Alluvial plot")
         st.write("Displays the flow of categorical data using an alluvial plot.")
-        file_path = "data/data.csv"
-        data = pd.read_csv(file_path, encoding="latin1")
-        data = data.drop(columns=['FR-O', 'FR-W'])
-        data.BUFFER = data.BUFFER.astype(str).str.strip()
-        data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
-        data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
-        data.SIZE = data.SIZE.astype(float)
         for col in data.columns:
             if data[col].dtype == 'object':
                 data[col] = data[col].astype(str)
@@ -327,18 +310,6 @@ elif section == "Visualization":
     elif option == "Feature importance":
         st.header("Feature importance with a Random Forest Regressor")
         st.write("Displays the importance of each feature for predicting a set of input targets.")
-        file_path = "data/data.csv"
-        data = pd.read_csv(file_path, encoding="latin1")
-        data = data.drop(columns=['FR-O', 'FR-W'])
-        data.BUFFER = data.BUFFER.astype(str).str.strip()
-        data.BUFFER = data.BUFFER.replace({'PBS\xa0': 'PBS'})
-        data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
-        for col in data.columns:
-            if data[col].dtype == 'object':
-                data[col] = data[col].astype(str)
-                for col in data.columns:
-                    if data[col].dtype == 'object':
-                        data[col] = data[col].astype(str)
         # 3.3.1 Single target feature importance
         st.subheader("Single target feature importance")
         target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
