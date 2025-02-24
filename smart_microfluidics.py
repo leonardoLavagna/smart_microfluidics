@@ -52,16 +52,68 @@ section = st.sidebar.selectbox(
 if section == "Dataset":
     st.header("Dataset")
     st.write("Get the data for subsequent processing.")
+    
     user_choice = st.radio("Upload custom data?", ("No", "Yes"))
+    
     if user_choice == "Yes":
-        uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
-        if uploaded_file is not None:
-            df = pd.read_csv(uploaded_file)
-            st.success("File uploaded successfully!")
-            st.write("Preview of the uploaded data:")
-            st.dataframe(df)
-        else:
-            st.warning("No file uploaded. Please upload a CSV file.")
+        extend_choice = st.radio(
+            "Do you want to extend the default dataset or upload a custom dataset instead?", 
+            ("Extend default dataset", "Upload custom dataset")
+        )
+        
+        if extend_choice == "Upload custom dataset":
+            uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
+            if uploaded_file is not None:
+                df = pd.read_csv(uploaded_file)
+                st.success("File uploaded successfully!")
+                st.write("Preview of the uploaded data:")
+                st.dataframe(df)
+            else:
+                st.warning("No file uploaded. Please upload a CSV file.")
+        
+        elif extend_choice == "Extend default dataset":
+            st.write("Extending default dataset...")
+            # Add the inputs similar to the ones in Random Forest or XGBoost
+            ml = st.selectbox("ML", ["HSPC", "ESM"])
+            chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
+            tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
+            esm = st.number_input("ESM", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
+            hspc = st.number_input("HSPC", value=3.75, min_value=0.0, max_value=100.0, step=0.1)
+            chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
+            peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
+            tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
+            frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
+            buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
+
+            # Option to add the new data to the existing dataset
+            if st.button("Extend dataset"):
+                # Create a new row based on the inputs
+                new_data = pd.DataFrame({
+                    "ML": [ml],
+                    "CHIP": [chip],
+                    "ESM": [esm],
+                    "HSPC": [hspc],
+                    "CHOL": [chol],
+                    "PEG": [peg],
+                    "TFR ": [tfr],
+                    "FRR": [frr],
+                    "BUFFER": [buffer],
+                })
+                
+                # Load the original default dataset
+                original_data_path = "data/data.csv"
+                original_data = pd.read_csv(original_data_path, encoding="latin1")
+                
+                # Ensure the new data is appended to the original dataset
+                updated_data = original_data.append(new_data, ignore_index=True)
+                
+                # Save the updated dataset to a new file, without overwriting the original
+                extended_data_path = "data/extended_data.csv"
+                updated_data.to_csv(extended_data_path, index=False)
+                
+                st.success("New data added to the extended dataset!")
+                st.write("Updated dataset preview:")
+                st.dataframe(updated_data)
     else: 
         st.write("Loading default dataset...")
         file_path = "data/data.csv"
