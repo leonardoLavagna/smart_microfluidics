@@ -109,6 +109,7 @@ if section == "Modeling":
             input_data = pd.DataFrame({
                 "ML": [ml],
                 "CHIP": [chip],
+                "TLP": [tlp],
                 "ESM": [esm],
                 "HSPC": [hspc],
                 "CHOL": [chol],
@@ -144,6 +145,7 @@ if section == "Modeling":
             input_data = pd.DataFrame({
                 "ML": [ml],
                 "CHIP": [chip],
+                "TLP": [tlp],
                 "ESM": [esm],
                 "HSPC": [hspc],
                 "CHOL": [chol],
