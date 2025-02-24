@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import git
+import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.graph_objects as go
@@ -45,12 +47,14 @@ section = st.sidebar.selectbox(
 )
 
 
+
+
 ################################################
 # 1. DATA
 ################################################
 if 'rows_data' not in st.session_state:
     st.session_state['rows_data'] = []
-    
+
 if section == "Dataset":
     st.header("Dataset")
     st.write("Get the data for subsequent processing.")
@@ -60,7 +64,7 @@ if section == "Dataset":
     if user_choice == "Yes":
         extend_choice = st.radio(
             "Do you want to extend the default dataset or upload a custom dataset instead?", 
-            ("Extend default dataset", "Upload a new dataset")
+            ("Extend default dataset", "Upload custom dataset")
         )
         
         if extend_choice == "Upload custom dataset":
@@ -151,7 +155,33 @@ if section == "Dataset":
                 
                 # Clear session data once submission is complete
                 st.session_state['rows_data'] = []  # Reset the data after submission
-            
+
+                # Push to the 'extended_data' GitHub branch
+                try:
+                    # Define the path to the local Git repository
+                    repo_path = "/path/to/your/local/repository"  # Replace with the actual path
+
+                    # Initialize the repository
+                    repo = git.Repo(repo_path)
+
+                    # Check if there are any changes to commit
+                    repo.git.checkout("extended_data")  # Ensure you're on the extended_data branch
+                    repo.git.pull()  # Fetch the latest changes from GitHub
+
+                    # Add the changes (extended dataset file)
+                    repo.git.add("data/extended_data.csv")
+
+                    # Commit the changes
+                    repo.index.commit("Add extended dataset with new rows")
+
+                    # Push the changes to the 'extended_data' branch
+                    repo.git.push("--set-upstream", "origin", "extended_data")
+
+                    st.success(f"Successfully pushed the extended dataset to GitHub branch 'extended_data'.")
+
+                except Exception as e:
+                    st.error(f"Error while pushing changes to GitHub: {e}")
+                
     else: 
         st.write("Loading default dataset...")
         file_path = "data/data.csv"
@@ -160,6 +190,7 @@ if section == "Dataset":
         data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
         data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
         st.dataframe(data)
+
 
 
 
