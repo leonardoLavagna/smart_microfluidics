@@ -48,8 +48,6 @@ section = st.sidebar.selectbox(
 ################################################
 # 1. DATA
 ################################################
-
-# Initialize session state to hold the rows data if not already done
 if 'rows_data' not in st.session_state:
     st.session_state['rows_data'] = []
 
