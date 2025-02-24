@@ -14,10 +14,10 @@ from sklearn.ensemble import RandomForestRegressor
 ################################################  
 #GLOBALS
 ################################################  
-GITHUB_TOKEN = 'your_github_token'  # Replace with your GitHub Personal Access Token
-GITHUB_REPO = 'leonardoLavagna/smart_microfluidics'  # GitHub repository in the format 'owner/repo'
-BRANCH_NAME = 'extended_data'  # The branch where you want to push the updated dataset
-FILE_PATH = 'data/extended_data.csv'  # Path of the file to update
+GITHUB_TOKEN = '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'  
+GITHUB_REPO = 'leonardoLavagna/smart_microfluidics' 
+BRANCH_NAME = 'extended_data'  
+FILE_PATH = 'data/data.csv'  
 API_URL = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{FILE_PATH}"
 
 
