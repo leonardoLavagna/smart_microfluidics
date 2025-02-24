@@ -65,11 +65,12 @@ if section == "Dataset":
             st.warning("No file uploaded. Please upload a CSV file.")
     else: 
         st.write("Loading default dataset...")
-        file_path = "data/data.csv"
-        data = pd.read_csv(file_path, encoding="latin1").drop(columns=['FR-O', 'FR-W'])
-        data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
-        data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
-        data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
+        #file_path = "data/cleaned_data.csv"
+        #data = pd.read_csv(file_path, encoding="latin1").drop(columns=['FR-O', 'FR-W'])
+        #data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
+        #data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
+        #data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
+        data = pd.read_csv(file_path, encoding="latin1")
         st.dataframe(data)
 
 
