@@ -50,7 +50,7 @@ section = st.sidebar.selectbox(
 ################################################
 if 'rows_data' not in st.session_state:
     st.session_state['rows_data'] = []
-
+    
 if section == "Dataset":
     st.header("Dataset")
     st.write("Get the data for subsequent processing.")
@@ -76,8 +76,8 @@ if section == "Dataset":
                 original_data_path = "data/data.csv"
                 original_data = pd.read_csv(original_data_path, encoding="latin1")
                 
-                # Append the new data to the original data
-                extended_data = original_data.append(new_data, ignore_index=True)
+                # Concatenate the new data to the original data
+                extended_data = pd.concat([original_data, new_data], ignore_index=True)
                 
                 # Save the updated dataset to a new file
                 extended_data_path = "data/extended_data.csv"
@@ -138,8 +138,8 @@ if section == "Dataset":
                 # Create a DataFrame from the collected rows
                 new_rows_df = pd.DataFrame(st.session_state['rows_data'])
 
-                # Append the new rows to the original dataset
-                extended_data = original_data.append(new_rows_df, ignore_index=True)
+                # Concatenate the new rows to the original dataset
+                extended_data = pd.concat([original_data, new_rows_df], ignore_index=True)
                 
                 # Save the updated dataset to a new file
                 extended_data_path = "data/extended_data.csv"
@@ -160,6 +160,7 @@ if section == "Dataset":
         data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
         data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
         st.dataframe(data)
+
 
 
 ################################################
