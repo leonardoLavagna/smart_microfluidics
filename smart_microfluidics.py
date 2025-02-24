@@ -1,14 +1,24 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import git
-import os
+import requests
+import base64
+import json
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.graph_objects as go
 import scipy.cluster.hierarchy as sch
 import pickle
 from sklearn.ensemble import RandomForestRegressor
+
+################################################  
+#GLOBALS
+################################################  
+GITHUB_TOKEN = 'your_github_token'  # Replace with your GitHub Personal Access Token
+GITHUB_REPO = 'leonardoLavagna/smart_microfluidics'  # GitHub repository in the format 'owner/repo'
+BRANCH_NAME = 'extended_data'  # The branch where you want to push the updated dataset
+FILE_PATH = 'data/extended_data.csv'  # Path of the file to update
+API_URL = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{FILE_PATH}"
 
 
 ################################################
@@ -156,28 +166,43 @@ if section == "Dataset":
                 # Clear session data once submission is complete
                 st.session_state['rows_data'] = []  # Reset the data after submission
 
-                # Push to the 'extended_data' GitHub branch
+                # Push the changes to GitHub using the API
                 try:
-                    # Define the path to the local Git repository
-                    repo_path = "/path/to/your/local/repository"  # Replace with the actual path
+                    # Get the file content (if it already exists)
+                    headers = {
+                        "Authorization": f"token {GITHUB_TOKEN}",
+                        "Accept": "application/vnd.github.v3+json"
+                    }
+                    response = requests.get(API_URL, headers=headers)
 
-                    # Initialize the repository
-                    repo = git.Repo(repo_path)
+                    if response.status_code == 200:
+                        # File exists, retrieve the SHA for updating
+                        content = response.json()
+                        sha = content['sha']
+                    else:
+                        # If file doesn't exist, create it
+                        sha = None
 
-                    # Check if there are any changes to commit
-                    repo.git.checkout("extended_data")  # Ensure you're on the extended_data branch
-                    repo.git.pull()  # Fetch the latest changes from GitHub
+                    # Prepare file content (base64 encoded)
+                    file_content = extended_data.to_csv(index=False)
+                    encoded_content = base64.b64encode(file_content.encode()).decode()
 
-                    # Add the changes (extended dataset file)
-                    repo.git.add("data/extended_data.csv")
+                    # Prepare data for GitHub API call
+                    data = {
+                        "message": "Add extended dataset with new rows",
+                        "content": encoded_content,
+                        "branch": BRANCH_NAME
+                    }
+                    if sha:
+                        data["sha"] = sha
 
-                    # Commit the changes
-                    repo.index.commit("Add extended dataset with new rows")
+                    # Send the request to update the file
+                    response = requests.put(API_URL, headers=headers, data=json.dumps(data))
 
-                    # Push the changes to the 'extended_data' branch
-                    repo.git.push("--set-upstream", "origin", "extended_data")
-
-                    st.success(f"Successfully pushed the extended dataset to GitHub branch 'extended_data'.")
+                    if response.status_code == 201 or response.status_code == 200:
+                        st.success(f"Successfully pushed the extended dataset to GitHub branch '{BRANCH_NAME}'.")
+                    else:
+                        st.error(f"Failed to push the changes. Error: {response.text}")
 
                 except Exception as e:
                     st.error(f"Error while pushing changes to GitHub: {e}")
@@ -190,7 +215,6 @@ if section == "Dataset":
         data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
         data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
         st.dataframe(data)
-
 
 
 
