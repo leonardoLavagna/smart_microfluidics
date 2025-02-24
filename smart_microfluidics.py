@@ -14,7 +14,7 @@ from sklearn.ensemble import RandomForestRegressor
 ################################################  
 #GLOBALS
 ################################################  
-GITHUB_TOKEN = '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'  
+GITHUB_TOKEN = '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'  
 GITHUB_REPO = 'leonardoLavagna/smart_microfluidics' 
 BRANCH_NAME = 'extended_data'  
 FILE_PATH = 'data/data.csv'  
@@ -94,7 +94,7 @@ if section == "Dataset":
                 extended_data = pd.concat([original_data, new_data], ignore_index=True)
                 
                 # Save the updated dataset to a new file
-                extended_data_path = "data/extended_data.csv"
+                extended_data_path = "data/data.csv"
                 extended_data.to_csv(extended_data_path, index=False)
                 
                 st.success("New rows added to the extended dataset!")
