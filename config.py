@@ -1,5 +1,5 @@
 # Paths
-file_path = "data/cleaned_data.csv"
+file_path = "data/extended_data.csv"
 random_forest_model = "models/random_forest_model_extended_1.pkl"
 xgboost_model = "models/xgboost_model_extended_1.pkl"
 inverse_xgboost_model = "models/inverse_xgboost_model_extended_1.pkl"
