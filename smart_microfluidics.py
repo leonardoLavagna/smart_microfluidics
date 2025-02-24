@@ -7,6 +7,7 @@ import plotly.graph_objects as go
 import scipy.cluster.hierarchy as sch
 import pickle
 from sklearn.ensemble import RandomForestRegressor
+from config import *
 
 
 ################################################
@@ -89,11 +90,10 @@ if section == "Modeling":
     # 2.1 Random forest regressor
     if option == "Random forest regressor":
         st.header("Random forest regressor")
-        st.write("Using multiple decision trees in parallel and bagging this model provide robust predictions for `SIZE` and `PDI`.")
-        model_path = "models/random_forest_model.pkl"  
-        with open(model_path, "rb") as file:
+        st.write("Using multiple decision trees in parallel and bagging this model provide robust predictions for `SIZE` and `PDI`.")  
+        with open(random_forest_model, "rb") as file:
             model = pickle.load(file)
-        st.write(f"Loaded {model_path}")
+        st.write(f"Loaded {random_forest_model}")
         ml = st.selectbox("ML", ["HSPC", "ESM"])
         chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
         tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
@@ -125,11 +125,10 @@ if section == "Modeling":
     # 2.2 XGBoost
     elif option == "XGBoost":
         st.header("XGBoost")
-        st.write("eXtreme Gradient Boosting predictions for `SIZE` and `PDI`.")
-        model_path = "models/xgboost_model.pkl"  
-        with open(model_path, "rb") as file:
+        st.write("eXtreme Gradient Boosting predictions for `SIZE` and `PDI`.") 
+        with open(xgboost_model, "rb") as file:
             model = pickle.load(file)
-        st.write(f"Loaded {model_path}")
+        st.write(f"Loaded {xgboost_model}")
         ml = st.selectbox("ML", ["HSPC", "ESM"])
         chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
         tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
@@ -163,10 +162,9 @@ if section == "Modeling":
     elif option == "Inverse problem":
         st.header("Inverse problem")
         st.write("Inverse problem solver: given target `SIZE` and `PDI` returns predictions for the other numerical features.")
-        model_path = "models/inverse_xgboost_model.pkl"  
-        with open(model_path, "rb") as file:
+        with open(inverse_xgboost_model, "rb") as file:
             model = pickle.load(file)
-        st.write(f"Loaded {model_path}")
+        st.write(f"Loaded {inverse_xgboost_model}")
         size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=500.0, step=0.1)
         pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.01)
         if st.button("Predict"):
