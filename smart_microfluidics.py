@@ -49,6 +49,10 @@ section = st.sidebar.selectbox(
 # 1. DATA
 ################################################
 
+# Initialize session state to hold the rows data if not already done
+if 'rows_data' not in st.session_state:
+    st.session_state['rows_data'] = []
+
 if section == "Dataset":
     st.header("Dataset")
     st.write("Get the data for subsequent processing.")
@@ -64,56 +68,92 @@ if section == "Dataset":
         if extend_choice == "Upload custom dataset":
             uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
             if uploaded_file is not None:
-                df = pd.read_csv(uploaded_file)
+                # Read the uploaded CSV
+                new_data = pd.read_csv(uploaded_file)
                 st.success("File uploaded successfully!")
                 st.write("Preview of the uploaded data:")
-                st.dataframe(df)
+                st.dataframe(new_data)
+
+                # Load the original data (without overwriting it)
+                original_data_path = "data/data.csv"
+                original_data = pd.read_csv(original_data_path, encoding="latin1")
+                
+                # Append the new data to the original data
+                extended_data = original_data.append(new_data, ignore_index=True)
+                
+                # Save the updated dataset to a new file
+                extended_data_path = "data/extended_data.csv"
+                extended_data.to_csv(extended_data_path, index=False)
+                
+                st.success("New rows added to the extended dataset!")
+                st.write("Updated dataset preview:")
+                st.dataframe(extended_data)
             else:
                 st.warning("No file uploaded. Please upload a CSV file.")
         
         elif extend_choice == "Extend default dataset":
             st.write("Extending default dataset...")
-            # Add the inputs similar to the ones in Random Forest or XGBoost
-            ml = st.selectbox("ML", ["HSPC", "ESM"])
-            chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
-            tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
-            esm = st.number_input("ESM", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
-            hspc = st.number_input("HSPC", value=3.75, min_value=0.0, max_value=100.0, step=0.1)
-            chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
-            peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
-            tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
-            frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
-            buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
 
-            # Option to add the new data to the existing dataset
-            if st.button("Extend dataset"):
-                # Create a new row based on the inputs
-                new_data = pd.DataFrame({
-                    "ML": [ml],
-                    "CHIP": [chip],
-                    "ESM": [esm],
-                    "HSPC": [hspc],
-                    "CHOL": [chol],
-                    "PEG": [peg],
-                    "TFR ": [tfr],
-                    "FRR": [frr],
-                    "BUFFER": [buffer],
-                })
+            # Function to collect data for one row
+            def get_row_input(row_number):
+                ml = st.selectbox(f"ML for Row {row_number}", ["HSPC", "ESM"])
+                chip = st.selectbox(f"CHIP for Row {row_number}", ["Micromixer", "Droplet junction"])
+                esm = st.number_input(f"ESM for Row {row_number}", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
+                hspc = st.number_input(f"HSPC for Row {row_number}", value=3.75, min_value=0.0, max_value=100.0, step=0.1)
+                chol = st.number_input(f"CHOL for Row {row_number}", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
+                peg = st.number_input(f"PEG for Row {row_number}", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
+                tfr = st.number_input(f"TFR for Row {row_number}", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
+                frr = st.number_input(f"FRR for Row {row_number}", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
+                buffer = st.selectbox(f"BUFFER for Row {row_number}", ["PBS", "MQ"])
                 
-                # Load the original default dataset
+                return {
+                    "ML": ml,
+                    "CHIP": chip,
+                    "ESM": esm,
+                    "HSPC": hspc,
+                    "CHOL": chol,
+                    "PEG": peg,
+                    "TFR": tfr,
+                    "FRR": frr,
+                    "BUFFER": buffer
+                }
+
+            # Show the form to add a new row
+            if st.button("Add a new row"):
+                # Collect the new row data and store it in session state
+                new_row = get_row_input(len(st.session_state['rows_data']) + 1)
+                st.session_state['rows_data'].append(new_row)
+                st.success("Row added successfully!")
+            
+            # Display the data that has been entered so far
+            if len(st.session_state['rows_data']) > 0:
+                st.write("Preview of entered data:")
+                entered_data = pd.DataFrame(st.session_state['rows_data'])
+                st.dataframe(entered_data)
+
+            # Button to submit the data
+            if st.button("Submit entered rows"):
+                # Load the original dataset
                 original_data_path = "data/data.csv"
                 original_data = pd.read_csv(original_data_path, encoding="latin1")
                 
-                # Ensure the new data is appended to the original dataset
-                updated_data = original_data.append(new_data, ignore_index=True)
+                # Create a DataFrame from the collected rows
+                new_rows_df = pd.DataFrame(st.session_state['rows_data'])
+
+                # Append the new rows to the original dataset
+                extended_data = original_data.append(new_rows_df, ignore_index=True)
                 
-                # Save the updated dataset to a new file, without overwriting the original
+                # Save the updated dataset to a new file
                 extended_data_path = "data/extended_data.csv"
-                updated_data.to_csv(extended_data_path, index=False)
+                extended_data.to_csv(extended_data_path, index=False)
                 
-                st.success("New data added to the extended dataset!")
+                st.success("New rows added to the extended dataset!")
                 st.write("Updated dataset preview:")
-                st.dataframe(updated_data)
+                st.dataframe(extended_data)
+                
+                # Clear session data once submission is complete
+                st.session_state['rows_data'] = []  # Reset the data after submission
+            
     else: 
         st.write("Loading default dataset...")
         file_path = "data/data.csv"
