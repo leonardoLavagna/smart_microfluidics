@@ -60,7 +60,7 @@ if section == "Dataset":
     if user_choice == "Yes":
         extend_choice = st.radio(
             "Do you want to extend the default dataset or upload a custom dataset instead?", 
-            ("Extend default dataset", "Upload custom dataset")
+            ("Extend default dataset", "Upload a new dataset")
         )
         
         if extend_choice == "Upload custom dataset":
