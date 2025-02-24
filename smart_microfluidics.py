@@ -14,7 +14,7 @@ from sklearn.ensemble import RandomForestRegressor
 ################################################  
 #GLOBALS
 ################################################  
-GITHUB_TOKEN = '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'  
+GITHUB_TOKEN = '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'  
 GITHUB_REPO = 'leonardoLavagna/smart_microfluidics' 
 BRANCH_NAME = 'extended_data'  
 FILE_PATH = 'data/data.csv'  
