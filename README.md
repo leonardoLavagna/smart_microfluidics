@@ -9,6 +9,7 @@ Here you can find the code associated to the project.
   - `notebooks` contains the training steps of the machine learning models in `models' as well as all the necessary code to reproduce them.
   - `requirements.txt` contaions the list of requirements needed to run the code.
   - `smart_microfluidics.py` is the overall script that incorporates data visualization tools and the proposed models. This script is associated to the app: [smart-microfluidics.streamlit.app](https://smart-microfluidics.streamlit.app/).
+  - `config.py` is a configuration file to set up paths needed in the streamlit app.
   - `LICENSE` GNU Affero General Public License.
 
 ## Use this repository
