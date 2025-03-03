@@ -222,6 +222,39 @@ if section == "Data Modeling":
             "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
             "Value": [0.874431019712665, 340.2617544655023, 11.834716059736861]
         }))
+        st.write("With an improvement in terms of metrics given by the following plot.")
+        metrics = ["R-squared", "MSE", "MAE"]
+        before = [0.3285, 1967.81, 14.65]
+        after = [0.8744, 340.26, 11.83]
+        improvements = [
+        ((after[i] - before[i]) / before[i]) * 100 if metrics[i] == "R-squared" 
+        else ((before[i] - after[i]) / before[i]) * 100  
+        for i in range(len(metrics))
+        ]
+        fig, ax1 = plt.subplots(figsize=(8, 5))
+        bar_width = 0.35
+        x = np.arange(len(metrics))
+        bars_before = ax1.bar(x - bar_width/2, before, bar_width, label="Before", color="red", alpha=0.7)
+        bars_after = ax1.bar(x + bar_width/2, after, bar_width, label="After", color="green", alpha=0.7)
+        for bar in bars_before:
+            ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height(), f"{bar.get_height():.2f}", 
+                     ha="center", va="bottom", fontsize=10, color="black")
+        for bar in bars_after:
+            ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height(), f"{bar.get_height():.2f}", 
+                     ha="center", va="bottom", fontsize=10, color="black")
+        ax2 = ax1.twinx()
+        ax2.plot(x, improvements, marker="o", linestyle="--", color="blue", label="Improvement (%)", linewidth=2)
+        for i, val in enumerate(improvements):
+            ax2.text(x[i], val, f"{val:.1f}%", ha="center", va="bottom", fontsize=12, color="blue")
+        ax1.set_xlabel("Metrics")
+        ax1.set_ylabel("Values (Before & After)")
+        ax2.set_ylabel("Improvement (%)")
+        ax1.set_title("Model Performance Improvement")
+        ax1.set_xticks(x)
+        ax1.set_xticklabels(metrics)
+        ax1.legend(loc="upper left")
+        ax2.legend(loc="upper right")
+        st.pyplot(fig)
         st.write("Depending on the number of samples available for training and validation we can boost the performances even further.")
         # 2.4.1 ensemble-size
         st.write("Try the `ensemble-size` model with your data.")
