@@ -140,8 +140,7 @@ if section == "Data Modeling":
             st.subheader("Model predictions")
             st.write(f"`SIZE`: {size:.2f}")
             st.write(f"`PDI`: {pdi:.2f}")
-            
-        
+               
     # 2.2 XGBoost
     elif option == "XGBoost":
         st.header("XGBoost")
@@ -207,13 +206,55 @@ if section == "Data Modeling":
             prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
             st.write(prediction_df)
         
-    # 2.4 Inverse model
+    # 2.4 Advanced models
     elif option == "Advanced models":
         st.header("Advanced models")
         st.write("Taylored machine learning models for custom data.") 
         st.warning("The selected inference mode requires higher computational resources and customized architectures available to premium users only.")
-        st.subheader("Currently available advanced models")
-        
+        st.subheader("Preview of some available advanced models for predicting SIZE or PDI")
+        st.write("ensemble-pdi")
+        st.table(pd.DataFrame({
+            "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
+            "Value": [0.5328156582541348, 0.00245118805677467875, 0.04254484741522172]
+        }))
+        st.write("ensemble-size")
+        st.table(pd.DataFrame({
+            "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
+            "Value": [0.874431019712665, 340.2617544655023, 11.834716059736861]
+        }))
+        st.write("Try the ensemble-size model with your data.")
+        with open(size_model, "rb") as file:
+            model = pickle.load(file)
+        ml = st.selectbox("ML", ["HSPC", "ESM"])
+        chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
+        tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
+        esm = st.number_input("ESM", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
+        hspc = st.number_input("HSPC", value=3.75, min_value=0.0, max_value=100.0, step=0.1)
+        chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
+        peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
+        tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
+        frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
+        buffer = st.selectbox("BUFFER", ["PBS", "MQ"]) 
+        if st.button("Predict"):
+            input_data = pd.DataFrame({
+                "ML": [ml],
+                "CHIP": [chip],
+                "TLP": [tlp],
+                "ESM": [esm],
+                "HSPC": [hspc],
+                "CHOL": [chol],
+                "PEG": [peg],
+                "TFR ": [tfr],
+                "FRR": [frr],
+                "BUFFER": [buffer],
+                "OUTPUT": [1]
+            })
+            predictions = model.predict(input_data)
+            size, pdi = predictions[0]
+            st.subheader("Model predictions")
+            st.write(f"`SIZE`: {size:.2f}")
+            st.write(f"`PDI`: {pdi:.2f}")
+
 ################################################
 # 3. DATA EXPLORATION
 ################################################
