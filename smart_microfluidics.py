@@ -73,8 +73,6 @@ if section == "Dataset":
             st.dataframe(df)
             if df.head() != data.head():
                 st.warning("The uploaded dataset to be processed requires a premium account.")    
-        else:
-            st.warning("Empty dataset.")
     else: 
         st.write("Loading default dataset...")
         #file_path = "data/cleaned_data.csv"
