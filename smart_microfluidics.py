@@ -106,8 +106,7 @@ if section == "Data Modeling":
         st.write("Using multiple decision trees in parallel and bagging this model provide robust predictions for `SIZE` and `PDI`.")  
         with open(random_forest_model, "rb") as file:
             model = pickle.load(file)
-        st.write(f"Loaded {random_forest_model}")
-        st.subheader("Model performance metrics")
+        st.write(f"Loaded {random_forest_model} with the following performance metrics.")
         st.table(pd.DataFrame({
             "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
             "Value": [0.36157896454981364, 1958.890858993266, 15.086741645521377]
@@ -148,12 +147,12 @@ if section == "Data Modeling":
         st.write("eXtreme Gradient Boosting predictions for `SIZE` and `PDI`.") 
         with open(xgboost_model, "rb") as file:
             model = pickle.load(file)
-        st.write(f"Loaded {xgboost_model}")
-        st.subheader("Model performance metrics")
+        st.write(f"Loaded {xgboost_model} with the following performance metrics.")
         st.table(pd.DataFrame({
             "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
             "Value": [0.32854801416397095, 1967.81201171875, 14.646432876586914]
         }))
+        st.write("Try the model with your data.")
         ml = st.selectbox("ML", ["HSPC", "ESM"])
         chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
         tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
@@ -190,7 +189,12 @@ if section == "Data Modeling":
         st.write("Inverse problem solver: given target `SIZE` and `PDI` returns predictions for the other numerical features.")
         with open(inverse_xgboost_model, "rb") as file:
             model = pickle.load(file)
-        st.write(f"Loaded {inverse_xgboost_model}")
+        st.write(f"Loaded {inverse_xgboost_model} with the folloing performance metrics.")
+        st.table(pd.DataFrame({
+            "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
+            "Value": [0.11767681688070297, 89.26007080078125, 3.7459394931793213]
+        }))
+        st.write("Try the model with your data.")
         size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=500.0, step=0.1)
         pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.01)
         if st.button("Predict"):
@@ -201,11 +205,6 @@ if section == "Data Modeling":
             st.subheader("Model predictions")
             prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
             st.write(prediction_df)
-            st.subheader("Model performance metrics")
-            st.table(pd.DataFrame({
-                "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
-                "Value": [0.11767681688070297, 89.26007080078125, 3.7459394931793213]
-            }))
         
     # 2.4 Inverse model
     elif option == "Advanced models":
