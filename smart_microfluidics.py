@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import joypy
-import umap
+import umap-learn as umap
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.graph_objects as go
