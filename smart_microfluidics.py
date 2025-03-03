@@ -111,6 +111,7 @@ if section == "Data Modeling":
             "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
             "Value": [0.36157896454981364, 1958.890858993266, 15.086741645521377]
         }))
+        st.write("Try the model with your data.")
         ml = st.selectbox("ML", ["HSPC", "ESM"])
         chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
         tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
