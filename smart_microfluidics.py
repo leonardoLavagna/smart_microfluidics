@@ -213,10 +213,6 @@ if section == "Data Modeling":
         st.write("Taylored machine learning models for custom data.") 
         st.warning("The selected inference mode requires higher computational resources and customized architectures available to premium users only.")
         st.subheader("Currently available advanced models")
-            st.table(pd.DataFrame({
-                "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
-                "Value": [0.11767681688070297, 89.26007080078125, 3.7459394931793213]
-            }))
         
 ################################################
 # 3. DATA EXPLORATION
