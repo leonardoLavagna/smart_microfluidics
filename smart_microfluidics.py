@@ -252,8 +252,8 @@ if section == "Data Modeling":
         ax1.set_title("Model Performance Improvement")
         ax1.set_xticks(x)
         ax1.set_xticklabels(metrics)
-        ax1.legend(loc="upper left", bbox_to_anchor=(0, -0.3), ncol=2, frameon=False)
-        ax2.legend(loc="upper left", bbox_to_anchor=(0, -0.5), ncol=2, frameon=False)
+        ax1.legend(loc="upper right", bbox_to_anchor=(1, 1), ncol=1, frameon=False)
+        ax2.legend(loc="upper right", bbox_to_anchor=(1, 0.85), ncol=1, frameon=False)
         st.pyplot(fig)
         st.write("Depending on the number of samples available for training and validation we can boost the performances even further.")
         # 2.4.1 ensemble-size
