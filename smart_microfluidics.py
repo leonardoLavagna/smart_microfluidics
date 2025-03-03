@@ -245,29 +245,6 @@ if section == "Data Modeling":
                 "FRR": [frr],
             })
             st.write(f"Predicted `SIZE`: {model.predict(input_data)}")
-        #2.4.2 ensemble-pdi
-        st.write("Try the `ensemble-pdi` model with your data.")
-        with open(pdi_model, "rb") as file:
-            model = pickle.load(file)
-        tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1, key="tlp")
-        esm = st.number_input("ESM", value=0.0, min_value=0.0, max_value=100.0, step=0.1, key="esm")
-        hspc = st.number_input("HSPC", value=3.75, min_value=0.0, max_value=100.0, step=0.1, key="hspc")
-        chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1, key="chol")
-        peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1, key="peg")
-        tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1, key="tfr")
-        frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1, key="frr")
-
-        if st.button("Predict"):
-            input_data = pd.DataFrame({
-                "TLP": [tlp],
-                "ESM": [esm],
-                "HSPC": [hspc],
-                "CHOL": [chol],
-                "PEG": [peg],
-                "TFR ": [tfr],
-                "FRR": [frr],
-            })
-            st.write(f"Predicted `PDI`: {model.predict(input_data)}")
 
 
 ################################################
