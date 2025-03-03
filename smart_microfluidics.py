@@ -381,7 +381,7 @@ elif section == "Data Exploration":
         st.header("Principal component analysis and clustering")
         st.write("Displays the principal data features and their clusters using UMAPs and k-means.")
         numerical_cols = data.select_dtypes(include=['float64', 'int64']).columns
-        df_numeric = data[numerical_cols]
+        data_numeric = data[numerical_cols]
         st.write("Numerical columns summary")
         st.write(df_numeric.describe())
         scaler = StandardScaler()
