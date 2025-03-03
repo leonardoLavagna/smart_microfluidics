@@ -1,6 +1,6 @@
 streamlit 
 joypy 
-umap
+umap-learn
 plotly 
 seaborn
 matplotlib 
