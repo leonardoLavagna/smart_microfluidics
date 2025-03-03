@@ -194,7 +194,7 @@ if section == "Data Modeling":
     elif option == "Advanced models":
         st.header("Advanced models")
         st.write("Taylored machine learning models for custom data.") 
-        st.warning("Advanced data modeling and inference require higher computational resources and customized architectures available to premium users.")
+        st.warning("The selected inference mode require higher computational resources and customized architectures available to premium users only.")
 
         
 ################################################
