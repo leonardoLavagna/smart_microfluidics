@@ -38,7 +38,7 @@ def categorize_pdi(pdi):
 ################################################
 # COLOPHON
 ################################################                    
-st.title("Smart Microfluidics: Modeling and Visualization")
+st.title("Smart Microfluidics: Machine Learning tools for Liposome Production Experiments")
 st.sidebar.title("Choose an Option")
 section = st.sidebar.selectbox(
     "Data preprocessing, data modelization or data visualization :",
