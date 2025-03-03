@@ -103,7 +103,7 @@ if section == "Data Modeling":
     # 2.1 Random forest regressor
     if option == "Random forest regressor":
         st.header("Random forest regressor")
-        st.write("Using multiple decision trees in parallel and bagging this model provide robust predictions for `SIZE` and `PDI`.")  
+        st.markdown("Using multiple decision trees in parallel and bagging this model based on a [random forest](https://en.wikipedia.org/wiki/Random_forest) provides robust predictions for `SIZE` and `PDI`.")  
         with open(random_forest_model, "rb") as file:
             model = pickle.load(file)
         st.write(f"Loaded {random_forest_model} with the following performance metrics.")
