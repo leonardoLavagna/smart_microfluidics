@@ -107,6 +107,11 @@ if section == "Data Modeling":
         with open(random_forest_model, "rb") as file:
             model = pickle.load(file)
         st.write(f"Loaded {random_forest_model}")
+        st.subheader("Model performance metrics")
+        st.table(pd.DataFrame({
+            "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
+            "Value": [0.36157896454981364, 1958.890858993266, 15.086741645521377]
+        }))
         ml = st.selectbox("ML", ["HSPC", "ESM"])
         chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
         tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
@@ -135,11 +140,6 @@ if section == "Data Modeling":
             st.subheader("Model predictions")
             st.write(f"`SIZE`: {size:.2f}")
             st.write(f"`PDI`: {pdi:.2f}")
-            st.subheader("Model performance metrics")
-            st.table(pd.DataFrame({
-                "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
-                "Value": [0.36157896454981364, 1958.890858993266, 15.086741645521377]
-            }))
             
         
     # 2.2 XGBoost
@@ -149,6 +149,11 @@ if section == "Data Modeling":
         with open(xgboost_model, "rb") as file:
             model = pickle.load(file)
         st.write(f"Loaded {xgboost_model}")
+        st.subheader("Model performance metrics")
+        st.table(pd.DataFrame({
+            "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
+            "Value": [0.32854801416397095, 1967.81201171875, 14.646432876586914]
+        }))
         ml = st.selectbox("ML", ["HSPC", "ESM"])
         chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
         tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
@@ -178,11 +183,6 @@ if section == "Data Modeling":
             st.subheader("Model predictions")
             st.write(f"`SIZE`: {size:.2f}")
             st.write(f"`PDI`: {pdi:.2f}")
-            st.subheader("Model performance metrics")
-            st.table(pd.DataFrame({
-                "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
-                "Value": [0.32854801416397095, 1967.81201171875, 14.646432876586914]
-            }))
     
     # 2.3 Inverse model
     elif option == "Inverse problem":
