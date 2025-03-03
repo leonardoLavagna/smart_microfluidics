@@ -64,9 +64,10 @@ if section == "Dataset":
     st.write("Get the data for subsequent processing.")
     user_choice = st.radio("Upload custom data?", ("No", "Yes"))
     if user_choice == "Yes":
+        st.warning("Custom data processing requires a premium account due to memory requirements, feature engineering and taylored processing.")
         uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
         if uploaded_file is not None:
-            st.warning("Custom data processing requires a premium account due to memory requirements, feature engineering and taylored processing.")
+            st.warning("Customized data processing not available for current user.")
             #df = pd.read_csv(uploaded_file)
             #st.success("File uploaded successfully!")
             #st.write("Preview of the uploaded data:")
