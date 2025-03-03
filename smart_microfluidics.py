@@ -66,7 +66,7 @@ if section == "Dataset":
     if user_choice == "Yes":
         uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
         if uploaded_file is not None:
-            st.warning("Custom data processing requires a premium account.")
+            st.warning("Custom data processing requires a premium account due to memory requirements, feature engineering and taylored processing.")
             #df = pd.read_csv(uploaded_file)
             #st.success("File uploaded successfully!")
             #st.write("Preview of the uploaded data:")
@@ -94,6 +94,7 @@ if section == "Data Modeling":
             "Random forest regressor",
             "XGBoost",
             "Inverse problem",
+            "Advanced models",
         ],
     )
         
@@ -187,6 +188,10 @@ if section == "Data Modeling":
             st.subheader("Model predictions")
             prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
             st.write(prediction_df)
+        
+    # 2.4 Inverse model
+    elif option == "Advanced mmodels":
+        st.warning("Advanced data modeling and inference require higher computational resources and customized architectures available to premium users.")
 
         
 ################################################
