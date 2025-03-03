@@ -81,6 +81,7 @@ if section == "Dataset":
         #data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
         #data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
         data = pd.read_csv(file_path, encoding="latin1")
+        st.success("File loaded successfully!")
         st.dataframe(data)
 
 
@@ -134,6 +135,12 @@ if section == "Data Modeling":
             st.subheader("Model predictions")
             st.write(f"`SIZE`: {size:.2f}")
             st.write(f"`PDI`: {pdi:.2f}")
+            st.subheader("Model performance metrics")
+            st.table(pd.DataFrame({
+                "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
+                "Value": [0.36157896454981364, 1958.890858993266, 15.086741645521377]
+            }))
+            
         
     # 2.2 XGBoost
     elif option == "XGBoost":
@@ -171,6 +178,11 @@ if section == "Data Modeling":
             st.subheader("Model predictions")
             st.write(f"`SIZE`: {size:.2f}")
             st.write(f"`PDI`: {pdi:.2f}")
+            st.subheader("Model performance metrics")
+            st.table(pd.DataFrame({
+                "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
+                "Value": [0.32854801416397095, 1967.81201171875, 14.646432876586914]
+            }))
     
     # 2.3 Inverse model
     elif option == "Inverse problem":
@@ -189,13 +201,22 @@ if section == "Data Modeling":
             st.subheader("Model predictions")
             prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
             st.write(prediction_df)
+            st.subheader("Model performance metrics")
+            st.table(pd.DataFrame({
+                "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
+                "Value": [0.11767681688070297, 89.26007080078125, 3.7459394931793213]
+            }))
         
     # 2.4 Inverse model
     elif option == "Advanced models":
         st.header("Advanced models")
         st.write("Taylored machine learning models for custom data.") 
         st.warning("The selected inference mode requires higher computational resources and customized architectures available to premium users only.")
-
+        st.subheader("Currently available advanced models")
+            st.table(pd.DataFrame({
+                "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
+                "Value": [0.11767681688070297, 89.26007080078125, 3.7459394931793213]
+            }))
         
 ################################################
 # 3. DATA EXPLORATION
