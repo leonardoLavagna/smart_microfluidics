@@ -206,7 +206,7 @@ elif section == "Data Exploration":
         st.header("Ridgeline plot")
         st.write("Displays the distributions of individual features as overlapping density curves.")  
         numerical_cols = data.select_dtypes(include=['float64', 'int64']).columns
-        df_numeric = df[numerical_cols]
+        df_numeric = data[numerical_cols]
         scaler = StandardScaler()
         df_standardized = pd.DataFrame(scaler.fit_transform(df_numeric), columns=df_numeric.columns)
         plt.figure(figsize=(12, 8))
