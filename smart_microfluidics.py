@@ -65,14 +65,13 @@ if section == "Dataset":
     user_choice = st.radio("Upload custom data?", ("No", "Yes"))
     if user_choice == "Yes":
         uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
-        st.warning("Custom data processing requires a premium account.")
         if uploaded_file is not None:
-            df = pd.read_csv(uploaded_file)
-            st.success("File uploaded successfully!")
-            st.write("Preview of the uploaded data:")
-            st.dataframe(df)
-            if df.head() != data.head():
-                st.warning("The uploaded dataset to be processed requires a premium account.")    
+            st.warning("Custom data processing requires a premium account.")
+            #df = pd.read_csv(uploaded_file)
+            #st.success("File uploaded successfully!")
+            #st.write("Preview of the uploaded data:")
+            #st.dataframe(df)
+                   
     else: 
         st.write("Loading default dataset...")
         #file_path = "data/cleaned_data.csv"
