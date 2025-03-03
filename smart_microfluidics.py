@@ -242,11 +242,8 @@ if section == "Data Modeling":
                 "TFR ": [tfr],
                 "FRR": [frr],
             })
-            predictions = model.predict(input_data)
-            size, pdi = predictions[0]
-            st.subheader("Model predictions")
-            st.write(f"`SIZE`: {size:.2f}")
-            st.write(f"`PDI`: {pdi:.2f}")
+            st.write(f"Predicted `SIZE`: {model.predict(input_data)}")
+
 
 ################################################
 # 3. DATA EXPLORATION
