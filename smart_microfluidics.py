@@ -369,7 +369,7 @@ elif section == "Data Exploration":
             joint_correlation_df = joint_correlation.reset_index()
             joint_correlation_df.columns = ['Feature', 'Mean Correlation']
             joint_correlation_df = joint_correlation_df.sort_values(by='Mean Correlation', ascending=False)
-            plt.figure(figsize=(10, 8)
+            plt.figure(figsize=(10, 8))
             sns.barplot(data=joint_correlation_df, x='Mean Correlation', y='Feature', palette='viridis', dodge=False)
             plt.xlabel("Mean Correlation with Targets")
             plt.ylabel("Feature")
