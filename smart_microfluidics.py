@@ -378,7 +378,7 @@ elif section == "Data Exploration":
 # 3.4 Feature importance
     elif option == "PCA and clustering":
         st.header("Principal component analysis and clustering")
-        st.write("Displays the principal data features and their clusters using UMAPs and k-means".")
+        st.write("Displays the principal data features and their clusters using UMAPs and k-means.")
         numerical_cols = data.select_dtypes(include=['float64', 'int64']).columns
         df_numeric = data[numerical_cols]
         st.write("Numerical columns summary")
