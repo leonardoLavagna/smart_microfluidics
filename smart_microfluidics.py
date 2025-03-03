@@ -211,18 +211,19 @@ if section == "Data Modeling":
         st.header("Advanced models")
         st.write("Taylored machine learning models for custom data.") 
         st.warning("The selected inference mode requires higher computational resources and customized architectures available to premium users only.")
-        st.subheader("Preview of some available advanced models for predicting SIZE or PDI")
-        st.write("ensemble-pdi")
+        st.subheader("Preview of some available advanced models for predicting `SIZE` or `PDI`")
+        st.write("`ensemble-pdi`")
         st.table(pd.DataFrame({
             "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
             "Value": [0.5328156582541348, 0.00245118805677467875, 0.04254484741522172]
         }))
-        st.write("ensemble-size")
+        st.write("`ensemble-size`")
         st.table(pd.DataFrame({
             "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
             "Value": [0.874431019712665, 340.2617544655023, 11.834716059736861]
         }))
-        st.write("Try the ensemble-size model with your data.")
+        st.write("Depending on the number of samples available for training and validation we can boost the performances even further.")
+        st.write("Try the `ensemble-size` model with your data.")
         with open(size_model, "rb") as file:
             model = pickle.load(file)
         tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
