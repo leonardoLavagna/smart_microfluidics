@@ -1,12 +1,14 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import pickle
+import joypy
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.graph_objects as go
 import scipy.cluster.hierarchy as sch
-import pickle
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import StandardScaler
 from config import *
 
 
@@ -40,8 +42,8 @@ section = st.sidebar.selectbox(
     "Data preprocessing, data modelization or data visualization :",
     [
         "Dataset",
-        "Modeling",
-        "Visualization",
+        "Data Modeling",
+        "Data Exploration",
     ],
 )
 
@@ -49,7 +51,6 @@ section = st.sidebar.selectbox(
 ################################################
 # 1. DATA
 ################################################
-
 if section == "Dataset":
     st.header("Dataset")
     st.write("Get the data for subsequent processing.")
@@ -62,7 +63,7 @@ if section == "Dataset":
             st.write("Preview of the uploaded data:")
             st.dataframe(df)
         else:
-            st.warning("No file uploaded. Please upload a CSV file.")
+            st.warning("Custom data processing requires a Premium Account.")
     else: 
         st.write("Loading default dataset...")
         #file_path = "data/cleaned_data.csv"
@@ -77,7 +78,7 @@ if section == "Dataset":
 ################################################
 # 2.MODELS
 ################################################
-if section == "Modeling":
+if section == "Data Modeling":
     st.sidebar.title("Model Selection")
     option = st.sidebar.selectbox(
         "Choose a model:",
@@ -181,13 +182,14 @@ if section == "Modeling":
 
         
 ################################################
-# 3. VISUALIZATIONS
+# 3. DATA EXPLORATION
 ################################################
-elif section == "Visualization":
+elif section == "Data Exploration":
     st.sidebar.title("Visualization Options")
     option = st.sidebar.selectbox(
         "Choose a Visualization:",
         [
+            "Ridgeline plot",
             "Correlation heatmaps",
             "Alluvial plot",
             "Feature importance",
@@ -199,14 +201,26 @@ elif section == "Visualization":
     data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
     data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
 
-    # 3.1 Correlation heatmap
+    # 3.1 Ridgeline plot
+    if option == "Ridgeline plot":
+        st.header("Ridgeline plot")
+        st.write("Displays the distributions of individual features as overlapping density curves.")  
+        numerical_cols = data.select_dtypes(include=['float64', 'int64']).columns
+        df_numeric = df[numerical_cols]
+        scaler = StandardScaler()
+        df_standardized = pd.DataFrame(scaler.fit_transform(df_numeric), columns=df_numeric.columns)
+        plt.figure(figsize=(12, 8))
+        joypy.joyplot(df_standardized, colormap=plt.cm.coolwarm, x_range=[-5, 10], figsize=(12, 8))
+        st.pyplot(plt)
+
+    # 3.2 Correlation heatmap
     if option == "Correlation heatmaps":
         st.header("Correlation heatmap")
         st.write("Displays the correlation between numerical features in the dataset.")
         formed = st.text_input("Are you interested in the dataset of formed liposomes? Answer YES (Y) or NO (N):", "Y")
         n_ids = st.number_input("Enter the number of formulations you desire to visualize:", min_value=9, max_value=15, value=10)
         if formed == "YES" or formed == "Y":
-            # 3.1.1 Correlations by features
+            # 3.2.1 Correlations by features
             st.subheader("Correlations by features")
             numeric_cols = data.select_dtypes(include=['number']).columns
             yes_data = data[data['OUTPUT'] == 'YES']
@@ -215,7 +229,7 @@ elif section == "Visualization":
             plt.figure(figsize=(10, 8))
             sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm")
             st.pyplot(plt)
-            # 3.1.2 Correlations by IDs
+            # 3.2.2 Correlations by IDs
             st.subheader("Correlations by IDs")
             data_red = data[:n_ids]
             yes_data_red = data_red[data_red['OUTPUT'] == 'YES']
@@ -224,18 +238,18 @@ elif section == "Visualization":
             plt.figure(figsize=(10, 8))
             sns.heatmap(correlation_matrix_t, annot=True, fmt=".2f", cmap="coolwarm")
             st.pyplot(plt)
-            # 3.1.3 Clustered correlations by features
+            # 3.2.3 Clustered correlations by features
             st.subheader("Clustered correlations by features")
             linkage_matrix = sch.linkage(numeric_yes_data, method='ward')
             sns.clustermap(numeric_yes_data.corr(),method='ward',cmap='coolwarm',annot=True,figsize=(10, 8))
             st.pyplot(plt)
-            # 3.1.4 Clustered correlations by IDs
+            # 3.2.4 Clustered correlations by IDs
             st.subheader("Clustered correlations by IDs")
             linkage_matrix_red = sch.linkage(numeric_yes_data_red.T, method='ward')
             sns.clustermap(numeric_yes_data_red.T.corr(),method='ward',cmap='coolwarm',annot=True,figsize=(10, 8))
             st.pyplot(plt)
         else:
-            # 3.1.5 Correlations by IDs
+            # 3.2.5 Correlations by IDs
             numeric_cols = data.select_dtypes(include=['number']).columns
             no_data = data[data['OUTPUT'] == 'NO']
             numeric_no_data = no_data[numeric_cols]
@@ -243,7 +257,7 @@ elif section == "Visualization":
             plt.figure(figsize=(10, 8))
             sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm")
             st.pyplot(plt)
-            # 3.1.6 Clustered correlations by IDs
+            # 3.2.6 Clustered correlations by IDs
             st.subheader("Clustered correlations by IDs")
             data_red = data[:n_ids]
             no_data_red = data_red[data_red['OUTPUT'] == 'NO']
@@ -253,7 +267,7 @@ elif section == "Visualization":
             sns.heatmap(correlation_matrix_t, annot=True, fmt=".2f", cmap="coolwarm")
             st.pyplot(plt)
                 
-    # 3.2 Alluvial plot
+    # 3.3 Alluvial plot
     elif option == "Alluvial plot":
         st.header("Alluvial plot")
         st.write("Displays the flow of categorical data using an alluvial plot.")
@@ -265,7 +279,7 @@ elif section == "Visualization":
                         data[col] = data[col].astype(str)
         data['SIZE'] = data['SIZE'].apply(categorize_size)
         data['PDI'] = data['PDI'].apply(categorize_pdi)
-        # 3.2.1 Sankey diagram  of two variables
+        # 3.3.1 Sankey diagram  of two variables
         st.subheader("Sankey diagram of two variables")
         source = st.selectbox("Choose the first categorical variable of interest.", ("ML", "CHIP", "BUFFER", "OUTPUT", "SIZE", "PDI"))
         target = st.selectbox("Choose the second categorical variable of interest (different from the first).", ("CHIP", "ML", "BUFFER", "OUTPUT", "SIZE", "PDI"))
@@ -281,7 +295,7 @@ elif section == "Visualization":
           sankey_fig = go.Figure(data=[go.Sankey(node=dict(pad=15,thickness=20,line=dict(color="black", width=0.5),label=categories),
                                                  link=dict(source=sources,target=targets,value=values))])
           st.plotly_chart(sankey_fig)
-          # 3.2.2 Sankey diagram of the ML->CHIP->BUFFER->OUTPUT flow
+          # 3.3.2 Sankey diagram of the ML->CHIP->BUFFER->OUTPUT flow
           st.subheader("Sankey diagram of the ML->CHIP->BUFFER->OUTPUT flow")
           value_counts = data.groupby(['ML', 'CHIP', 'BUFFER', 'OUTPUT']).size().reset_index(name='value')
           all_categories = []
@@ -306,11 +320,11 @@ elif section == "Visualization":
                                         link=dict(source=sources,target=targets,value=values))])
           st.plotly_chart(fig)
     
-    # 3.3 Feature importance
+    # 3.4 Feature importance
     elif option == "Feature importance":
         st.header("Feature importance with a Random Forest Regressor")
         st.write("Displays the importance of each feature for predicting a set of input targets.")
-        # 3.3.1 Single target feature importance
+        # 3.4.1 Single target feature importance
         st.subheader("Single target feature importance")
         target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
         numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
@@ -330,7 +344,7 @@ elif section == "Visualization":
         plt.figure(figsize=(10, 8))
         sns.barplot(data=feature_importances, x='Importance', y='Feature', hue='Feature', palette='viridis', dodge=False)
         st.pyplot(plt)
-        # 3.3.2 Two targets feature importance
+        # 3.4.2 Two targets feature importance
         available_features = numeric_data.columns.tolist()
         target_feature_1 = st.selectbox("Select the first target feature.", available_features)
         target_feature_2 = st.selectbox("Select the second target feature (different from the first).", available_features)
