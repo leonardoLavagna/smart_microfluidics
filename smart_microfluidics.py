@@ -53,19 +53,28 @@ section = st.sidebar.selectbox(
 ################################################
 # 1. DATA
 ################################################
+file_path = "data/data.csv"
+data = pd.read_csv(file_path, encoding="latin1").drop(columns=['FR-O', 'FR-W'])
+data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
+data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
+data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
+
 if section == "Dataset":
     st.header("Dataset")
     st.write("Get the data for subsequent processing.")
     user_choice = st.radio("Upload custom data?", ("No", "Yes"))
     if user_choice == "Yes":
         uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
+        st.warning("Custom data processing requires a premium account.")
         if uploaded_file is not None:
             df = pd.read_csv(uploaded_file)
             st.success("File uploaded successfully!")
             st.write("Preview of the uploaded data:")
             st.dataframe(df)
+            if df.head() != data.head():
+                st.warning("The uploaded dataset to be processed requires a premium account.")    
         else:
-            st.warning("Custom data processing requires a Premium Account.")
+            st.warning("Empty dataset.")
     else: 
         st.write("Loading default dataset...")
         #file_path = "data/cleaned_data.csv"
@@ -198,11 +207,6 @@ elif section == "Data Exploration":
             "PCA and clustering",
         ],
     )
-    file_path = "data/data.csv"
-    data = pd.read_csv(file_path, encoding="latin1").drop(columns=['FR-O', 'FR-W'])
-    data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
-    data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
-    data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
 
     # 3.1 Ridgeline plot
     if option == "Ridgeline plot":
