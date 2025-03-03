@@ -211,6 +211,7 @@ elif section == "Data Exploration":
         st.write(df_numeric.describe())
         scaler = StandardScaler()
         df_standardized = pd.DataFrame(scaler.fit_transform(df_numeric), columns=df_numeric.columns)
+        st.write("Stacked densities")
         plt.figure(figsize=(12, 8))
         joypy.joyplot(df_standardized, colormap=plt.cm.coolwarm, x_range=[-5, 10], figsize=(12, 8))
         st.pyplot(plt)
