@@ -144,7 +144,7 @@ if section == "Data Modeling":
     # 2.2 XGBoost
     elif option == "XGBoost":
         st.header("XGBoost")
-        st.write("eXtreme Gradient Boosting predictions for `SIZE` and `PDI`.") 
+        st.markdown("Using [eXtreme Gradient Boosting](https://en.wikipedia.org/wiki/XGBoost) the model provides joint predictions for `SIZE` and `PDI`.") 
         with open(xgboost_model, "rb") as file:
             model = pickle.load(file)
         st.write(f"Loaded {xgboost_model} with the following performance metrics.")
@@ -186,7 +186,7 @@ if section == "Data Modeling":
     # 2.3 Inverse model
     elif option == "Inverse problem":
         st.header("Inverse problem")
-        st.write("Inverse problem solver: given target `SIZE` and `PDI` returns predictions for the other numerical features.")
+        st.markdown("This inference method pivots the pretrained XGBoost model to solve an [inverse problem](https://en.wikipedia.org/wiki/Inverse_problem): given target `SIZE` and `PDI` returns predictions for the other numerical features.")
         with open(inverse_xgboost_model, "rb") as file:
             model = pickle.load(file)
         st.write(f"Loaded {inverse_xgboost_model} with the folloing performance metrics.")
@@ -299,7 +299,7 @@ elif section == "Data Exploration":
     # 3.1 Ridgeline plot
     if option == "Ridgeline plot":
         st.header("Ridgeline plot")
-        st.write("Displays the distributions of individual features as overlapping density curves.")  
+        st.markdown("Displays the distributions of individual features as [overlapping density curves](https://en.wikipedia.org/wiki/Ridgeline_plot).")  
         numerical_cols = data.select_dtypes(include=['float64', 'int64']).columns
         df_numeric = data[numerical_cols]
         st.subheader("Numerical columns summary")
@@ -314,7 +314,7 @@ elif section == "Data Exploration":
     # 3.2 Correlation heatmap
     if option == "Correlation heatmaps":
         st.header("Correlation heatmap")
-        st.write("Displays the correlation between numerical features in the dataset.")
+        st.markdown("Displays the [correlation between numerical features](https://en.wikipedia.org/wiki/Heat_map) in the dataset.")
         formed = st.text_input("Are you interested in the dataset of formed liposomes? Answer YES (Y) or NO (N):", "Y")
         n_ids = st.number_input("Enter the number of formulations you desire to visualize:", min_value=9, max_value=15, value=10)
         if formed == "YES" or formed == "Y":
@@ -368,7 +368,7 @@ elif section == "Data Exploration":
     # 3.3 Alluvial plot
     elif option == "Alluvial plot":
         st.header("Alluvial plot")
-        st.write("Displays the flow of categorical data using an alluvial plot.")
+        st.markdown("Displays the [flow between categorical data](https://en.wikipedia.org/wiki/Alluvial_diagram).")
         for col in data.columns:
             if data[col].dtype == 'object':
                 data[col] = data[col].astype(str)
@@ -421,7 +421,7 @@ elif section == "Data Exploration":
     # 3.4 Feature importance
     elif option == "Feature importance":
         st.header("Feature importance with a Random Forest Regressor")
-        st.write("Displays the importance of each feature for predicting a set of input targets.")
+        st.markdown("Displays the [importance of each feature](https://en.wikipedia.org/wiki/Feature_selection) for predicting a set of input targets.")
         # 3.4.1 Single target feature importance
         st.subheader("Single target feature importance")
         target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
@@ -469,8 +469,8 @@ elif section == "Data Exploration":
     
     # 3.5 PCA and clustering
     elif option == "PCA and clustering":
-        st.header("Principal component analysis and clustering")
-        st.write("Displays the principal data features and their clusters using UMAPs and k-means.")
+        st.header("Principal component analysis and associated clusters.")
+        st.markdown("Displays the principal data features and their clusters using [UMAP](https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Uniform_manifold_approximation_and_projection) and [k-means](https://en.wikipedia.org/wiki/K-means_clustering).")
         numerical_cols = data.select_dtypes(include=['float64', 'int64']).columns
         data_numeric = data[numerical_cols]
         st.write("Numerical columns summary")
