@@ -376,14 +376,14 @@ elif section == "Data Exploration":
             plt.title("Feature Importance for Selected Targets")
             st.pyplot(plt)
     
-# 3.4 Feature importance
+    # 3.5 PCA and clustering
     elif option == "PCA and clustering":
         st.header("Principal component analysis and clustering")
         st.write("Displays the principal data features and their clusters using UMAPs and k-means.")
         numerical_cols = data.select_dtypes(include=['float64', 'int64']).columns
         data_numeric = data[numerical_cols]
         st.write("Numerical columns summary")
-        st.write(df_numeric.describe())
+        st.write(data_numeric.describe())
         scaler = StandardScaler()
         data_standardized = scaler.fit_transform(data_numeric)
         n_components = st.slider("Select number of UMAP components:", min_value=2, max_value=10, value=2)
