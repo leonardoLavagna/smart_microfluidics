@@ -191,7 +191,9 @@ if section == "Data Modeling":
             st.write(prediction_df)
         
     # 2.4 Inverse model
-    elif option == "Advanced mmodels":
+    elif option == "Advanced models":
+        st.header("Advanced models")
+        st.write("Taylored machine learning models for custom data.") 
         st.warning("Advanced data modeling and inference require higher computational resources and customized architectures available to premium users.")
 
         
