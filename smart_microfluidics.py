@@ -3,10 +3,12 @@ import pandas as pd
 import numpy as np
 import pickle
 import joypy
+import umap
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.graph_objects as go
 import scipy.cluster.hierarchy as sch
+from sklearn.cluster import KMeans
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
 from config import *
@@ -193,6 +195,7 @@ elif section == "Data Exploration":
             "Correlation heatmaps",
             "Alluvial plot",
             "Feature importance",
+            "PCA and clustering",
         ],
     )
     file_path = "data/data.csv"
@@ -371,3 +374,31 @@ elif section == "Data Exploration":
             plt.ylabel("Feature")
             plt.title("Feature Importance for Selected Targets")
             st.pyplot(plt)
+    
+# 3.4 Feature importance
+    elif option == "PCA and clustering":
+        st.header("Principal component analysis and clustering")
+        st.write("Displays the principal data features and their clusters using UMAPs and k-means".")
+        numerical_cols = data.select_dtypes(include=['float64', 'int64']).columns
+        df_numeric = data[numerical_cols]
+        st.write("Numerical columns summary")
+        st.write(df_numeric.describe())
+        scaler = StandardScaler()
+        data_standardized = scaler.fit_transform(data_numeric)
+        n_components = st.slider("Select number of UMAP components:", min_value=2, max_value=10, value=2)
+        umap_model = umap.UMAP(n_components=n_components, random_state=42)
+        umap_result = umap_model.fit_transform(data_standardized)
+        n_clusters = st.slider("Select number of clusters for K-Means:", min_value=2, max_value=10, value=4)
+        kmeans = KMeans(n_clusters=n_clusters, random_state=42)
+        clusters = kmeans.fit_predict(umap_result)
+        df_umap = pd.DataFrame(umap_result, columns=[f"UMAP{i+1}" for i in range(n_components)])
+        df_umap["Cluster"] = clusters  # Add cluster labels
+        st.write(f"UMAP Projection with K-Means Cluster Density (UMAP components: {n_components}, Clusters: {n_clusters}):")
+        plt.figure(figsize=(8, 6))
+        sns.kdeplot(x=df_umap[f"UMAP1"], y=df_umap[f"UMAP2"], hue=df_umap["Cluster"], fill=True, palette="tab10", thresh=0.05, alpha=0.7)
+        plt.xlabel(f"UMAP Component 1")
+        plt.ylabel(f"UMAP Component 2")
+        plt.title(f"UMAP Projection with K-Means Cluster Density (Clusters: {n_clusters})")
+        st.pyplot(plt)
+
+
