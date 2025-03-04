@@ -11,6 +11,7 @@ import scipy.cluster.hierarchy as sch
 from sklearn.cluster import KMeans
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 from config import *
 
 
@@ -470,11 +471,24 @@ elif section == "Data Exploration":
     # 3.5 PCA and clustering
     elif option == "PCA and clustering":
         st.header("Principal component analysis and associated clusters.")
-        st.markdown("Displays the principal data features and their clusters using [UMAP](https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Uniform_manifold_approximation_and_projection) and [k-means](https://en.wikipedia.org/wiki/K-means_clustering).")
+        st.markdown("Displays the principal data features and their clusters using a standard [PCA](https://en.wikipedia.org/wiki/Principal_component_analysis) algorithm, a [UMAP](https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Uniform_manifold_approximation_and_projection), and [k-means](https://en.wikipedia.org/wiki/K-means_clustering) clustering.")
         numerical_cols = data.select_dtypes(include=['float64', 'int64']).columns
         data_numeric = data[numerical_cols]
         st.write("Numerical columns summary")
         st.write(data_numeric.describe())
+        #3.5.1 Standard PCA
+        scaler = StandardScaler()
+        data_standardized = scaler.fit_transform(data_numeric)
+        pca = PCA(n_components=2)
+        pca_result = pca.fit_transform(data_standardized)
+        df_pca = pd.DataFrame(pca_result, columns=["PC1", "PC2"])
+        plt.figure(figsize=(8, 6))
+        sns.kdeplot(x=df_pca["PC1"], y=df_pca["PC2"], fill=True, cmap="Blues", thresh=0.05)
+        plt.xlabel("Principal Component 1")
+        plt.ylabel("Principal Component 2")
+        plt.title("2D Density Plot of Data Distribution (PCA Transformed)")
+        st.pyplot(plt)
+        #3.5.2 UMAP
         scaler = StandardScaler()
         data_standardized = scaler.fit_transform(data_numeric)
         n_components = st.slider("Select number of UMAP components:", min_value=2, max_value=10, value=2)
