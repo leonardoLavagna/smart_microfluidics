@@ -477,6 +477,7 @@ elif section == "Data Exploration":
         st.write("Numerical columns summary")
         st.write(data_numeric.describe())
         #3.5.1 Standard PCA
+        st.subheader("Standard PCA onto two principal components")
         scaler = StandardScaler()
         data_standardized = scaler.fit_transform(data_numeric)
         pca = PCA(n_components=2)
@@ -489,6 +490,7 @@ elif section == "Data Exploration":
         plt.title("2D Density Plot of Data Distribution (PCA Transformed)")
         st.pyplot(plt)
         #3.5.2 UMAP
+        st.subheader("UMAP decomposition and k-means clustering")
         scaler = StandardScaler()
         data_standardized = scaler.fit_transform(data_numeric)
         n_components = st.slider("Select number of UMAP components:", min_value=2, max_value=10, value=2)
