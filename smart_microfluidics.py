@@ -81,7 +81,7 @@ if section == "Dataset":
         st.success("File loaded successfully!")
         #st.dataframe(data)
         st.dataframe(data.style.format(thousands=""))
-
+    st.warning(":warning: The advanced models have been trained on a single dataset of intermediate dimension. Higher performances require additional training data.")
 
 ################################################
 # 2.MODELS
@@ -217,7 +217,6 @@ if section == "Data Modeling":
     elif option == "Advanced models":
         st.header("Advanced models")
         st.write("Multiple models working in parallel for targeted predictions.") 
-        st.warning(":warning: The advanced models have been trained on a single dataset of intermediate dimension. Higher performances require additional training data.")
         st.subheader("Preview of some available advanced models for predicting `SIZE` or `PDI`")
         st.write("`ensemble-pdi`")
         st.table(pd.DataFrame({
