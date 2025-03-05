@@ -65,7 +65,8 @@ if section == "Dataset":
     st.write("Get the data for subsequent processing.")
     user_choice = st.radio("Upload custom data?", ("No", "Yes"))
     if user_choice == "Yes":
-        st.warning("Custom data processing requires a premium account due to memory requirements, feature engineering and taylored processing.")
+        #st.warning("Custom data processing requires a premium account due to memory requirements, feature engineering and taylored processing.")
+        st.warning("Customized data processing not available for current user.")
         uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
         if uploaded_file is not None:
             st.warning("Customized data processing not available for current user.")
@@ -76,11 +77,6 @@ if section == "Dataset":
                    
     else: 
         st.write("Loading default dataset...")
-        #file_path = "data/cleaned_data.csv"
-        #data = pd.read_csv(file_path, encoding="latin1").drop(columns=['FR-O', 'FR-W'])
-        #data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
-        #data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
-        #data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
         data = pd.read_csv(file_path, encoding="latin1")
         st.success("File loaded successfully!")
         st.dataframe(data)
@@ -211,7 +207,7 @@ if section == "Data Modeling":
     elif option == "Advanced models":
         st.header("Advanced models")
         st.write("Taylored machine learning models for custom data.") 
-        st.warning("The selected inference mode requires higher computational resources and customized architectures available to premium users only.")
+        st.warning("The selected inference mode requires higher computational resources and customized architectures available with some limitations.")
         st.subheader("Preview of some available advanced models for predicting `SIZE` or `PDI`")
         st.write("`ensemble-pdi`")
         st.table(pd.DataFrame({
