@@ -39,7 +39,7 @@ def categorize_pdi(pdi):
 # COLOPHON
 ################################################                    
 st.title("Smart Microfluidics: Machine Learning tools for Liposome Production Experiments")
-st.markdown("""This app provide machine learning and data analysis tools for laboratory operators while carrying out microfluidic liposome experiments.
+st.markdown("""This app provides machine learning and data analysis tools for laboratory operators while carrying out microfluidic liposome experiments.
            The app is in a developing phase. Current version: `v0.2`. In this version the user can:""")
 st.markdown("""- Work with pretrained machine learning architectures on a default dataset;""")
 st.markdown("""- Simulate experiments with the tools in the Data Modeling section (menù on the left); """)
