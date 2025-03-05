@@ -300,7 +300,7 @@ if section == "Data Modeling":
                 "TFR ": [tfr],
                 "FRR": [frr],
             })
-            st.write(f"Predicted `SIZE`: {model.predict(input_data)}")
+            st.write(f"Predicted `PDI`: {model.predict(input_data)}")
 
 
 ################################################
