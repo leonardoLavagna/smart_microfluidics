@@ -81,7 +81,7 @@ if section == "Dataset":
         st.success("File loaded successfully!")
         #st.dataframe(data)
         st.dataframe(data.style.format(thousands=""))
-    st.warning(":warning: The advanced models have been trained on a single dataset of intermediate dimension. Higher performances require additional training data.")
+    st.warning(":warning: Current models have been trained on the default dataset which is of intermediate dimension. Higher performances require additional training data.")
 
 ################################################
 # 2.MODELS
