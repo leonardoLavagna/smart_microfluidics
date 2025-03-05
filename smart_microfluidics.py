@@ -216,8 +216,8 @@ if section == "Data Modeling":
     # 2.4 Advanced models
     elif option == "Advanced models":
         st.header("Advanced models")
-        st.write("Taylored machine learning models for custom data.") 
-        #st.warning(":warning: The selected inference mode requires higher computational resources and customized architectures available with some limitations.")
+        st.write("Multiple models working in parallel for targeted predictions.") 
+        st.warning(":warning: The advanced models have been trained on a single dataset of intermediate dimension. Higher performances require additional training data.")
         st.subheader("Preview of some available advanced models for predicting `SIZE` or `PDI`")
         st.write("`ensemble-pdi`")
         st.table(pd.DataFrame({
