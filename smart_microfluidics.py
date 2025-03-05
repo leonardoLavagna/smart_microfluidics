@@ -480,9 +480,8 @@ elif section == "Data Exploration":
         sns.barplot(data=feature_importances, x='Importance', y='Feature', hue='Feature', palette='viridis', dodge=False)
         st.pyplot(plt)
         # 3.4.2 Two targets feature importance
-        #available_features = numeric_data.columns.tolist()
-        target_feature_1 = st.selectbox("Select the first target feature.", ("SIZE", "PDI"))#available_features
-        target_feature_2 = st.selectbox("Select the first target feature.", ("SIZE", "PDI"))#available_features
+        target_feature_1 = st.selectbox("Select the first target feature.", ("SIZE", "PDI"))#("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI")
+        target_feature_2 = st.selectbox("Select the first target feature.", ("PDI", "SIZE"))#("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI")
         if target_feature_1 == target_feature_2:
             st.error("INPUT ERROR: The selected variables cannot be the same.")
         elif target_feature_1 != target_feature_2:
