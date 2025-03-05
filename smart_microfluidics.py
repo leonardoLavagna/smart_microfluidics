@@ -440,8 +440,8 @@ elif section == "Data Exploration":
             st.plotly_chart(sankey_fig)
         # 3.3.2 Sankey diagram of more then two flows
         st.subheader("Sankey diagram of a customizable categorical flow")
-        default_selection = ['ML', 'CHIP', 'BUFFER', 'OUTPUT', 'SIZE', 'PDI']
-        selected_columns = st.multiselect("Select categorical variables to visualize:", options=['ML', 'CHIP', 'BUFFER', 'OUTPUT'], default=default_selection)
+        default_selection = ['ML', 'CHIP', 'BUFFER', 'OUTPUT']
+        selected_columns = st.multiselect("Select categorical variables to visualize:", options=['ML', 'CHIP', 'BUFFER', 'OUTPUT', 'SIZE', 'PDI], default=default_selection)
         if len(selected_columns) < 3:
             st.warning("Please select more then two two categorical variables.")
         else:
