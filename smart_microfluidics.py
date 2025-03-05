@@ -104,7 +104,7 @@ if section == "Data Modeling":
     # 2.1 Random forest regressor
     if option == "Random forest regressor":
         st.header("Random forest regressor")
-        st.markdown("Using multiple decision trees in parallel and bagging this model based on a [random forest](https://en.wikipedia.org/wiki/Random_forest) provides robust predictions for `SIZE` and `PDI`.")  
+    st.markdown("Using multiple [decision trees](https://en.wikipedia.org/wiki/Decision_tree) in parallel and [bagging](http://en.wikipedia.org/wiki/Bootstrap_aggregating) this model based on a [random forest](https://en.wikipedia.org/wiki/Random_forest) provides joint predictions for `SIZE` and `PDI`.")  
         with open(random_forest_model, "rb") as file:
             model = pickle.load(file)
         st.write(f"Loaded {random_forest_model} with the following performance metrics.")
@@ -508,5 +508,3 @@ elif section == "Data Exploration":
         plt.ylabel(f"UMAP Component 2")
         plt.title(f"UMAP Projection with K-Means Cluster Density (Clusters: {n_clusters})")
         st.pyplot(plt)
-
-
