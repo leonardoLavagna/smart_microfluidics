@@ -35,7 +35,6 @@ def categorize_pdi(pdi):
         return 'PLD'
 
 
-
 ################################################
 # COLOPHON
 ################################################                    
@@ -83,6 +82,7 @@ if section == "Dataset":
         st.dataframe(data.style.format(thousands=""))
     st.warning(":warning: Current models have been trained on the default dataset which is of intermediate dimension. Higher performances require additional training data.")
 
+
 ################################################
 # 2.MODELS
 ################################################
@@ -113,8 +113,10 @@ if section == "Data Modeling":
         ml = st.selectbox("ML", ["HSPC", "ESM"])
         chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
         tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
-        esm = st.number_input("ESM", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
-        hspc = st.number_input("HSPC", value=3.75, min_value=0.0, max_value=100.0, step=0.1)
+        esm_disabled = ml == "HSPC"
+        hspc_disabled = ml == "ESM"
+        esm = st.number_input("ESM", value=0.0 if esm_disabled else 0.1, min_value=0.0, max_value=100.0, step=0.1, disabled=esm_disabled)
+        hspc = st.number_input("HSPC", value=0.0 if hspc_disabled else 3.75, min_value=0.0, max_value=100.0, step=0.1, disabled=hspc_disabled)
         chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
         peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
         tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
@@ -125,14 +127,16 @@ if section == "Data Modeling":
                 "ML": [ml],
                 "CHIP": [chip],
                 "TLP": [tlp],
-                "ESM": [esm],
-                "HSPC": [hspc],
+                "ESM": [0.0 if esm_disabled else esm],  # Ensure ESM is 0 if disabled
+                "HSPC": [0.0 if hspc_disabled else hspc],  # Ensure HSPC is 0 if disabled
                 "CHOL": [chol],
                 "PEG": [peg],
-                "TFR ": [tfr],
+                "TFR": [tfr],
                 "FRR": [frr],
                 "BUFFER": [buffer],
             })
+            st.write("Input Data:")
+            st.write(input_data)
             predictions = model.predict(input_data)
             size, pdi = predictions[0]
             st.subheader("Model predictions")
