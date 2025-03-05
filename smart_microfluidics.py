@@ -135,8 +135,6 @@ if section == "Data Modeling":
                 "FRR": [frr],
                 "BUFFER": [buffer],
             })
-            st.write("Input Data:")
-            st.write(input_data)
             predictions = model.predict(input_data)
             size, pdi = predictions[0]
             st.subheader("Model predictions")
@@ -185,8 +183,6 @@ if section == "Data Modeling":
                 "BUFFER": [buffer],
                 "OUTPUT": [1],
             })
-            st.write("Input Data:")
-            st.write(input_data)
             predictions = model.predict(input_data)
             size, pdi = predictions[0]
             st.subheader("Model predictions")
