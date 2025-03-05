@@ -58,7 +58,7 @@ file_path = "data/data.csv"
 data = pd.read_csv(file_path, encoding="latin1").drop(columns=['ID', 'FR-O', 'FR-W'])
 data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
 data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
-data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
+data = data.map(lambda x: str(x) if isinstance(x, str) else x)
 numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
 
 if section == "Dataset":
@@ -78,7 +78,6 @@ if section == "Dataset":
                    
     else: 
         st.write("Loading default dataset...")
-        data = pd.read_csv(file_path, encoding="latin1")
         st.success("File loaded successfully!")
         #st.dataframe(data)
         st.dataframe(data.style.format(thousands=""))
