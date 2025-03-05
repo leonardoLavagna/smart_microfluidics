@@ -111,9 +111,9 @@ if section == "Data Modeling":
         st.markdown("Using multiple [decision trees](https://en.wikipedia.org/wiki/Decision_tree) in parallel and [bagging](http://en.wikipedia.org/wiki/Bootstrap_aggregating) this model based on a [random forest](https://en.wikipedia.org/wiki/Random_forest) provides joint predictions for `SIZE` and `PDI`.")  
         with open(random_forest_model, "rb") as file:
             model = pickle.load(file)
-        st.write(f"Loaded {random_forest_model} with the following performance metrics.")
+        st.write(f"Loaded {random_forest_model} with the following performance metrics. The key metric is the square root of the error (either the MSE or the MAE).")
         st.table(pd.DataFrame({
-            "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
+            "Metric": ["R-squared", "Mean Squared Error (MSE)", "Mean Absolute Error (MAE)"],
             "Value": [0.36157896454981364, 1958.890858993266, 15.086741645521377]
         }))
         st.write("Try the model with your data.")
@@ -158,9 +158,9 @@ if section == "Data Modeling":
         st.markdown("Using [eXtreme Gradient Boosting](https://en.wikipedia.org/wiki/XGBoost) the model provides joint predictions for `SIZE` and `PDI`.") 
         with open(xgboost_model, "rb") as file:
             model = pickle.load(file)
-        st.write(f"Loaded {xgboost_model} with the following performance metrics.")
+        st.write(f"Loaded {xgboost_model} with the following performance metrics. The key metric is the square root of the error (either the MSE or the MAE).")
         st.table(pd.DataFrame({
-            "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
+            "Metric": ["R-squared", "Mean Squared Error (MSE)", "Mean Absolute Error (MAE)"],
             "Value": [0.32854801416397095, 1967.81201171875, 14.646432876586914]
         }))
         st.write("Try the model with your data.")
@@ -231,7 +231,7 @@ if section == "Data Modeling":
         st.subheader("Preview of some available advanced models for predicting `SIZE` or `PDI`")
         st.write("`ensemble-pdi`")
         st.table(pd.DataFrame({
-            "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
+            "Metric": ["R-squared", "Mean Squared Error (MSE)", "Mean Absolute Error (MAE)"],
             "Value": [0.5328156582541348, 0.00245118805677467875, 0.04254484741522172]
         }))
         st.write("`ensemble-size`")
@@ -239,7 +239,7 @@ if section == "Data Modeling":
             "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
             "Value": [0.874431019712665, 340.2617544655023, 11.834716059736861]
         }))
-        st.write("With an improvement in terms of metrics given by the following plot.")
+        st.write("With an improvement in terms of metrics given by the following plot. The key metric is the square root of the error (either the MSE or the MAE).")
         metrics = ["R-squared", "MSE", "MAE"]
         before = [0.3285, 1967.81, 14.65]
         after = [0.8744, 340.26, 11.83]
