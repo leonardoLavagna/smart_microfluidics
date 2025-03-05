@@ -299,7 +299,7 @@ if section == "Data Modeling":
         peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1, key="peg")
         tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1, key="tfr")
         frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1, key="frr")
-        if st.button("Predict"):
+        if st.button("Predict", key='adv_pred_2'):
             input_data = pd.DataFrame({
                 "TLP": [tlp],
                 "ESM": [esm],
