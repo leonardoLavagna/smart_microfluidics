@@ -309,7 +309,11 @@ if section == "Data Modeling":
                 "TFR ": [tfr],
                 "FRR": [frr],
             })
-            st.write(f"Predicted `PDI`: {model.predict(input_data)}")
+            if model.predict(input_data) > 0.5:
+                st.write("The sistem doesn't form")
+                st.write(f"`OUTPUT`: 0")                
+            else:
+                st.write(f"Predicted `PDI`: {model.predict(input_data)}")
 
 
 ################################################
@@ -456,7 +460,8 @@ elif section == "Data Exploration":
         st.markdown("Displays the [importance of each feature](https://en.wikipedia.org/wiki/Feature_selection) for predicting a set of input targets.")
         # 3.4.1 Single target feature importance
         st.subheader("Single target feature importance")
-        target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
+        #target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
+        target_feature = st.selectbox("Select a target feature.", ("SIZE", "PDI"))
         numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
         if target_feature == "SIZE":
             numeric_data = numeric_data.drop(columns=["PDI"])
