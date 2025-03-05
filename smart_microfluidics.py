@@ -470,16 +470,17 @@ elif section == "Data Exploration":
         st.subheader("Single target feature importance")
         #target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
         target_feature = st.selectbox("Select a target feature.", ("SIZE", "PDI"))
+        numeric_data_ = numeric_data.copy()
         if target_feature == "SIZE":
-            numeric_data = numeric_data.drop(columns=["PDI"])
+            numeric_data_ = numeric_data.drop(columns=["PDI"])
         if target_feature == "PDI":
-            numeric_data = numeric_data.drop(columns=["SIZE"])        
-        X = numeric_data.drop(columns=[target_feature])
+            numeric_data_ = numeric_data.drop(columns=["SIZE"])        
+        X = numeric_data_.drop(columns=[target_feature])
         if "SIZE" in X.columns:
             X = X.drop(columns=["SIZE"])
         if "PDI" in X.columns:
             X = X.drop(columns=["PDI"])
-        y = numeric_data[target_feature]  
+        y = numeric_data_[target_feature]  
         rf = RandomForestRegressor(n_estimators=100, random_state=42)
         rf.fit(X, y)
         feature_importances = pd.DataFrame({'Feature': X.columns,'Importance': rf.feature_importances_}).sort_values(by='Importance', ascending=False)
