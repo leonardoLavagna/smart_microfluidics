@@ -127,11 +127,11 @@ if section == "Data Modeling":
                 "ML": [ml],
                 "CHIP": [chip],
                 "TLP": [tlp],
-                "ESM": [0.0 if esm_disabled else esm],  # Ensure ESM is 0 if disabled
-                "HSPC": [0.0 if hspc_disabled else hspc],  # Ensure HSPC is 0 if disabled
+                "ESM": [0.0 if esm_disabled else esm],  
+                "HSPC": [0.0 if hspc_disabled else hspc],  
                 "CHOL": [chol],
                 "PEG": [peg],
-                "TFR": [tfr],
+                "TFR ": [tfr],
                 "FRR": [frr],
                 "BUFFER": [buffer],
             })
