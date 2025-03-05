@@ -136,8 +136,12 @@ if section == "Data Modeling":
             predictions = model.predict(input_data)
             size, pdi = predictions[0]
             st.subheader("Model predictions")
-            st.write(f"`SIZE`: {size:.2f}")
-            st.write(f"`PDI`: {pdi:.2f}")
+            if size > 500 or pdi > 0.5:
+                st.write("The sistem doesn't form")
+                st.write(f"`OUTPUT`: 0")
+            else:
+                st.write(f"`SIZE`: {size:.2f}")
+                st.write(f"`PDI`: {pdi:.2f}")
                
     # 2.2 XGBoost
     elif option == "XGBoost":
@@ -180,7 +184,7 @@ if section == "Data Modeling":
             st.subheader("Model predictions")
             if size > 500 or pdi > 0.5:
                 st.write("The sistem doesn't form")
-                st.write(f"`OUTPUT`: 0)
+                st.write(f"`OUTPUT`: 0")
             else:
                 st.write(f"`SIZE`: {size:.2f}")
                 st.write(f"`PDI`: {pdi:.2f}")
@@ -279,7 +283,11 @@ if section == "Data Modeling":
                 "TFR ": [tfr],
                 "FRR": [frr],
             })
-            st.write(f"Predicted `SIZE`: {model.predict(input_data)}")
+            if model.predict(input_data) > 500:
+                st.write("The sistem doesn't form")
+                st.write(f"`OUTPUT`: 0")                
+            else:
+                st.write(f"Predicted `SIZE`: {model.predict(input_data)}")
         # 2.4.2 ensemble-pdi
         st.write("Try the `ensemble-pdi` model with your data.")
         with open(pdi_model, "rb") as file:
