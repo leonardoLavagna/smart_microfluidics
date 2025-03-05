@@ -542,7 +542,7 @@ elif section == "Data Exploration":
         n_components = st.slider("Select number of UMAP components:", min_value=2, max_value=10, value=2)
         umap_model = umap.UMAP(n_components=n_components, random_state=42)
         umap_result = umap_model.fit_transform(data_standardized)
-        n_clusters = st.slider("Select number of clusters for K-Means:", min_value=2, max_value=10, value=4)
+        n_clusters = st.slider("Select number of clusters for K-Means:", min_value=2, max_value=10, value=3)
         kmeans = KMeans(n_clusters=n_clusters, random_state=42)
         clusters = kmeans.fit_predict(umap_result)
         df_umap = pd.DataFrame(umap_result, columns=[f"UMAP{i+1}" for i in range(n_components)])
