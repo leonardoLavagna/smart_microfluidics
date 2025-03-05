@@ -481,10 +481,9 @@ elif section == "Data Exploration":
         st.pyplot(plt)
         # 3.4.2 Two targets feature importance
         #available_features = numeric_data.columns.tolist()
-        #target_feature_1 = st.selectbox("Select the first target feature.", available_features)
-        #target_feature_2 = st.selectbox("Select the second target feature (different from the first).", ("SIZE"))
+        available_features = ("SIZE", "PDI")
         target_feature_1 = st.selectbox("Select the first target feature.", available_features)
-        target_feature_2 = st.selectbox("Select the second target feature (different from the first).", ("PDI"))
+        target_feature_2 = st.selectbox("Select the first target feature.", available_features)
         if target_feature_1 == target_feature_2:
             st.error("INPUT ERROR: The selected variables cannot be the same.")
         elif target_feature_1 != target_feature_2:
