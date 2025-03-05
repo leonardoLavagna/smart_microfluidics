@@ -62,6 +62,7 @@ numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
 
 if section == "Dataset":
     st.header("Dataset")
+    st.warning(":warning: Current models have been trained on the default dataset which is of intermediate dimension. Higher performances require additional training data.")
     st.write("Get the data for subsequent processing.")
     user_choice = st.radio("Upload custom data?", ("No", "Yes"))
     if user_choice == "Yes":
@@ -80,8 +81,7 @@ if section == "Dataset":
         st.success("File loaded successfully!")
         #st.dataframe(data)
         st.dataframe(data.style.format(thousands=""))
-    st.warning(":warning: Current models have been trained on the default dataset which is of intermediate dimension. Higher performances require additional training data.")
-
+        
 
 ################################################
 # 2.MODELS
