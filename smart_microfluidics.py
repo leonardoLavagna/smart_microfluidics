@@ -422,21 +422,21 @@ elif section == "Data Exploration":
         data['SIZE'] = data['SIZE'].apply(categorize_size)
         data['PDI'] = data['PDI'].apply(categorize_pdi)
         # 3.3.1 Sankey diagram  of two variables
-        #st.subheader("Sankey diagram of two variables")
-        #source = st.selectbox("Choose the first categorical variable of interest.", ("ML", "CHIP", "BUFFER", "OUTPUT", "SIZE", "PDI"))
-        #target = st.selectbox("Choose the second categorical variable of interest (different from the first).", ("CHIP", "ML", "BUFFER", "OUTPUT", "SIZE", "PDI"))
-        #if source == target:
-        #    st.write(":red[INPUT ERROR. The selected variables cannot be equal.]")
-        #elif source != target:
-        #  value_counts = data.groupby([source, target]).size().reset_index(name='value')
-        #  categories = list(set(value_counts[source]).union(set(value_counts[target])))
-        #  category_to_index = {category: i for i, category in enumerate(categories)}
-        #  sources = value_counts[source].map(category_to_index).tolist()
-        #  targets = value_counts[target].map(category_to_index).tolist()
-        #  values = value_counts['value'].tolist()
-        #  sankey_fig = go.Figure(data=[go.Sankey(node=dict(pad=15,thickness=20,line=dict(color="black", width=0.5),label=categories),
-        #                                         link=dict(source=sources,target=targets,value=values))])
-        #  st.plotly_chart(sankey_fig)
+        st.subheader("Sankey diagram of two variables")
+        source = st.selectbox("Choose the first categorical variable of interest.", ("ML", "CHIP", "BUFFER", "OUTPUT", "SIZE", "PDI"))
+        target = st.selectbox("Choose the second categorical variable of interest (different from the first).", ("CHIP", "ML", "BUFFER", "OUTPUT", "SIZE", "PDI"))
+        if source == target:
+            st.write(":red[INPUT ERROR. The selected variables cannot be equal.]")
+        elif source != target:
+            value_counts = data.groupby([source, target]).size().reset_index(name='value')
+            categories = list(set(value_counts[source]).union(set(value_counts[target])))
+            category_to_index = {category: i for i, category in enumerate(categories)}
+            sources = value_counts[source].map(category_to_index).tolist()
+            targets = value_counts[target].map(category_to_index).tolist()
+            values = value_counts['value'].tolist()
+            sankey_fig = go.Figure(data=[go.Sankey(node=dict(pad=15,thickness=20,line=dict(color="black", width=0.5),label=categories),
+                                                   link=dict(source=sources,target=targets,value=values))])
+            st.plotly_chart(sankey_fig)
         # 3.3.2 Sankey diagram of more then two flows
         st.subheader("Sankey diagram of a customizable categorical flow")
         default_selection = ['ML', 'CHIP', 'BUFFER', 'OUTPUT']
