@@ -183,6 +183,7 @@ if section == "Data Modeling":
                 "TFR ": [tfr],
                 "FRR": [frr],
                 "BUFFER": [buffer],
+                "OUTPUT": [1],
             })
             st.write("Input Data:")
             st.write(input_data)
