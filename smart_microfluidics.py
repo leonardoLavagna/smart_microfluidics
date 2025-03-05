@@ -45,7 +45,7 @@ st.markdown("""- Work with pretrained machine learning architectures on a defaul
 st.markdown("""- Simulate experiments with the tools in the Data Modeling section (menù on the left); """)
 st.markdown("""- Get in depth data analysis with the visualizations in the Data Exploration section (menù on the left). """)
 st.markdown("""Report bugs or request updates [@Leonardo Lavagna](https://leonardolavagna.github.io/) by [opening an issue on the project repository](https://github.com/leonardoLavagna/smart_microfluidics/issues). 
-The training of the models was done on a publicly available datasey and in compliance with current legislation.""")
+The training of the models was done on a publicly available dataset and in compliance with current legislation.""")
 st.sidebar.title("Choose an Option")
 section = st.sidebar.selectbox(
     "Data preprocessing, data modelization or data visualization :",
