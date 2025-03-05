@@ -440,48 +440,27 @@ elif section == "Data Exploration":
         # 3.3.2 Sankey diagram of more then two flows
         st.subheader("Sankey diagram of a customizable categorical flow")
         default_selection = ['ML', 'CHIP', 'BUFFER', 'OUTPUT']
-        selected_columns = st.multiselect("Select categorical variables to visualize:", options=['ML', 'CHIP', 'BUFFER', 'OUTPUT'],default=default_selection)
-        value_counts = data.groupby(selected_columns).size().reset_index(name='value')
-        all_categories = []
-        for col in selected_columns:
-            all_categories.extend(value_counts[col].unique())
-        all_categories = list(set(all_categories))  # Remove duplicates
-        category_to_index = {category: index for index, category in enumerate(all_categories)}
-        sources = []
-        targets = []
-        values = []
-        for index, row in value_counts.iterrows():
-            for i in range(len(selected_columns) - 1):  # Create links between adjacent columns
-                sources.append(category_to_index[row[selected_columns[i]]])
-                targets.append(category_to_index[row[selected_columns[i + 1]]])
-                values.append(row['value'])
-        fig = go.Figure(data=[go.Sankey(node=dict(pad=15, thickness=20, line=dict(color="black", width=0.5),label=all_categories),
-                                        link=dict(source=sources, target=targets, value=values))])
-        st.plotly_chart(fig, key="cust_sank")
-        # 3.3.3 Sankey diagram of the ML->CHIP->BUFFER->OUTPUT flow
-        #st.subheader("Sankey diagram of the ML->CHIP->BUFFER->OUTPUT flow")
-        #value_counts = data.groupby(['ML', 'CHIP', 'BUFFER', 'OUTPUT']).size().reset_index(name='value')
-        #all_categories = []
-        #for col in ['ML', 'CHIP', 'BUFFER', 'OUTPUT']:
-        #    all_categories.extend(value_counts[col].unique())
-        #all_categories = list(set(all_categories))  # Remove duplicates
-        #category_to_index = {category: index for index, category in enumerate(all_categories)}
-        #sources = []
-        #targets = []
-        #values = []
-        #for index, row in value_counts.iterrows():
-        #    sources.append(category_to_index[row['ML']])
-        #    targets.append(category_to_index[row['CHIP']])
-        #    values.append(row['value'])
-        #    sources.append(category_to_index[row['CHIP']])
-        #   targets.append(category_to_index[row['BUFFER']])
-        #    values.append(row['value'])
-        #    sources.append(category_to_index[row['BUFFER']])
-        #    targets.append(category_to_index[row['OUTPUT']])
-        #    values.append(row['value'])
-       #fig = go.Figure(data=[go.Sankey(node=dict(pad=15,thickness=20,line=dict(color="black", width=0.5),label=all_categories),
-       #                                 link=dict(source=sources,target=targets,value=values))])
-       #st.plotly_chart(fig)
+        selected_columns = st.multiselect("Select categorical variables to visualize:", options=['ML', 'CHIP', 'BUFFER', 'OUTPUT'], default=default_selection)
+        if len(selected_columns) < 3:
+            st.warning("Please select more then two two categorical variables.")
+        else:
+            value_counts = data.groupby(selected_columns).size().reset_index(name='value')
+            all_categories = []
+            for col in selected_columns:
+                all_categories.extend(value_counts[col].unique())
+            all_categories = list(set(all_categories))  # Remove duplicates
+            category_to_index = {category: index for index, category in enumerate(all_categories)}
+            sources = []
+            targets = []
+            values = []
+            for index, row in value_counts.iterrows():
+                for i in range(len(selected_columns) - 1):  
+                    sources.append(category_to_index[row[selected_columns[i]]])
+                    targets.append(category_to_index[row[selected_columns[i + 1]]])
+                    values.append(row['value'])
+            fig = go.Figure(data=[go.Sankey(node=dict(pad=15, thickness=20, line=dict(color="black", width=0.5),label=all_categories),
+                                            link=dict(source=sources, target=targets, value=values))])
+            st.plotly_chart(fig, key="cust_sank")
     
     # 3.4 Feature importance
     elif option == "Feature importance":
