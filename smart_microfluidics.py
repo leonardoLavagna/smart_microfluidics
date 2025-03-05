@@ -414,7 +414,7 @@ elif section == "Data Exploration":
         st.markdown("- **L** (Large) if `SIZE` is 200 or more;")
         st.markdown("- **HMD** (Highly Monodisperse) if `PDI` is less than 0.1;")  
         st.markdown("- **MD** (Monodisperse) if `PDI` is between 0.1 and 0.25;")  
-        st.markdown("- **PLD** (Polydisperse) if ``PDI` is 0.25 or more.")  
+        st.markdown("- **PLD** (Polydisperse) if `PDI` is 0.25 or more.")  
         data_ = data.copy()
         for col in data_.columns:
             if data_[col].dtype == 'object':
