@@ -207,7 +207,7 @@ if section == "Data Modeling":
         st.warning(":male-technologist: Work in progress... Only numerical predictions available.")
         with open(inverse_xgboost_model, "rb") as file:
             model = pickle.load(file)
-        st.write(f"Loaded {inverse_xgboost_model} with the folloing performance metrics.")
+        st.write(f"Loaded {inverse_xgboost_model} with the folloing performance metrics. The key metric is the square root of the error (either the MSE or the MAE).")
         st.table(pd.DataFrame({
             "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
             "Value": [0.11767681688070297, 89.26007080078125, 3.7459394931793213]
