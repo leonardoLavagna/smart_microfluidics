@@ -412,7 +412,15 @@ elif section == "Data Exploration":
     # 3.3 Alluvial plot
     elif option == "Alluvial plot":
         st.header("Alluvial plot")
-        st.markdown("Displays the [flow between categorical data](https://en.wikipedia.org/wiki/Alluvial_diagram).")
+        st.markdown("""Displays the [flow between categorical data](https://en.wikipedia.org/wiki/Alluvial_diagram). Here the target variables `SIZE` and `PDI` 
+                    are made categorical by grupping them into the following categories:
+                    - **'S' (Small)** → If `size` is less than 100  
+                    - **'M' (Medium)** → If `size` is between 100 and 199  
+                    - **'L' (Large)** → If `size` is 200 or more  
+                    - **'HMD' (Highly Monodisperse)** → If `pdi` is less than 0.1  
+                    - **'MD' (Monodisperse)** → If `pdi` is between 0.1 and 0.25  
+                    - **'PLD' (Polydisperse)** → If `pdi` is 0.25 or more  
+                    """)
         data_ = data.copy()
         for col in data_.columns:
             if data_[col].dtype == 'object':
