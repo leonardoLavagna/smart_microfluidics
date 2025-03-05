@@ -162,27 +162,30 @@ if section == "Data Modeling":
         ml = st.selectbox("ML", ["HSPC", "ESM"])
         chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
         tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
-        esm = st.number_input("ESM", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
-        hspc = st.number_input("HSPC", value=3.75, min_value=0.0, max_value=100.0, step=0.1)
+        esm_disabled = ml == "HSPC"
+        hspc_disabled = ml == "ESM"
+        esm = st.number_input("ESM", value=0.0 if esm_disabled else 0.1, min_value=0.0, max_value=100.0, step=0.1, disabled=esm_disabled)
+        hspc = st.number_input("HSPC", value=0.0 if hspc_disabled else 3.75, min_value=0.0, max_value=100.0, step=0.1, disabled=hspc_disabled)
         chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
         peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
         tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
         frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
-        buffer = st.selectbox("BUFFER", ["PBS", "MQ"]) 
+        buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
         if st.button("Predict"):
             input_data = pd.DataFrame({
                 "ML": [ml],
                 "CHIP": [chip],
                 "TLP": [tlp],
-                "ESM": [esm],
-                "HSPC": [hspc],
+                "ESM": [0.0 if esm_disabled else esm],  
+                "HSPC": [0.0 if hspc_disabled else hspc],  
                 "CHOL": [chol],
                 "PEG": [peg],
                 "TFR ": [tfr],
                 "FRR": [frr],
                 "BUFFER": [buffer],
-                "OUTPUT": [1]
             })
+            st.write("Input Data:")
+            st.write(input_data)
             predictions = model.predict(input_data)
             size, pdi = predictions[0]
             st.subheader("Model predictions")
