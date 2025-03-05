@@ -465,7 +465,7 @@ elif section == "Data Exploration":
               fig = go.Figure(data=[go.Sankey(node=dict(pad=15, thickness=20, line=dict(color="black", width=0.5),label=all_categories),
                                               link=dict(source=sources, target=targets, value=values))])
 
-              st.plotly_chart(fig)
+              st.plotly_chart(fig, key="cust_sank")
           # 3.3.3 Sankey diagram of the ML->CHIP->BUFFER->OUTPUT flow
           st.subheader("Sankey diagram of the ML->CHIP->BUFFER->OUTPUT flow")
           value_counts = data.groupby(['ML', 'CHIP', 'BUFFER', 'OUTPUT']).size().reset_index(name='value')
