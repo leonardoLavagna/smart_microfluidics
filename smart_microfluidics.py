@@ -59,6 +59,7 @@ data = pd.read_csv(file_path, encoding="latin1").drop(columns=['ID', 'FR-O', 'FR
 data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
 data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
 data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
+numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
 
 if section == "Dataset":
     st.header("Dataset")
@@ -336,12 +337,12 @@ elif section == "Data Exploration":
     if option == "Ridgeline plot":
         st.header("Ridgeline plot")
         st.markdown("Displays the distributions of individual features as [overlapping density curves](https://en.wikipedia.org/wiki/Ridgeline_plot).")  
-        numerical_cols = data.select_dtypes(include=['float64', 'int64']).columns
-        df_numeric = data[numerical_cols]
+        #numerical_cols = data.select_dtypes(include=['float64', 'int64']).columns
+        #df_numeric = data[numerical_cols]
         st.subheader("Numerical columns summary")
-        st.write(df_numeric.describe())
+        st.write(numeric_data.describe())
         scaler = StandardScaler()
-        df_standardized = pd.DataFrame(scaler.fit_transform(df_numeric), columns=df_numeric.columns)
+        df_standardized = pd.DataFrame(scaler.fit_transform(numeric_data), columns=numeric_data.columns)
         st.subheader("Stacked densities")
         plt.figure(figsize=(12, 8))
         joypy.joyplot(df_standardized, colormap=plt.cm.coolwarm, x_range=[-5, 10], figsize=(12, 8))
@@ -462,7 +463,6 @@ elif section == "Data Exploration":
         st.subheader("Single target feature importance")
         #target_feature = st.selectbox("Select a target feature.", ("TLP", "ESM", "HSPC", "CHOL", "PEG", "FRR", "SIZE", "PDI"))
         target_feature = st.selectbox("Select a target feature.", ("SIZE", "PDI"))
-        numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
         if target_feature == "SIZE":
             numeric_data = numeric_data.drop(columns=["PDI"])
         if target_feature == "PDI":
@@ -487,10 +487,10 @@ elif section == "Data Exploration":
         elif target_feature_1 != target_feature_2:
             correlation_matrix = numeric_data.corr()
             filtered_data = numeric_data.copy()
-            if target_feature_1 == "SIZE" or target_feature_2 == "SIZE":
-                filtered_data = filtered_data.drop(columns=["PDI"], errors='ignore')
-            if target_feature_1 == "PDI" or target_feature_2 == "PDI":
-                filtered_data = filtered_data.drop(columns=["SIZE"], errors='ignore')
+            #if target_feature_1 == "SIZE" or target_feature_2 == "SIZE":
+            #    filtered_data = filtered_data.drop(columns=["PDI"], errors='ignore')
+            #if target_feature_1 == "PDI" or target_feature_2 == "PDI":
+            #    filtered_data = filtered_data.drop(columns=["SIZE"], errors='ignore')
             target_features = [target_feature_1, target_feature_2]
             joint_correlation = correlation_matrix[target_features].drop(index=target_features, errors='ignore').mean(axis=1)
             joint_correlation_df = joint_correlation.reset_index()
