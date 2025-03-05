@@ -178,8 +178,12 @@ if section == "Data Modeling":
             predictions = model.predict(input_data)
             size, pdi = predictions[0]
             st.subheader("Model predictions")
-            st.write(f"`SIZE`: {size:.2f}")
-            st.write(f"`PDI`: {pdi:.2f}")
+            if size > 500 or pdi > 0.5:
+                st.write("The sistem doesn't form")
+                st.write(f"`OUTPUT`: 0)
+            else:
+                st.write(f"`SIZE`: {size:.2f}")
+                st.write(f"`PDI`: {pdi:.2f}")
     
     # 2.3 Inverse model
     elif option == "Inverse problem":
