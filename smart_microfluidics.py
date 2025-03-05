@@ -413,14 +413,15 @@ elif section == "Data Exploration":
     elif option == "Alluvial plot":
         st.header("Alluvial plot")
         st.markdown("Displays the [flow between categorical data](https://en.wikipedia.org/wiki/Alluvial_diagram).")
-        for col in data.columns:
-            if data[col].dtype == 'object':
-                data[col] = data[col].astype(str)
-                for col in data.columns:
-                    if data[col].dtype == 'object':
-                        data[col] = data[col].astype(str)
-        data['SIZE'] = data['SIZE'].apply(categorize_size)
-        data['PDI'] = data['PDI'].apply(categorize_pdi)
+        data_ = data.copy()
+        for col in data_.columns:
+            if data_[col].dtype == 'object':
+                data_[col] = data_[col].astype(str)
+                for col in data_.columns:
+                    if data_[col].dtype == 'object':
+                        data_[col] = data[col].astype(str)
+        data_['SIZE'] = data_['SIZE'].apply(categorize_size)
+        data_['PDI'] = data_['PDI'].apply(categorize_pdi)
         # 3.3.1 Sankey diagram  of two variables
         st.subheader("Sankey diagram of two variables")
         source = st.selectbox("Choose the first categorical variable of interest.", ("ML", "CHIP", "BUFFER", "OUTPUT", "SIZE", "PDI"))
@@ -428,7 +429,7 @@ elif section == "Data Exploration":
         if source == target:
             st.write(":red[INPUT ERROR. The selected variables cannot be equal.]")
         elif source != target:
-            value_counts = data.groupby([source, target]).size().reset_index(name='value')
+            value_counts = data_.groupby([source, target]).size().reset_index(name='value')
             categories = list(set(value_counts[source]).union(set(value_counts[target])))
             category_to_index = {category: i for i, category in enumerate(categories)}
             sources = value_counts[source].map(category_to_index).tolist()
@@ -448,7 +449,7 @@ elif section == "Data Exploration":
             all_categories = []
             for col in selected_columns:
                 all_categories.extend(value_counts[col].unique())
-            all_categories = list(set(all_categories))  # Remove duplicates
+            all_categories = list(set(all_categories)) 
             category_to_index = {category: index for index, category in enumerate(all_categories)}
             sources = []
             targets = []
