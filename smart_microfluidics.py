@@ -287,7 +287,7 @@ if section == "Data Modeling":
                 st.write("The sistem doesn't form")
                 st.write(f"`OUTPUT`: 0")                
             else:
-                st.write(f"Predicted `SIZE`: {model.predict(input_data)}")
+                st.write(f"Predicted `SIZE`: {model.predict(input_data)}")   
         # 2.4.2 ensemble-pdi
         st.write("Try the `ensemble-pdi` model with your data.")
         with open(pdi_model, "rb") as file:
@@ -480,9 +480,11 @@ elif section == "Data Exploration":
         sns.barplot(data=feature_importances, x='Importance', y='Feature', hue='Feature', palette='viridis', dodge=False)
         st.pyplot(plt)
         # 3.4.2 Two targets feature importance
-        available_features = numeric_data.columns.tolist()
+        #available_features = numeric_data.columns.tolist()
+        #target_feature_1 = st.selectbox("Select the first target feature.", available_features)
+        #target_feature_2 = st.selectbox("Select the second target feature (different from the first).", ("SIZE"))
         target_feature_1 = st.selectbox("Select the first target feature.", available_features)
-        target_feature_2 = st.selectbox("Select the second target feature (different from the first).", available_features)
+        target_feature_2 = st.selectbox("Select the second target feature (different from the first).", ("PDI"))
         if target_feature_1 == target_feature_2:
             st.error("INPUT ERROR: The selected variables cannot be the same.")
         elif target_feature_1 != target_feature_2:
