@@ -59,6 +59,7 @@ data = pd.read_csv(file_path, encoding="latin1").drop(columns=['FR-O', 'FR-W'])
 data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
 data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
 data = data.applymap(lambda x: str(x) if isinstance(x, str) else x)
+st.dataframe(data.style.format(thousands=""))
 
 if section == "Dataset":
     st.header("Dataset")
