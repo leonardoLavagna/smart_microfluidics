@@ -445,7 +445,7 @@ elif section == "Data Exploration":
         if len(selected_columns) < 3:
             st.warning("Please select more then two two categorical variables.")
         else:
-            value_counts = data.groupby(selected_columns).size().reset_index(name='value')
+            value_counts = data_.groupby(selected_columns).size().reset_index(name='value')
             all_categories = []
             for col in selected_columns:
                 all_categories.extend(value_counts[col].unique())
