@@ -181,11 +181,23 @@ if section == "Data Modeling":
                 "TFR ": [tfr],
                 "FRR": [frr],
                 "BUFFER": [buffer],
+            })
+            input_data_ = pd.DataFrame({
+                "ML": [ml],
+                "CHIP": [chip],
+                "TLP": [tlp],
+                "ESM": [0.0 if esm_disabled else esm],  
+                "HSPC": [0.0 if hspc_disabled else hspc],  
+                "CHOL": [chol],
+                "PEG": [peg],
+                "TFR ": [tfr],
+                "FRR": [frr],
+                "BUFFER": [buffer],
                 "OUTPUT": [1],
             })
             st.subheader("Input data")
             st.write(input_data)
-            predictions = model.predict(input_data)
+            predictions = model.predict(input_data_)
             size, pdi = predictions[0]
             st.subheader("Model predictions")
             if size > 500 or pdi > 0.5:
