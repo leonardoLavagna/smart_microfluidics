@@ -118,22 +118,9 @@ if section == "Data Modeling":
         frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
         buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
         tlp = (hspc if hspc > 0 else esm) + chol + peg
-        input_data = pd.DataFrame({
-                "ML": [ml],
-                "CHIP": [chip],
-                "TLP": [tlp],
-                "ESM": [0.0 if esm_disabled else esm],  
-                "HSPC": [0.0 if hspc_disabled else hspc],  
-                "CHOL": [chol],
-                "PEG": [peg],
-                "TFR ": [tfr],
-                "FRR": [frr],
-                "BUFFER": [buffer],
-            })
     else:
         size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=500.0, step=0.1)
         pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.01)
-        input_data = pd.DataFrame({"SIZE": [size],"PDI": [pdi]})
     
     # 2.1 Random forest regressor
     if option == "Random forest regressor":
@@ -147,6 +134,18 @@ if section == "Data Modeling":
             "Value": [0.36157896454981364, 1958.890858993266, 15.086741645521377]
         }))
         if st.button("Predict"):
+            input_data = pd.DataFrame({
+                "ML": [ml],
+                "CHIP": [chip],
+                "TLP": [tlp],
+                "ESM": [0.0 if esm_disabled else esm],  
+                "HSPC": [0.0 if hspc_disabled else hspc],  
+                "CHOL": [chol],
+                "PEG": [peg],
+                "TFR ": [tfr],
+                "FRR": [frr],
+                "BUFFER": [buffer],
+            })
             st.subheader("Input data")
             st.write(input_data)
             predictions = model.predict(input_data)
@@ -171,6 +170,19 @@ if section == "Data Modeling":
             "Value": [0.32854801416397095, 1967.81201171875, 14.646432876586914]
         }))
         if st.button("Predict"):
+            input_data = pd.DataFrame({
+                "ML": [ml],
+                "CHIP": [chip],
+                "TLP": [tlp],
+                "ESM": [0.0 if esm_disabled else esm],  
+                "HSPC": [0.0 if hspc_disabled else hspc],  
+                "CHOL": [chol],
+                "PEG": [peg],
+                "TFR ": [tfr],
+                "FRR": [frr],
+                "BUFFER": [buffer],
+                "OUTPUT": [1],
+            })
             st.subheader("Input data")
             st.write(input_data)
             predictions = model.predict(input_data)
@@ -196,6 +208,7 @@ if section == "Data Modeling":
             "Value": [0.11767681688070297, 89.26007080078125, 3.7459394931793213]
         }))
         if st.button("Predict"):
+            input_data = pd.DataFrame({"SIZE": [size],"PDI": [pdi]})
             predictions = model.predict(input_data)
             predictions = np.abs(predictions)
             predictions = np.where(predictions < 0.5, 0, predictions)
@@ -256,6 +269,18 @@ if section == "Data Modeling":
         with open(size_model, "rb") as file:
             model = pickle.load(file)
         if st.button("Predict"):
+            input_data = pd.DataFrame({
+                "ML": [ml],
+                "CHIP": [chip],
+                "TLP": [tlp],
+                "ESM": [0.0 if esm_disabled else esm],  
+                "HSPC": [0.0 if hspc_disabled else hspc],  
+                "CHOL": [chol],
+                "PEG": [peg],
+                "TFR ": [tfr],
+                "FRR": [frr],
+                "BUFFER": [buffer],
+            })
             input_data_ = pd.DataFrame({
                 "TLP": [tlp],
                 "ESM": [esm],
@@ -277,6 +302,18 @@ if section == "Data Modeling":
         with open(pdi_model, "rb") as file:
             model = pickle.load(file)
         if st.button("Predict", key='adv_pred_2'):
+            input_data = pd.DataFrame({
+                "ML": [ml],
+                "CHIP": [chip],
+                "TLP": [tlp],
+                "ESM": [0.0 if esm_disabled else esm],  
+                "HSPC": [0.0 if hspc_disabled else hspc],  
+                "CHOL": [chol],
+                "PEG": [peg],
+                "TFR ": [tfr],
+                "FRR": [frr],
+                "BUFFER": [buffer],
+            })
             input_data_ = pd.DataFrame({
                 "TLP": [tlp],
                 "ESM": [esm],
