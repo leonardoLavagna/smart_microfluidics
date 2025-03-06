@@ -109,7 +109,7 @@ if section == "Dataset":
         st.markdown("""- `CHOL`: the concentration (mg/mL) of Cholesterol used;""")
         st.markdown("""- `PEG`: the concentration (mg/mL) of DSPE-PEG2000 used;""")
         st.markdown("""- `TFR`: the Total Flow Rate (mL/min) in the microfluidic considered setup;""")
-        st.markdown("""- `FRR`: the Flow Rate Ratio (mL/min) between flux streams in the considered setup;""")
+        st.markdown("""- `FRR`: the Flow Rate Ratio between flux streams in the considered setup;""")
         st.markdown("""- `BUFFER`: the aqueous medium considered;""")
         st.markdown("""- `OUTPUT`: the result of the formation of the system;""")
         st.markdown("""- `SIZE`: the size (nm) of the liposomes;""")
