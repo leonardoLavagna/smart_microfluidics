@@ -93,9 +93,9 @@ if section == "Dataset":
 # 2.MODELS
 ################################################
 if section == "Data Modeling":
-    st.write("Start by choosing a model, then try the selected model with your data")
+    st.write("Start by choosing a model, then try the selected model with your data.")
     option = st.radio(
-        "**Choose a model.**",
+        "",
         [
             "Random forest regressor",
             "XGBoost",
