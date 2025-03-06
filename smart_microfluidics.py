@@ -70,7 +70,7 @@ if section == "Dataset":
                The app is in a developing phase. Current version: `v0.2`. In this version the user can:""")
     st.markdown("""- Work with pretrained machine learning architectures on a default dataset;""")
     st.markdown("""- Simulate experiments with the tools in the Data Modeling section (menù on the left); """)
-    st.markdown("""- Get in depth data analysis with the visualizations in the Data Exploration section (menù on the left). """)
+    st.markdown("""- Get in depth data analysis with the visualizations in the Data Exploration section (drop-down menu on the left). """)
     st.markdown("""Report bugs or request updates [@Leonardo Lavagna](https://leonardolavagna.github.io/) by [opening an issue in the project repository](https://github.com/leonardoLavagna/smart_microfluidics/issues). 
                 The training of the models was done on a publicly available dataset and in compliance with current legislation.""")
     st.header("Dataset")
