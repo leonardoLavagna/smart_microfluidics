@@ -36,14 +36,18 @@ def categorize_pdi(pdi):
 
 
 @st.cache_data
-def fetch_data(file_path):
+def fetch_csv_data(file_path):
     data = pd.read_csv(file_path, encoding="latin1").drop(columns=['ID', 'FR-O', 'FR-W'])
     data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
     data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
     data = data.map(lambda x: str(x) if isinstance(x, str) else x)
     numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
     return data, numeric_data
-    
+
+@st.cache_data
+def fetch_xlsx_data(file_path):
+    data = pd.read_excel(file_path)
+    return data
 
 ################################################
 # COLOPHON
@@ -63,8 +67,8 @@ section = st.sidebar.selectbox(
 ################################################
 # 1. DATA
 ################################################
-file_path = "data/data.csv"
-data, numeric_data = fetch_data(file_path)
+data, numeric_data = fetch_csv_data("data/data.csv")
+data_ = fetch_xlsx_data("_includes/_data.xlsx")
 if section == "Dataset":
     st.markdown("""This app provides machine learning and data analysis tools for laboratory operators while carrying out microfluidic liposome experiments.
                The app is in a developing phase. Current version: `v0.2`. In this version the user can:""")
@@ -91,7 +95,7 @@ if section == "Dataset":
     else: 
         st.write("Loading default dataset...")
         st.success("File loaded successfully!")
-        st.dataframe(data)
+        st.dataframe(data_)
         #st.dataframe(data.style.format(thousands=""))
         
 
