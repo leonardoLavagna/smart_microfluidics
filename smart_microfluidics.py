@@ -44,10 +44,12 @@ def fetch_csv_data(file_path):
     numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
     return data, numeric_data
 
+
 @st.cache_data
 def fetch_xlsx_data(file_path):
     data = pd.read_excel(file_path)
     return data
+
 
 ################################################
 # COLOPHON
@@ -593,3 +595,4 @@ elif section == "Data Exploration":
         plt.ylabel(f"UMAP Component 2")
         plt.title(f"UMAP Projection with K-Means Cluster Density (Clusters: {n_clusters})")
         st.pyplot(plt)
+        
