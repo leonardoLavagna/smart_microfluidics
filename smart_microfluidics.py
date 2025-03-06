@@ -574,10 +574,6 @@ elif section == "Data Exploration":
         st.header("Principal component analysis and associated clusters.")
         st.markdown("""Displays the principal data features and their clusters using a standard [PCA](https://en.wikipedia.org/wiki/Principal_component_analysis) algorithm, a [UMAP](https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Uniform_manifold_approximation_and_projection), 
         and [k-means](https://en.wikipedia.org/wiki/K-means_clustering) clustering. These plots help in model design, pinpoint processing requirements and can provide guidance during training and validation.""")
-        numerical_cols = data.select_dtypes(include=['float64', 'int64']).columns
-        data_numeric = data[numerical_cols]
-        st.write("Numerical columns summary")
-        st.write(data_numeric.describe())
         #3.5.1 Standard PCA
         st.subheader("Standard PCA onto two principal components")
         scaler = StandardScaler()
