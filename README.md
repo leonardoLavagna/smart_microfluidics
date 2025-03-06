@@ -6,7 +6,7 @@ Implementation of a data-driven solution for smart [microfluidics](https://en.wi
 Here you can find the code associated to the project.
   - `developer's directories` are all the directories starting with an underscore such as `_models`, `_include` etc... They contain auxiliary materials that enable online deployment of the project. In particular:
       - `_models` contains different machine learning models (as pickle files) used for the data-driven application. These models have been extensively validated (wet-lab validation).
-      - `_include` contains icons, badges, worning messages etc...
+      - `_include` contains icons, badges, warning messages, auxiliary data, etc...
   - `data` contains the dataset we used for building and training the models.
   - `notebooks` contains the training steps of the machine learning models in `models' as well as all the necessary code to reproduce them.
   - `requirements.txt` contaions the list of requirements needed to run the code.
