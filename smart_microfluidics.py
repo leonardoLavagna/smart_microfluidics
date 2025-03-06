@@ -94,7 +94,7 @@ if section == "Dataset":
 ################################################
 if section == "Data Modeling":
     st.sidebar.title("Select a model")
-    option = st.sidebar(
+    option = st.sidebar.selectbox(
         "Choose a model:",
         [
             "Random forest regressor",
