@@ -93,8 +93,7 @@ if section == "Dataset":
 # 2.MODELS
 ################################################
 if section == "Data Modeling":
-    st.sidebar.title("Select a model")
-    option = st.sidebar.selectbox(
+    option = st.radio(
         "Choose a model:",
         [
             "Random forest regressor",
