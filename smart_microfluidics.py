@@ -59,7 +59,6 @@ data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
 data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
 data = data.map(lambda x: str(x) if isinstance(x, str) else x)
 numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
-
 if section == "Dataset":
     st.markdown("""This app provides machine learning and data analysis tools for laboratory operators while carrying out microfluidic liposome experiments.
                The app is in a developing phase. Current version: `v0.2`. In this version the user can:""")
@@ -86,8 +85,8 @@ if section == "Dataset":
     else: 
         st.write("Loading default dataset...")
         st.success("File loaded successfully!")
-        #st.dataframe(data)
-        st.dataframe(data.style.format(thousands=""))
+        st.dataframe(data)
+        #st.dataframe(data.style.format(thousands=""))
         
 
 ################################################
@@ -95,7 +94,7 @@ if section == "Dataset":
 ################################################
 if section == "Data Modeling":
     st.sidebar.title("Model Selection")
-    option = st.sidebar.selectbox(
+    option = st.radio(
         "Choose a model:",
         [
             "Random forest regressor",
