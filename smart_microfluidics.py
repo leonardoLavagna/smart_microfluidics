@@ -99,24 +99,28 @@ if section == "Data Modeling":
         [
             "Random forest regressor",
             "XGBoost",
-            "Inverse problem",
+            "Inverse model",
             "Advanced models",
         ],
     )
     st.write("Try the models with your data.")
-    ml = st.selectbox("ML", ["HSPC", "ESM"])
-    chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
-    #tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
-    esm_disabled = ml == "HSPC"
-    hspc_disabled = ml == "ESM"
-    esm = st.number_input("ESM", value=0.0 if esm_disabled else 0.1, min_value=0.0, max_value=100.0, step=0.1, disabled=esm_disabled)
-    hspc = st.number_input("HSPC", value=0.0 if hspc_disabled else 3.75, min_value=0.0, max_value=100.0, step=0.1, disabled=hspc_disabled)
-    chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
-    peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
-    tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
-    frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
-    buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
-    tlp = (hspc if hspc > 0 else esm) + chol + peg
+    if option != "Inverse model":
+        ml = st.selectbox("ML", ["HSPC", "ESM"])
+        chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
+        #tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
+        esm_disabled = ml == "HSPC"
+        hspc_disabled = ml == "ESM"
+        esm = st.number_input("ESM", value=0.0 if esm_disabled else 0.1, min_value=0.0, max_value=100.0, step=0.1, disabled=esm_disabled)
+        hspc = st.number_input("HSPC", value=0.0 if hspc_disabled else 3.75, min_value=0.0, max_value=100.0, step=0.1, disabled=hspc_disabled)
+        chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
+        peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
+        tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
+        frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
+        buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
+        tlp = (hspc if hspc > 0 else esm) + chol + peg
+    else:
+        size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=500.0, step=0.1)
+        pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.01)
     
     # 2.1 Random forest regressor
     if option == "Random forest regressor":
@@ -192,8 +196,8 @@ if section == "Data Modeling":
                 st.write(f"`PDI`: {pdi:.2f}")
     
     # 2.3 Inverse model
-    elif option == "Inverse problem":
-        st.header("Inverse problem")
+    elif option == "Inverse model":
+        st.header("Inverse model")
         st.markdown("This inference method pivots the pretrained XGBoost model to solve an [inverse problem](https://en.wikipedia.org/wiki/Inverse_problem): given target `SIZE` and `PDI` returns predictions for the other numerical features.")
         st.warning(":male-technologist: Work in progress... Only numerical predictions available.")
         with open(inverse_xgboost_model, "rb") as file:
@@ -203,9 +207,6 @@ if section == "Data Modeling":
             "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
             "Value": [0.11767681688070297, 89.26007080078125, 3.7459394931793213]
         }))
-        st.write("Try the model with your data.")
-        size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=500.0, step=0.1)
-        pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.01)
         if st.button("Predict"):
             input_data = pd.DataFrame({"SIZE": [size],"PDI": [pdi]})
             predictions = model.predict(input_data)
