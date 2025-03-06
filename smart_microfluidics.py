@@ -70,6 +70,7 @@ section = st.sidebar.selectbox(
 # 1. DATA
 ################################################
 data, numeric_data = fetch_csv_data("data/data.csv")
+data_numeric = numeric_data.copy()
 data_ = fetch_xlsx_data("_includes/data.xlsx")
 if section == "Dataset":
     st.markdown("""This app provides machine learning and data analysis tools for laboratory operators while carrying out microfluidic liposome experiments.
