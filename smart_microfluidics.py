@@ -39,13 +39,6 @@ def categorize_pdi(pdi):
 # COLOPHON
 ################################################                    
 st.title("Smart Microfluidics: Machine Learning tools for Liposome Production Experiments")
-st.markdown("""This app provides machine learning and data analysis tools for laboratory operators while carrying out microfluidic liposome experiments.
-           The app is in a developing phase. Current version: `v0.2`. In this version the user can:""")
-st.markdown("""- Work with pretrained machine learning architectures on a default dataset;""")
-st.markdown("""- Simulate experiments with the tools in the Data Modeling section (menù on the left); """)
-st.markdown("""- Get in depth data analysis with the visualizations in the Data Exploration section (menù on the left). """)
-st.markdown("""Report bugs or request updates [@Leonardo Lavagna](https://leonardolavagna.github.io/) by [opening an issue in the project repository](https://github.com/leonardoLavagna/smart_microfluidics/issues). 
-The training of the models was done on a publicly available dataset and in compliance with current legislation.""")
 st.sidebar.title("Choose an Option")
 section = st.sidebar.selectbox(
     "Data preprocessing, data modelization or data visualization :",
@@ -68,6 +61,13 @@ data = data.map(lambda x: str(x) if isinstance(x, str) else x)
 numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
 
 if section == "Dataset":
+    st.markdown("""This app provides machine learning and data analysis tools for laboratory operators while carrying out microfluidic liposome experiments.
+               The app is in a developing phase. Current version: `v0.2`. In this version the user can:""")
+    st.markdown("""- Work with pretrained machine learning architectures on a default dataset;""")
+    st.markdown("""- Simulate experiments with the tools in the Data Modeling section (menù on the left); """)
+    st.markdown("""- Get in depth data analysis with the visualizations in the Data Exploration section (menù on the left). """)
+    st.markdown("""Report bugs or request updates [@Leonardo Lavagna](https://leonardolavagna.github.io/) by [opening an issue in the project repository](https://github.com/leonardoLavagna/smart_microfluidics/issues). 
+                The training of the models was done on a publicly available dataset and in compliance with current legislation.""")
     st.header("Dataset")
     st.warning(":warning: Current models have been trained on the default dataset which is of intermediate dimension. Higher performances require additional training data.")
     st.write("Get the data for subsequent processing.")
