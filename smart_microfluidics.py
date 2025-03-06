@@ -93,6 +93,16 @@ if section == "Dataset":
 # 2.MODELS
 ################################################
 if section == "Data Modeling":
+    st.sidebar.subtitle("Select a model")
+    option = st.sidebar(
+        "Choose a model:",
+        [
+            "Random forest regressor",
+            "XGBoost",
+            "Inverse problem",
+            "Advanced models",
+        ],
+    )
     st.write("Try the models with your data.")
     ml = st.selectbox("ML", ["HSPC", "ESM"])
     chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
@@ -107,15 +117,6 @@ if section == "Data Modeling":
     frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
     buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
     tlp = (hspc if hspc > 0 else esm) + chol + peg
-    option = st.radio(
-        "Choose a model:",
-        [
-            "Random forest regressor",
-            "XGBoost",
-            "Inverse problem",
-            "Advanced models",
-        ],
-    )
     
     # 2.1 Random forest regressor
     if option == "Random forest regressor":
