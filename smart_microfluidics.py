@@ -93,6 +93,20 @@ if section == "Dataset":
 # 2.MODELS
 ################################################
 if section == "Data Modeling":
+    st.write("Try the models with your data.")
+    ml = st.selectbox("ML", ["HSPC", "ESM"])
+    chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
+    #tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
+    tlp = (hspc if hspc > 0 else esm) + chol + peg
+    esm_disabled = ml == "HSPC"
+    hspc_disabled = ml == "ESM"
+    esm = st.number_input("ESM", value=0.0 if esm_disabled else 0.1, min_value=0.0, max_value=100.0, step=0.1, disabled=esm_disabled)
+    hspc = st.number_input("HSPC", value=0.0 if hspc_disabled else 3.75, min_value=0.0, max_value=100.0, step=0.1, disabled=hspc_disabled)
+    chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
+    peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
+    tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
+    frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
+    buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
     option = st.radio(
         "Choose a model:",
         [
@@ -102,7 +116,7 @@ if section == "Data Modeling":
             "Advanced models",
         ],
     )
-        
+    
     # 2.1 Random forest regressor
     if option == "Random forest regressor":
         st.header("Random forest regressor")
@@ -114,19 +128,6 @@ if section == "Data Modeling":
             "Metric": ["R-squared", "Mean Squared Error (MSE)", "Mean Absolute Error (MAE)"],
             "Value": [0.36157896454981364, 1958.890858993266, 15.086741645521377]
         }))
-        st.write("Try the model with your data.")
-        ml = st.selectbox("ML", ["HSPC", "ESM"])
-        chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
-        tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
-        esm_disabled = ml == "HSPC"
-        hspc_disabled = ml == "ESM"
-        esm = st.number_input("ESM", value=0.0 if esm_disabled else 0.1, min_value=0.0, max_value=100.0, step=0.1, disabled=esm_disabled)
-        hspc = st.number_input("HSPC", value=0.0 if hspc_disabled else 3.75, min_value=0.0, max_value=100.0, step=0.1, disabled=hspc_disabled)
-        chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
-        peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
-        tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
-        frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
-        buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
         if st.button("Predict"):
             input_data = pd.DataFrame({
                 "ML": [ml],
@@ -161,19 +162,6 @@ if section == "Data Modeling":
             "Metric": ["R-squared", "Mean Squared Error (MSE)", "Mean Absolute Error (MAE)"],
             "Value": [0.32854801416397095, 1967.81201171875, 14.646432876586914]
         }))
-        st.write("Try the model with your data.")
-        ml = st.selectbox("ML", ["HSPC", "ESM"])
-        chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
-        tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
-        esm_disabled = ml == "HSPC"
-        hspc_disabled = ml == "ESM"
-        esm = st.number_input("ESM", value=0.0 if esm_disabled else 0.1, min_value=0.0, max_value=100.0, step=0.1, disabled=esm_disabled)
-        hspc = st.number_input("HSPC", value=0.0 if hspc_disabled else 3.75, min_value=0.0, max_value=100.0, step=0.1, disabled=hspc_disabled)
-        chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
-        peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
-        tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
-        frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
-        buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
         if st.button("Predict"):
             input_data = pd.DataFrame({
                 "ML": [ml],
