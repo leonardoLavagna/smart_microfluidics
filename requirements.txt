@@ -5,6 +5,7 @@ plotly
 seaborn
 matplotlib 
 pandas 
+openpyxl
 numpy
 squarify
 scipy
