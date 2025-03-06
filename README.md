@@ -20,6 +20,8 @@ If you want to use the code in this repository in your projects, please cite exp
 * Clone the repository with `git clone https://github.com/leonardoLavagna/smart_microfluidics`
 * Install the requirements with `pip install -r requirements.txt`
 
+Clearly you can also simply use the app: [smart-microfluidics.streamlit.app](https://smart-microfluidics.streamlit.app/).
+
 ## Contributing
 We welcome contributions to enhance the functionality and performance of the models. Please submit pull requests or open issues for any improvements or bug fixes.
 
