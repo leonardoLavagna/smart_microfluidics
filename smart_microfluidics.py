@@ -357,7 +357,7 @@ if section == "Data Modeling":
 # 3. DATA EXPLORATION
 ################################################
 elif section == "Data Exploration":
-    st.sidebar.title("Visualization Options")
+    #st.sidebar.title("Visualization Options")
     option = st.sidebar.selectbox(
         "Choose a Visualization:",
         [
