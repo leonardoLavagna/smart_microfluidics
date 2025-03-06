@@ -97,7 +97,6 @@ if section == "Data Modeling":
     ml = st.selectbox("ML", ["HSPC", "ESM"])
     chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
     #tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
-    tlp = (hspc if hspc > 0 else esm) + chol + peg
     esm_disabled = ml == "HSPC"
     hspc_disabled = ml == "ESM"
     esm = st.number_input("ESM", value=0.0 if esm_disabled else 0.1, min_value=0.0, max_value=100.0, step=0.1, disabled=esm_disabled)
@@ -107,6 +106,7 @@ if section == "Data Modeling":
     tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
     frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
     buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
+    tlp = (hspc if hspc > 0 else esm) + chol + peg
     option = st.radio(
         "Choose a model:",
         [
@@ -141,6 +141,8 @@ if section == "Data Modeling":
                 "FRR": [frr],
                 "BUFFER": [buffer],
             })
+            st.subheader("Input data")
+            st.write(input_data)
             predictions = model.predict(input_data)
             size, pdi = predictions[0]
             st.subheader("Model predictions")
@@ -176,6 +178,8 @@ if section == "Data Modeling":
                 "BUFFER": [buffer],
                 "OUTPUT": [1],
             })
+            st.subheader("Input data")
+            st.write(input_data)
             predictions = model.predict(input_data)
             size, pdi = predictions[0]
             st.subheader("Model predictions")
