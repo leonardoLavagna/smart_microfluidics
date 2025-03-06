@@ -93,7 +93,7 @@ if section == "Dataset":
 # 2.MODELS
 ################################################
 if section == "Data Modeling":
-    st.sidebar.subtitle("Select a model")
+    st.sidebar.title("Select a model")
     option = st.sidebar(
         "Choose a model:",
         [
