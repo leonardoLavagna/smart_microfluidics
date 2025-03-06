@@ -99,8 +99,8 @@ if section == "Dataset":
 # 2.MODELS
 ################################################
 if section == "Data Modeling":
-    st.write(r"Start by choosing a model in the drop-down menu, then try the selected model with your data. If you want to test multiple models (Random forest regressor, XGBoost and the Advanced models) on the same input data, 
-                just enter each data value once in the table below. The inverse model works differently so you will have to enter new inputs.")
+    st.write("""Start by choosing a model in the drop-down menu, then try the selected model with your data. If you want to test multiple models (Random forest regressor, XGBoost and the Advanced models) on the same input data, 
+                just enter each data value once in the table below. The inverse model works differently so you will have to enter new inputs.""")
     option = st.sidebar.selectbox("Select a model",
         [
             "Random forest regressor",
