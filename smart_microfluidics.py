@@ -5,7 +5,7 @@ import pickle
 import joypy
 import umap
 import matplotlib.pyplot as plt
-import seaborn as sns
+import seaborn as sns 
 import plotly.graph_objects as go
 import scipy.cluster.hierarchy as sch
 from sklearn.cluster import KMeans
