@@ -260,7 +260,7 @@ if section == "Data Modeling":
     # 2.4 Advanced models
     elif option == "Advanced models":
         st.subheader("Advanced models")
-        st.write("Multiple models working in parallel for targeted predictions.") 
+        st.write("Multiple models working in parallel for targeted predictions. These models reduce the prediction dispersion, with less robust point estimators (when compared with simpler models), so the tradeoff between accuracy and error must be considered.") 
         st.subheader("Preview of some available advanced models for predicting `SIZE` or `PDI`")
         st.write("`ensemble-pdi`")
         st.table(pd.DataFrame({
