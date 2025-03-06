@@ -100,7 +100,7 @@ if section == "Dataset":
 ################################################
 if section == "Data Modeling":
     st.write("Start by choosing a model in the drop-down menu, then try the selected model with your data.")
-    option = st.radio(
+    option = st.st.sidebar.title("Select a model",
         [
             "Random forest regressor",
             "XGBoost",
