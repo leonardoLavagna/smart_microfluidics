@@ -119,6 +119,7 @@ if section == "Dataset":
 # 2.MODELS
 ################################################
 if section == "Data Modeling":
+    st.header("Data Modeling")
     st.write("""Start by choosing a model in the drop-down menu, then try the selected model with your data. If you want to test multiple models (Random forest regressor, XGBoost and the Advanced models) on the same input data, 
                 just enter each data value once in the table below. The inverse model works differently so you will have to enter new inputs.""")
     option = st.sidebar.selectbox("Select a model",
@@ -149,7 +150,7 @@ if section == "Data Modeling":
     
     # 2.1 Random forest regressor
     if option == "Random forest regressor":
-        st.header("Random forest regressor")
+        st.subheader("Random forest regressor")
         st.markdown("Using multiple [decision trees](https://en.wikipedia.org/wiki/Decision_tree) in parallel and [bagging](http://en.wikipedia.org/wiki/Bootstrap_aggregating) this model based on a [random forest](https://en.wikipedia.org/wiki/Random_forest) provides joint predictions for `SIZE` and `PDI`.")  
         with open(random_forest_model, "rb") as file:
             model = pickle.load(file)
@@ -185,7 +186,7 @@ if section == "Data Modeling":
                
     # 2.2 XGBoost
     elif option == "XGBoost":
-        st.header("XGBoost")
+        st.subheader("XGBoost")
         st.markdown("Using [eXtreme Gradient Boosting](https://en.wikipedia.org/wiki/XGBoost) the model provides joint predictions for `SIZE` and `PDI`.") 
         with open(xgboost_model, "rb") as file:
             model = pickle.load(file)
@@ -234,7 +235,7 @@ if section == "Data Modeling":
     
     # 2.3 Inverse model
     elif option == "Inverse model":
-        st.header("Inverse model")
+        st.subheader("Inverse model")
         st.markdown("This inference method pivots the pretrained XGBoost model to solve an [inverse problem](https://en.wikipedia.org/wiki/Inverse_problem): given target `SIZE` and `PDI` returns predictions for the other numerical features.")
         st.warning(":male-technologist: Work in progress... Only numerical predictions available.")
         with open(inverse_xgboost_model, "rb") as file:
@@ -257,7 +258,7 @@ if section == "Data Modeling":
         
     # 2.4 Advanced models
     elif option == "Advanced models":
-        st.header("Advanced models")
+        st.subheader("Advanced models")
         st.write("Multiple models working in parallel for targeted predictions.") 
         st.subheader("Preview of some available advanced models for predicting `SIZE` or `PDI`")
         st.write("`ensemble-pdi`")
