@@ -75,7 +75,7 @@ if section == "Dataset":
     st.markdown("""This app provides machine learning and data analysis tools for laboratory operators while carrying out microfluidic liposome experiments.
                The app is in a developing phase. Current version: `v0.2`. In this version the user can:""")
     st.markdown("""- Work with pretrained machine learning architectures on a default dataset;""")
-    st.markdown("""- Simulate experiments with the tools in the Data Modeling section (menù on the left); """)
+    st.markdown("""- Simulate experiments with the tools in the Data Modeling section (drop-down menu on the left); """)
     st.markdown("""- Get in depth data analysis with the visualizations in the Data Exploration section (drop-down menu on the left). """)
     st.markdown("""Report bugs or request updates [@Leonardo Lavagna](https://leonardolavagna.github.io/) by [opening an issue in the project repository](https://github.com/leonardoLavagna/smart_microfluidics/issues). 
                 The training of the models was done on a publicly available dataset and in compliance with current legislation.""")
@@ -99,6 +99,20 @@ if section == "Dataset":
         st.success("File loaded successfully!")
         st.dataframe(data_)
         #st.dataframe(data.style.format(thousands=""))
+        st.markdown("""The default dataset contains the following features:""")
+        st.markdown("""- `ID`: a uniqe identifier for each formulation;""")
+        st.markdown("""- `ML`: the Main Lipid used;""")
+        st.markdown("""- `CHIP`: the type of chip used in the microfluidinc setup;""")
+        st.markdown("""- `ESM`: the concentration (mg/mL) of the ESM lipid;""")
+        st.markdown("""- `HSPC`: the concentration (mg/mL) of the HSPC lipid;""")
+        st.markdown("""- `CHOL`: the concentration (mg/mL) of Cholesterol used;""")
+        st.markdown("""- `PEG`: the concentration (mg/mL) of DSPE-PEG2000 used;""")
+        st.markdown("""- `TFR`: the Total Flow Rate (mL/min) in the microfluidic considered setup;""")
+        st.markdown("""- `FRR`: the Flow Rate Ratio (mL/min) between flux streams in the considered setup;""")
+        st.markdown("""- `BUFFER`: the aqueous medium considered;""")
+        st.markdown("""- `OUTPUT`: the result of the formation of the system;""")
+        st.markdown("""- `SIZE`: the size (nm) of the liposomes;""")
+        st.markdown("""- `PDI`: the PolyDispersity Index.""")
         
 
 ################################################
