@@ -224,6 +224,8 @@ if section == "Data Modeling":
             predictions = model.predict(input_data)
             predictions = np.abs(predictions)
             predictions = np.where(predictions < 0.5, 0, predictions)
+            st.subheader("Input data")
+            st.write(input_data)
             st.subheader("Model predictions")
             prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
             st.write(prediction_df)
