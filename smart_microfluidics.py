@@ -269,13 +269,6 @@ if section == "Data Modeling":
         st.subheader("Try the `ensemble-size` model with your data.")
         with open(size_model, "rb") as file:
             model = pickle.load(file)
-        tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
-        esm = st.number_input("ESM", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
-        hspc = st.number_input("HSPC", value=3.75, min_value=0.0, max_value=100.0, step=0.1)
-        chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
-        peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
-        tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
-        frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
         if st.button("Predict"):
             input_data = pd.DataFrame({
                 "TLP": [tlp],
