@@ -74,7 +74,7 @@ if section == "Dataset":
     user_choice = st.radio("Upload custom data?", ("No", "Yes"))
     if user_choice == "Yes":
         #st.warning("Custom data processing requires a premium account due to memory requirements, feature engineering and taylored processing.")
-        st.warning(":no_entry_sign: Customized data processing not available for current user.")
+        st.warning(":no_entry_sign: Customized data processing not available for current user.") 
         #uploaded_file = st.file_uploader("Drag and Drop your CSV file here", type=["csv"])
         #if uploaded_file is not None:
         #    st.warning("Customized data processing not available for current user.")
