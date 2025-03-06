@@ -109,7 +109,7 @@ if section == "Data Modeling":
             "Advanced models",
         ],
     )
-    st.write(r"$\footnotesize{\textbf{Input your data.}}$")
+    st.write(r"$\tiny{\textbf{\textst{Input your data.}}}$")
     if option != "Inverse model":
         ml = st.selectbox("ML", ["HSPC", "ESM"])
         chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
