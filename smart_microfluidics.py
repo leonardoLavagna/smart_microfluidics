@@ -35,6 +35,16 @@ def categorize_pdi(pdi):
         return 'PLD'
 
 
+@st.cache_data
+def fetch_data(file_path):
+    data = pd.read_csv(file_path, encoding="latin1").drop(columns=['ID', 'FR-O', 'FR-W'])
+    data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
+    data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
+    data = data.map(lambda x: str(x) if isinstance(x, str) else x)
+    numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
+    return data, numeric_data
+    
+
 ################################################
 # COLOPHON
 ################################################                    
@@ -54,11 +64,7 @@ section = st.sidebar.selectbox(
 # 1. DATA
 ################################################
 file_path = "data/data.csv"
-data = pd.read_csv(file_path, encoding="latin1").drop(columns=['ID', 'FR-O', 'FR-W'])
-data.BUFFER = data.BUFFER.astype(str).str.strip().replace({'PBS\xa0': 'PBS'})
-data.CHIP = data.CHIP.replace({'Micromixer\xa0': 'Micromixer'})
-data = data.map(lambda x: str(x) if isinstance(x, str) else x)
-numeric_data = data.select_dtypes(include=['float64', 'int64']).dropna()
+data, numeric_data = fetch_data(file_path)
 if section == "Dataset":
     st.markdown("""This app provides machine learning and data analysis tools for laboratory operators while carrying out microfluidic liposome experiments.
                The app is in a developing phase. Current version: `v0.2`. In this version the user can:""")
@@ -94,6 +100,7 @@ if section == "Dataset":
 ################################################
 if section == "Data Modeling":
     st.write("Start by choosing a model, then try the selected model with your data.")
+    st.write("**Choose a model.**")
     option = st.radio(
         "",
         [
