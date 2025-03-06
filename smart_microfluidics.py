@@ -341,11 +341,11 @@ if section == "Data Modeling":
             st.subheader("Input data")
             st.write(input_data)
             st.subheader("Model predictions")
-            if model.predict(input_data) > 0.5:
+            if model.predict(input_data_) > 0.5:
                 st.write("The sistem doesn't form")
                 st.write(f"`OUTPUT`: 0")                
             else:
-                st.write(f"Predicted `PDI`: {model.predict(input_data)}")
+                st.write(f"Predicted `PDI`: {model.predict(input_data_)}")
 
 
 ################################################
