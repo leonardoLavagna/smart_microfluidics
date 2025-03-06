@@ -51,7 +51,7 @@ def fetch_data(file_path):
 st.title("Smart Microfluidics: Machine Learning tools for Liposome Production Experiments")
 st.sidebar.title("Choose an Option")
 section = st.sidebar.selectbox(
-    "Data preprocessing, data modelization or data visualization :",
+    "Data preprocessing, data modelization or data visualization:",
     [
         "Dataset",
         "Data Modeling",
@@ -100,7 +100,7 @@ if section == "Dataset":
 ################################################
 if section == "Data Modeling":
     st.write("Start by choosing a model in the drop-down menu, then try the selected model with your data.")
-    option = st.sidebar.title("Select a model",
+    option = st.sidebar.selectbox("Select a model",
         [
             "Random forest regressor",
             "XGBoost",
