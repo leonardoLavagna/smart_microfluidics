@@ -93,8 +93,9 @@ if section == "Dataset":
 # 2.MODELS
 ################################################
 if section == "Data Modeling":
+    st.write("Start by choosing a model, then try the selected model with your data")
     option = st.radio(
-        "Choose a model:",
+        "**Choose a model.**",
         [
             "Random forest regressor",
             "XGBoost",
@@ -102,7 +103,7 @@ if section == "Data Modeling":
             "Advanced models",
         ],
     )
-    st.write("Try the models with your data.")
+    st.write("**Input your data.**")
     if option != "Inverse model":
         ml = st.selectbox("ML", ["HSPC", "ESM"])
         chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
