@@ -279,6 +279,7 @@ if section == "Data Modeling":
         st.pyplot(fig)
         st.write("Depending on the number of samples available for training and validation we can boost the performances even further.")
         # 2.4.1 ensemble-size
+        st.subheader("Try the `ensemble-size` model")
         with open(size_model, "rb") as file:
             model = pickle.load(file)
         if st.button("Predict"):
@@ -312,6 +313,7 @@ if section == "Data Modeling":
             else:
                 st.write(f"Predicted `SIZE`: {model.predict(input_data_)}")   
         # 2.4.2 ensemble-pdi
+        st.subheader("Try the `ensemble-pdi` model")
         with open(pdi_model, "rb") as file:
             model = pickle.load(file)
         if st.button("Predict", key='adv_pred_2'):
