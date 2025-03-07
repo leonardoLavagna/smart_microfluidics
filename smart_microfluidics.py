@@ -81,8 +81,6 @@ if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 if "section" not in st.session_state:
     st.session_state.section = "Authenticate"  # Default to authentication
-
-# Authentication Form (only show if not authenticated)
 if not st.session_state.authenticated:
     st.session_state.section = "Authenticate"
     user_id = st.text_input("Enter your ID:")
@@ -92,22 +90,19 @@ if not st.session_state.authenticated:
             st.success("Authentication successful! You can proceed.")
             st.session_state.authenticated = True  # Store authentication state
             st.session_state.section = "Dataset"  # Default section after login
+            # Trigger a rerun using session state
+            st.session_state.authenticated = True
             st.experimental_rerun()
         else:
             st.error("Authentication failed! Please check your credentials.")
 else:
-    # Sidebar for navigation
     st.sidebar.title("Choose an Option")
     st.session_state.section = st.sidebar.selectbox(
         "Data preprocessing, data modelization or data visualization:",
         ["Dataset", "Data Modeling", "Data Exploration"],
         index=["Dataset", "Data Modeling", "Data Exploration"].index(st.session_state.section)
     )
-
-# Ensure `section` is always accessible
 section = st.session_state.section
-
-# Display section
 st.write(f"You selected: {section}")
 
 
