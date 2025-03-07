@@ -80,7 +80,7 @@ credentials = load_credentials(GITHUB_CREDENTIALS_URL)
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 if "section" not in st.session_state:
-    st.session_state.section = "Authenticate"  # Default to authentication
+    st.session_state.section = "Authenticate" 
 if not st.session_state.authenticated:
     st.session_state.section = "Authenticate"
     user_id = st.text_input("Enter your ID:")
@@ -88,11 +88,10 @@ if not st.session_state.authenticated:
     if st.button("Login"):
         if credentials and authenticate(user_id, password, credentials):
             st.success("Authentication successful! You can proceed.")
-            st.session_state.authenticated = True  # Store authentication state
-            st.session_state.section = "Dataset"  # Default section after login
-            # Trigger rerun implicitly by setting a session state value
+            st.session_state.authenticated = True  
+            st.session_state.section = "Dataset"  
             st.session_state.authenticated = True
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("Authentication failed! Please check your credentials.")
 else:
