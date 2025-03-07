@@ -90,9 +90,9 @@ if not st.session_state.authenticated:
             st.success("Authentication successful! You can proceed.")
             st.session_state.authenticated = True  # Store authentication state
             st.session_state.section = "Dataset"  # Default section after login
-            # Set the session state to force a rerun
-            st.session_state.login_successful = True
-            # Refresh the page implicitly by changing session state
+            # Trigger rerun implicitly by setting a session state value
+            st.session_state.authenticated = True
+            st.experimental_rerun()
         else:
             st.error("Authentication failed! Please check your credentials.")
 else:
@@ -104,9 +104,6 @@ else:
     )
 section = st.session_state.section
 st.write(f"You selected: {section}")
-
-
-
 
 
 ################################################
