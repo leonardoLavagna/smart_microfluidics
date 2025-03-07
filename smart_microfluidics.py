@@ -82,25 +82,27 @@ if "section" not in st.session_state:
 if not st.session_state.authenticated:
     st.session_state.section = "Authenticate"
     user_id = st.text_input("Enter your ID:")
-    password = st.text_input("Enter the global password:", type="password")
+    password = st.text_input("Enter your password:", type="password")
     if st.button("Login"):
         if credentials and authenticate(user_id, password, credentials):
             st.success("Authentication successful! You can proceed.")
             st.session_state.authenticated = True  # Store authentication state
-            st.session_state.section = "Main"  # Set section to main after login
+            st.session_state.section = "Dataset"  # Default section after login
             st.experimental_rerun()
         else:
             st.error("Authentication failed! Please check your credentials.")
 else:
     st.sidebar.title("Choose an Option")
-    st.session_state.section = st.sidebar.selectbox(
+    section = st.sidebar.selectbox(
         "Data preprocessing, data modelization or data visualization:",
         [
             "Dataset",
             "Data Modeling",
             "Data Exploration",
         ],
+        index=["Dataset", "Data Modeling", "Data Exploration"].index(st.session_state.section)
     )
+    st.session_state.section = section
     st.write(f"You selected: {st.session_state.section}")
 
 
