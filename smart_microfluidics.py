@@ -1,4 +1,7 @@
 import streamlit as st
+import hashlib
+import requests
+import json
 import pandas as pd
 import numpy as np
 import pickle
@@ -49,12 +52,39 @@ def fetch_csv_data(file_path):
 def fetch_xlsx_data(file_path):
     data = pd.read_excel(file_path)
     return data
+    
+
+def load_credentials(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        return json.loads(response.text)
+    return None
+
+
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+
+def authenticate(user_id, password, credentials):
+    hashed_user_id = hashlib.sha256(user_id.encode()).hexdigest()
+    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+    return hashed_user_id in credentials and credentials[hashed_user_id] == hashed_password
 
 
 ################################################
 # COLOPHON
 ################################################                    
 st.title("Smart Microfluidics: Machine Learning tools for Liposome Production Experiments")
+GITHUB_CREDENTIALS_URL = "https://raw.githubusercontent.com/leonardoLavagna/smart_microfluidics/main/_includes/credentials.json"
+user_id = st.text_input("Enter your ID:")
+password = st.text_input("Enter the global password:", type="password")
+if st.button("Login"):
+    if credentials and authenticate(user_id, password, credentials):
+        st.success("Authentication successful! You can proceed.")
+        # Proceed with app functionality here
+    else:
+        st.error("Authentication failed! Please check your credentials.")
+credentials = load_credentials(GITHUB_CREDENTIALS_URL)
 st.sidebar.title("Choose an Option")
 section = st.sidebar.selectbox(
     "Data preprocessing, data modelization or data visualization:",
