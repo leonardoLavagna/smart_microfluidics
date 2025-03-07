@@ -74,23 +74,26 @@ def authenticate(user_id, password, credentials):
 ################################################                    
 st.title("Smart Microfluidics: Machine Learning tools for Liposome Production Experiments")
 GITHUB_CREDENTIALS_URL = "https://raw.githubusercontent.com/leonardoLavagna/smart_microfluidics/main/_includes/credentials.json"
-section == "Dataset"
 credentials = load_credentials(GITHUB_CREDENTIALS_URL)
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
+if "section" not in st.session_state:
+    st.session_state.section = "Authenticate"
 if not st.session_state.authenticated:
+    st.session_state.section = "Authenticate"
     user_id = st.text_input("Enter your ID:")
     password = st.text_input("Enter the global password:", type="password")
     if st.button("Login"):
         if credentials and authenticate(user_id, password, credentials):
             st.success("Authentication successful! You can proceed.")
             st.session_state.authenticated = True  # Store authentication state
+            st.session_state.section = "Main"  # Set section to main after login
             st.experimental_rerun()
         else:
             st.error("Authentication failed! Please check your credentials.")
 else:
     st.sidebar.title("Choose an Option")
-    section = st.sidebar.selectbox(
+    st.session_state.section = st.sidebar.selectbox(
         "Data preprocessing, data modelization or data visualization:",
         [
             "Dataset",
@@ -98,6 +101,8 @@ else:
             "Data Exploration",
         ],
     )
+    st.write(f"You selected: {st.session_state.section}")
+
 
 
 ################################################
