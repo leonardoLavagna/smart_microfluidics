@@ -80,11 +80,13 @@ credentials = load_credentials(GITHUB_CREDENTIALS_URL)
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 if "section" not in st.session_state:
-    st.session_state.section = "Authenticate"
+    st.session_state.section = "Authenticate"  # Default to authentication
+
+# Authentication Form (only show if not authenticated)
 if not st.session_state.authenticated:
     st.session_state.section = "Authenticate"
     user_id = st.text_input("Enter your ID:")
-    password = st.text_input("Enter your password:", type="password")
+    password = st.text_input("Enter the global password:", type="password")
     if st.button("Login"):
         if credentials and authenticate(user_id, password, credentials):
             st.success("Authentication successful! You can proceed.")
@@ -94,18 +96,20 @@ if not st.session_state.authenticated:
         else:
             st.error("Authentication failed! Please check your credentials.")
 else:
+    # Sidebar for navigation
     st.sidebar.title("Choose an Option")
-    section = st.sidebar.selectbox(
+    st.session_state.section = st.sidebar.selectbox(
         "Data preprocessing, data modelization or data visualization:",
-        [
-            "Dataset",
-            "Data Modeling",
-            "Data Exploration",
-        ],
+        ["Dataset", "Data Modeling", "Data Exploration"],
         index=["Dataset", "Data Modeling", "Data Exploration"].index(st.session_state.section)
     )
-    st.session_state.section = section
-    st.write(f"You selected: {st.session_state.section}")
+
+# Ensure `section` is always accessible
+section = st.session_state.section
+
+# Display section
+st.write(f"You selected: {section}")
+
 
 
 
