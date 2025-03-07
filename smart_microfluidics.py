@@ -115,7 +115,7 @@ st.write(f"You selected: {section}")
 data, numeric_data = fetch_csv_data("data/data.csv")
 data_numeric = numeric_data.copy()
 data_ = fetch_xlsx_data("_includes/data.xlsx")
-if section == "Dataset":
+if st.session_state.section == "Dataset":
     st.markdown("""This app provides machine learning and data analysis tools for laboratory operators while carrying out microfluidic liposome experiments.
                The app is in a developing phase. Current version: `v0.2`. In this version the user can:""")
     st.markdown("""- Work with pretrained machine learning architectures on a default dataset;""")
@@ -162,7 +162,7 @@ if section == "Dataset":
 ################################################
 # 2.MODELS
 ################################################
-if section == "Data Modeling":
+if st.session_state.section == "Data Modeling":
     st.header("Data Modeling")
     st.write("""Start by choosing a model in the drop-down menu, then try the selected model with your data. If you want to test multiple models (Random forest regressor, XGBoost and the Advanced models) on the same input data, 
                 just enter each data value once in the table below. The inverse model works differently so you will have to enter new inputs.""")
@@ -422,7 +422,7 @@ if section == "Data Modeling":
 ################################################
 # 3. DATA EXPLORATION
 ################################################
-elif section == "Data Exploration":
+elif st.session_state.section == "Data Exploration":
     #st.sidebar.title("Visualization Options")
     option = st.sidebar.selectbox(
         "Choose a Visualization:",
