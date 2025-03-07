@@ -162,7 +162,7 @@ if st.session_state.section == "Dataset":
 ################################################
 # 2.MODELS
 ################################################
-if st.session_state.section == "Data Modeling":
+if section == "Data Modeling":
     st.header("Data Modeling")
     st.write("""Start by choosing a model in the drop-down menu, then try the selected model with your data. If you want to test multiple models (Random forest regressor, XGBoost and the Advanced models) on the same input data, 
                 just enter each data value once in the table below. The inverse model works differently so you will have to enter new inputs.""")
@@ -422,7 +422,7 @@ if st.session_state.section == "Data Modeling":
 ################################################
 # 3. DATA EXPLORATION
 ################################################
-elif st.session_state.section == "Data Exploration":
+elif section == "Data Exploration":
     #st.sidebar.title("Visualization Options")
     option = st.sidebar.selectbox(
         "Choose a Visualization:",
