@@ -76,6 +76,7 @@ def authenticate(user_id, password, credentials):
 ################################################                    
 st.title("Smart Microfluidics: Machine Learning tools for Liposome Production Experiments")
 GITHUB_CREDENTIALS_URL = "https://raw.githubusercontent.com/leonardoLavagna/smart_microfluidics/main/_includes/credentials.json"
+credentials = load_credentials(GITHUB_CREDENTIALS_URL)
 user_id = st.text_input("Enter your ID:")
 password = st.text_input("Enter the global password:", type="password")
 if st.button("Login"):
@@ -84,7 +85,6 @@ if st.button("Login"):
         # Proceed with app functionality here
     else:
         st.error("Authentication failed! Please check your credentials.")
-credentials = load_credentials(GITHUB_CREDENTIALS_URL)
 st.sidebar.title("Choose an Option")
 section = st.sidebar.selectbox(
     "Data preprocessing, data modelization or data visualization:",
