@@ -60,8 +60,10 @@ def load_credentials(url):
         return json.loads(response.text)
     return None
 
+
 def hash_data(data):
     return hashlib.sha256(data.encode()).hexdigest()
+
 
 def authenticate(user_id, password, credentials):
     hashed_user_id = hash_data(user_id)
