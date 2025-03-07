@@ -74,6 +74,7 @@ def authenticate(user_id, password, credentials):
 ################################################                    
 st.title("Smart Microfluidics: Machine Learning tools for Liposome Production Experiments")
 GITHUB_CREDENTIALS_URL = "https://raw.githubusercontent.com/leonardoLavagna/smart_microfluidics/main/_includes/credentials.json"
+section == "Dataset"
 credentials = load_credentials(GITHUB_CREDENTIALS_URL)
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
@@ -97,7 +98,6 @@ else:
             "Data Exploration",
         ],
     )
-    st.write(f"You selected: {section}")
 
 
 ################################################
