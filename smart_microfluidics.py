@@ -97,6 +97,7 @@ else:
             "Data Exploration",
         ],
     )
+    st.write(f"You selected: {section}")
 
 
 ################################################
