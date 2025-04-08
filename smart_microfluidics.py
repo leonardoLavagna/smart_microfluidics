@@ -359,7 +359,7 @@ if section == "Data Modeling":
                 "PEG": [peg],
                 "TFR ": [tfr],
                 "FRR": [frr],
-                "BUFFER": [buffer],
+                "AQUEOUS": [buffer],
             })
             input_data_ = pd.DataFrame({
                 "ESM": [esm],
