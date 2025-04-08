@@ -449,7 +449,7 @@ if section == "Data Modeling":
                     st.write("The system doesn't form")
                     st.write(f"`OUTPUT`: 0")
                 else:
-                    st.write(f"Predicted `SIZE`: {predicted_pdi:.2f}")
+                    st.write(f"Predicted `SIZE`: {predicted_pdi}")
             elif size > 0.0 and pdi==0.0:  
                 input_data = pd.DataFrame({
                     "ESM": [esm],  
@@ -470,7 +470,7 @@ if section == "Data Modeling":
                     st.write("The system doesn't form")
                     st.write(f"`OUTPUT`: 0")
                 else:
-                    st.write(f"Predicted `PDI`: {predicted_size:.2f}")
+                    st.write(f"Predicted `PDI`: {predicted_size}")
             else:
                 st.warning("Invalid inputs.")
                 
