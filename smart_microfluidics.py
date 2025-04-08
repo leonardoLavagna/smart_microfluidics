@@ -429,11 +429,11 @@ if section == "Data Modeling":
         tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1, key="tfr_in")
         frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1, key="frr_in")
         buffer = st.selectbox("AQUEOUS", ["PBS", "MQ"], key="buf_in")
-        size = st.number_input("SIZE", value=0, min_value=0.0, max_value=5000.0, step=10, key="size_in")
+        size = st.number_input("SIZE", value=0.0, min_value=0.0, max_value=5000.0, step=10.0, key="size_in")
         pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.1, key="pdi_in")
         size_disabled = pdi > 0 
         pdi_disabled = size > 0  
-        size = st.number_input("SIZE", value=size, min_value=0.0, max_value=5000.0, step=10, disabled=size_disabled, key="siz_in")
+        size = st.number_input("SIZE", value=size, min_value=0.0, max_value=5000.0, step=10.0, disabled=size_disabled, key="siz_in")
         pdi = st.number_input("PDI", value=pdi, min_value=0.0, max_value=1.0, step=0.1, disabled=pdi_disabled, key="pd_in")
         if st.button("Predict"):
             if pdi > 0 and size==0:  
