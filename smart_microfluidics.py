@@ -368,6 +368,8 @@ if section == "Data Modeling":
                 "PEG": [peg],
                 "TFR ": [tfr],
                 "FRR": [frr],
+                "AQUEOUS": [buffer],
+                "PDI": [0],
             })
             st.markdown("**Input data**")
             st.write(input_data)
