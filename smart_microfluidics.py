@@ -171,7 +171,7 @@ if section == "Data Modeling":
             "Advanced models",
         ],
     )
-    if option != "Inverse model":
+    if option != "Inverse model" and option != "Advanced models":
         ml = st.selectbox("ML", ["HSPC", "ESM"])
         chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
         #tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
@@ -185,10 +185,25 @@ if section == "Data Modeling":
         frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
         buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
         tlp = (hspc if hspc > 0 else esm) + chol + peg
-    else:
+    elif option == "Inverse model":
         size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=500.0, step=0.1)
         pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.01)
-    
+    elif option == "Advanced models":
+        ml = st.selectbox("ML", ["HSPC", "ESM"])
+        chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
+        #tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
+        esm_disabled = ml == "HSPC"
+        hspc_disabled = ml == "ESM"
+        esm = st.number_input("ESM", value=0.0 if esm_disabled else 0.1, min_value=0.0, max_value=100.0, step=0.1, disabled=esm_disabled)
+        hspc = st.number_input("HSPC", value=0.0 if hspc_disabled else 3.75, min_value=0.0, max_value=100.0, step=0.1, disabled=hspc_disabled)
+        chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
+        peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
+        tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
+        frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
+        buffer = st.selectbox("AQUEOUS", ["PBS", "MQ"])
+        size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=5000.0, step=10.0)
+        pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.1)
+        tlp = (hspc if hspc > 0 else esm) + chol + peg        
     # 2.1 Random forest regressor
     if option == "Random forest regressor":
         st.subheader("Random forest regressor")
@@ -361,6 +376,7 @@ if section == "Data Modeling":
                 "TFR ": [tfr],
                 "FRR": [frr],
                 "AQUEOUS": [buffer],
+                "PDI": [pdi],
             })
             input_data_ = pd.DataFrame({
                 "ESM": [esm],
@@ -370,7 +386,7 @@ if section == "Data Modeling":
                 "TFR": [tfr],
                 "FRR": [frr],
                 "AQUEOUS": [buffer],
-                "PDI": [0.33],
+                "PDI": [pdi],
             })
             st.markdown("**Input data**")
             st.write(input_data)
@@ -395,6 +411,7 @@ if section == "Data Modeling":
                 "TFR ": [tfr],
                 "FRR": [frr],
                 "AQUEOUS": [buffer],
+                "SIZE": [size],
             })
             input_data_ = pd.DataFrame({
                 "ESM": [esm],
@@ -404,7 +421,7 @@ if section == "Data Modeling":
                 "TFR": [tfr],
                 "FRR": [frr],
                 "AQUEOUS": [buffer],
-                "SIZE": [118],
+                "SIZE": [size],
             })
             st.markdown("**Input data**")
             st.write(input_data)
