@@ -2,6 +2,7 @@ import streamlit as st
 import hashlib
 import requests
 import json
+import math
 import pandas as pd
 import numpy as np
 import pickle
@@ -369,7 +370,7 @@ if section == "Data Modeling":
                 "TFR": [tfr],
                 "FRR": [frr],
                 "AQUEOUS": [buffer],
-                "PDI": [NaN],
+                "PDI": [float('nan')],
             })
             st.markdown("**Input data**")
             st.write(input_data)
@@ -403,7 +404,7 @@ if section == "Data Modeling":
                 "TFR": [tfr],
                 "FRR": [frr],
                 "AQUEOUS": [buffer],
-                "PDI": [NaN],
+                "PDI": [float('nan')],
             })
             st.markdown("**Input data**")
             st.write(input_data)
