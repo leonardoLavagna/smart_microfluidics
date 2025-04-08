@@ -379,7 +379,7 @@ if section == "Data Modeling":
                 st.write(f"Predicted `SIZE`: {model.predict(input_data_)}")   
         # 2.4.2 best_xgboost_model_pdi
         st.subheader("Try the `best_xgboost_model_pdi` model")
-        with open(best_xgboost_model_pdi, "rb") as file:
+        with open('_models/best_xgboost_model_pdi.pkl', "rb") as file:
             model = pickle.load(file)
         if st.button("Predict", key='adv_pred_2'):
             input_data = pd.DataFrame({
