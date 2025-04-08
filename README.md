@@ -8,7 +8,6 @@ Here you can find the code associated to the project.
       - `_models` contains different machine learning models (as pickle files) used for the data-driven application. These models have been extensively validated (wet-lab validation).
       - `_include` contains icons, badges, warning messages, auxiliary data, etc...
   - `data` contains the dataset we used for building and training the models.
-  - `notebooks` contains the training steps of the machine learning models in `models` as well as all the necessary code to reproduce them.
   - `requirements.txt` contains the list of requirements needed to run the code.
   - `smart_microfluidics.py` is the overall script that incorporates data visualization tools and the proposed models. This script is associated to the app: [smart-microfluidics.streamlit.app](https://smart-microfluidics.streamlit.app/).
   - `config.py` is a configuration file to set up paths needed in the streamlit app.
