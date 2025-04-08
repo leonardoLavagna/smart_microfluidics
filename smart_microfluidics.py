@@ -170,7 +170,7 @@ if st.session_state.section == "Dataset":
 if section == "Data Modeling":
     st.header("Data Modeling")
     st.write("""Start by choosing a model in the drop-down menu, then try the selected model with your data. If you want to test multiple models (Random forest regressor, XGBoost and the Advanced models) on the same input data, 
-                just enter each data value once in the table below. The inverse model works differently so you will have to enter new inputs.""")
+                just enter each data value once in the table below. The inverse model and the single target models work differently, so you will have to enter new inputs.""")
     option = st.sidebar.selectbox("Select a model",
         [
             "Random forest regressor",
@@ -214,7 +214,7 @@ if section == "Data Modeling":
         st.markdown("Using multiple [decision trees](https://en.wikipedia.org/wiki/Decision_tree) in parallel and [bagging](http://en.wikipedia.org/wiki/Bootstrap_aggregating) this model based on a [random forest](https://en.wikipedia.org/wiki/Random_forest) provides joint predictions for `SIZE` and `PDI`.")  
         with open(random_forest_model, "rb") as file:
             model = pickle.load(file)
-        st.write(f"Loaded {random_forest_model} with the following performance metrics. The key metric is the square root of the error (either the MSE or the MAE).")
+        st.write(f"Loaded {random_forest_model} with the following performance metrics.")
         st.table(pd.DataFrame({
             "Metric": ["R-squared", "Mean Squared Error (MSE)", "Mean Absolute Error (MAE)"],
             "Value": [0.36157896454981364, 1958.890858993266, 15.086741645521377]
@@ -246,7 +246,7 @@ if section == "Data Modeling":
         st.markdown("Using [eXtreme Gradient Boosting](https://en.wikipedia.org/wiki/XGBoost) the model provides joint predictions for `SIZE` and `PDI`.") 
         with open(xgboost_model, "rb") as file:
             model = pickle.load(file)
-        st.write(f"Loaded {xgboost_model} with the following performance metrics. The key metric is the square root of the error (either the MSE or the MAE).")
+        st.write(f"Loaded {xgboost_model} with the following performance metrics.")
         st.table(pd.DataFrame({
             "Metric": ["R-squared", "Mean Squared Error (MSE)", "Mean Absolute Error (MAE)"],
             "Value": [0.32854801416397095, 1967.81201171875, 14.646432876586914]
@@ -284,7 +284,6 @@ if section == "Data Modeling":
             st.markdown("**Model predictions**")
             display_output(size, pdi)
 
-    
     # 2.3 Inverse model
     elif option == "Inverse model":
         st.subheader("Inverse model")
@@ -292,7 +291,7 @@ if section == "Data Modeling":
         st.warning(":male-technologist: Work in progress... Only numerical predictions available.")
         with open(inverse_xgboost_model, "rb") as file:
             model = pickle.load(file)
-        st.write(f"Loaded {inverse_xgboost_model} with the folloing performance metrics. The key metric is the square root of the error (either the MSE or the MAE).")
+        st.write(f"Loaded {inverse_xgboost_model} with the folloing performance metrics.")
         st.table(pd.DataFrame({
             "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
             "Value": [0.11767681688070297, 89.26007080078125, 3.7459394931793213]
@@ -323,7 +322,7 @@ if section == "Data Modeling":
             "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
             "Value": [0.874431019712665, 340.2617544655023, 11.834716059736861]
         }))
-        st.write("With an improvement in terms of metrics given by the following plot. The key metric is the square root of the error (either the MSE or the MAE).")
+        st.write("With an improvement in terms of metrics given by the following plot.")
         metrics = ["R-squared", "MSE", "MAE"]
         before = [0.3285, 1967.81, 14.65]
         after = [0.8744, 340.26, 11.83]
@@ -428,6 +427,53 @@ if section == "Data Modeling":
 
     # 2.5 Single target models
     elif option == "Single target models":
+        st.header("Single target models")
+        st.markdown("These models will predict one target variable at a time, for example `SIZE`, given all the other features. If you want to predict `SIZE` set `PDI` to zero. If you want to predict `PDI` set `SIZE` to zero.")
+        st.subheader("Preview of some available advanced models for predicting `SIZE` or `PDI`")
+        st.write("`xgboost_one_target_pdi`")
+        st.table(pd.DataFrame({
+            "Metric": ["R-squared", "Mean Squared Error (MSE)", "Mean Absolute Error (MAE)"],
+            "Value": [0.9922573566436768, 0.000269298150669783355, 0.012760158628225327]
+        }))
+        st.write("`xgboost_one_target_size`")
+        st.table(pd.DataFrame({
+            "Metric": ["R-squared", "Mean Squared Error (MSE)", "Mean Absolute Error (MAE)"],
+            "Value": [0.9996433258056641, 492.2565612792969, 8.92746639251709]
+        }))
+        st.write("With an improvement in terms of metrics given by the following plot for `SIZE`. Similar results hold for `PDI`.")
+        metrics = ["R-squared", "MSE", "MAE"]
+        before = [0.3285, 1967.81, 14.65]
+        after = [0.9996433258056641, 492.2565612792969, 8.92746639251709]
+        improvements = [
+        ((after[i] - before[i]) / before[i]) * 100 if metrics[i] == "R-squared" 
+        else ((before[i] - after[i]) / before[i]) * 100  
+        for i in range(len(metrics))
+        ]
+        fig, ax1 = plt.subplots(figsize=(8, 5))
+        bar_width = 0.35
+        x = np.arange(len(metrics))
+        bars_before = ax1.bar(x - bar_width/2, before, bar_width, label="Before", color="red", alpha=0.7)
+        bars_after = ax1.bar(x + bar_width/2, after, bar_width, label="After", color="green", alpha=0.7)
+        for bar in bars_before:
+            ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height(), f"{bar.get_height():.2f}", 
+                     ha="center", va="bottom", fontsize=10, color="black")
+        for bar in bars_after:
+            ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height(), f"{bar.get_height():.2f}", 
+                     ha="center", va="bottom", fontsize=10, color="black")
+        ax2 = ax1.twinx()
+        ax2.plot(x, improvements, marker="o", linestyle="--", color="blue", label="Improvement (%)", linewidth=2)
+        for i, val in enumerate(improvements):
+            ax2.text(x[i], val, f"{val:.1f}%", ha="center", va="bottom", fontsize=12, color="blue")
+        ax1.set_xlabel("Metrics")
+        ax1.set_ylabel("Values (Before & After)")
+        ax2.set_ylabel("Improvement (%)")
+        ax1.set_title("Model Performance Improvement")
+        ax1.set_xticks(x)
+        ax1.set_xticklabels(metrics)
+        ax1.legend(loc="upper right", bbox_to_anchor=(1, 1), ncol=1, frameon=False)
+        ax2.legend(loc="upper right", bbox_to_anchor=(1, 0.85), ncol=1, frameon=False)
+        st.pyplot(fig)
+        st.write("Depending on the number of samples available for training and validation we can boost the performances even further.")
         if st.button("Predict"):
             if pdi > 0.0 and size==0.0:  
                 input_data = pd.DataFrame({
