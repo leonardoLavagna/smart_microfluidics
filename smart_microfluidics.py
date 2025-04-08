@@ -393,16 +393,17 @@ if section == "Data Modeling":
                 "PEG": [peg],
                 "TFR ": [tfr],
                 "FRR": [frr],
-                "BUFFER": [buffer],
+                "AQUEOUS": [buffer],
             })
             input_data_ = pd.DataFrame({
-                "TLP": [tlp],
                 "ESM": [esm],
                 "HSPC": [hspc],
                 "CHOL": [chol],
                 "PEG": [peg],
                 "TFR ": [tfr],
                 "FRR": [frr],
+                "AQUEOUS": [buffer],
+                "PDI": [NaN],
             })
             st.markdown("**Input data**")
             st.write(input_data)
