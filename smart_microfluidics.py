@@ -427,6 +427,8 @@ if section == "Data Modeling":
         tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1, key="tfr_in")
         frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1, key="frr_in")
         buffer = st.selectbox("AQUEOUS", ["PBS", "MQ"], key="buf_in")
+        pdi = 0.33
+        size = 0.0
         size_disabled = True if pdi > 0 else False
         pdi_disabled = True if size > 0 else False
         size = st.number_input("SIZE", value=size, min_value=0.0, max_value=5000.0, step=10.0, disabled=size_disabled, key="siz_in")
