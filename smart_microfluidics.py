@@ -430,11 +430,11 @@ if section == "Data Modeling":
         frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1, key="frr_in")
         buffer = st.selectbox("AQUEOUS", ["PBS", "MQ"], key="buf_in")
         size_disabled = pdi = 0.0 
-        pdi_disabled = size = 118.0  
+        pdi_disabled = size = 118  
         size = st.number_input("SIZE", value=size, min_value=0.0, max_value=5000.0, step=10.0, disabled=size_disabled, key="siz_in")
         pdi = st.number_input("PDI", value=pdi, min_value=0.0, max_value=1.0, step=0.1, disabled=pdi_disabled, key="pd_in")
         if st.button("Predict"):
-            if pdi > 0 and size==0:  
+            if pdi > 0.0 and size==0.0:  
                 input_data = pd.DataFrame({
                     "ESM": [0.0 if esm_disabled else esm],  
                     "HSPC": [0.0 if hspc_disabled else hspc],  
@@ -455,7 +455,7 @@ if section == "Data Modeling":
                     st.write(f"`OUTPUT`: 0")
                 else:
                     st.write(f"Predicted `PDI`: {predicted_pdi:.2f}")
-            elif size > 0 and pdi==0:  
+            elif size > 0.0 and pdi==0.0:  
                 input_data = pd.DataFrame({
                     "ESM": [0.0 if esm_disabled else esm],  
                     "HSPC": [0.0 if hspc_disabled else hspc],  
