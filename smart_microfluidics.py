@@ -299,22 +299,22 @@ if section == "Data Modeling":
     # 2.4 Advanced models
     elif option == "Advanced models":
         st.subheader("Advanced models")
-        st.write("Multiple models working in parallel for targeted predictions. These models reduce the prediction dispersion, with less robust point estimators (when compared with simpler models), so the tradeoff between accuracy and error must be considered.") 
+        st.write("Fine-tuned, wet-lab validated models for single-target predictions based on the Micromixer architecture.") 
         st.subheader("Preview of some available advanced models for predicting `SIZE` or `PDI`")
-        st.write("`ensemble-pdi`")
+        st.write("`best_xgboost_model_size` and `best_xgboost_model_pdi`")
         st.table(pd.DataFrame({
             "Metric": ["R-squared", "Mean Squared Error (MSE)", "Mean Absolute Error (MAE)"],
-            "Value": [0.5328156582541348, 0.00245118805677467875, 0.04254484741522172]
+            "Value": [0.9922573566436768, 0.00026929815066978335, 0.012760158628225327]
         }))
-        st.write("`ensemble-size`")
+        st.write("Example of `best_xgboost_model_size` performances.")
         st.table(pd.DataFrame({
             "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
-            "Value": [0.874431019712665, 340.2617544655023, 11.834716059736861]
+            "Value": [0.9996433258056641, 492.2565612792969, 8.92746639251709]
         }))
-        st.write("With an improvement in terms of metrics given by the following plot. The key metric is the square root of the error (either the MSE or the MAE).")
+        st.write("With an improvement in terms of metrics, in terms of `SIZE` predictions, given by the following plot. Similar results hold for `PDI`predictions")
         metrics = ["R-squared", "MSE", "MAE"]
         before = [0.3285, 1967.81, 14.65]
-        after = [0.8744, 340.26, 11.83]
+        after = [0.9923, 492.26, 8.9274]
         improvements = [
         ((after[i] - before[i]) / before[i]) * 100 if metrics[i] == "R-squared" 
         else ((before[i] - after[i]) / before[i]) * 100  
@@ -345,14 +345,13 @@ if section == "Data Modeling":
         ax2.legend(loc="upper right", bbox_to_anchor=(1, 0.85), ncol=1, frameon=False)
         st.pyplot(fig)
         st.write("Depending on the number of samples available for training and validation we can boost the performances even further.")
-        # 2.4.1 ensemble-size
-        st.subheader("Try the `ensemble-size` model")
-        with open(size_model, "rb") as file:
+        # 2.4.1 best_xgboost_model_size
+        st.subheader("Try the `best_xgboost_model_size` model")
+        with open(best_xgboost_model_size, "rb") as file:
             model = pickle.load(file)
         if st.button("Predict"):
             input_data = pd.DataFrame({
-                "ML": [ml],
-                "CHIP": [chip],
+                "CHIP": ["Micromixer"],
                 "TLP": [tlp],
                 "ESM": [0.0 if esm_disabled else esm],  
                 "HSPC": [0.0 if hspc_disabled else hspc],  
@@ -363,7 +362,6 @@ if section == "Data Modeling":
                 "BUFFER": [buffer],
             })
             input_data_ = pd.DataFrame({
-                "TLP": [tlp],
                 "ESM": [esm],
                 "HSPC": [hspc],
                 "CHOL": [chol],
@@ -379,14 +377,13 @@ if section == "Data Modeling":
                 st.write(f"`OUTPUT`: 0")                
             else:
                 st.write(f"Predicted `SIZE`: {model.predict(input_data_)}")   
-        # 2.4.2 ensemble-pdi
-        st.subheader("Try the `ensemble-pdi` model")
-        with open(pdi_model, "rb") as file:
+        # 2.4.2 best_xgboost_model_pdi
+        st.subheader("Try the `best_xgboost_model_pdi` model")
+        with open(best_xgboost_model_pdi, "rb") as file:
             model = pickle.load(file)
         if st.button("Predict", key='adv_pred_2'):
             input_data = pd.DataFrame({
-                "ML": [ml],
-                "CHIP": [chip],
+                "CHIP": ["Micromixer"],
                 "TLP": [tlp],
                 "ESM": [0.0 if esm_disabled else esm],  
                 "HSPC": [0.0 if hspc_disabled else hspc],  
