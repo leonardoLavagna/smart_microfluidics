@@ -347,7 +347,7 @@ if section == "Data Modeling":
         st.write("Depending on the number of samples available for training and validation we can boost the performances even further.")
         # 2.4.1 best_xgboost_model_size
         st.subheader("Try the `best_xgboost_model_size` model")
-        with open('best_xgboost_model_size.pkl', "rb") as file:
+        with open(best_xgboost_model_size, "rb") as file:
             model = pickle.load(file)
         if st.button("Predict"):
             input_data = pd.DataFrame({
