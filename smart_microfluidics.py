@@ -404,7 +404,7 @@ if section == "Data Modeling":
                 "TFR": [tfr],
                 "FRR": [frr],
                 "AQUEOUS": [buffer],
-                "PDI": [float('nan')],
+                "SIZE": [float('nan')],
             })
             st.markdown("**Input data**")
             st.write(input_data)
