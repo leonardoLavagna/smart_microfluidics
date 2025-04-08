@@ -370,7 +370,7 @@ if section == "Data Modeling":
                 "TFR": [tfr],
                 "FRR": [frr],
                 "AQUEOUS": [buffer],
-                "PDI": [float('nan')],
+                "PDI": [0.33],
             })
             st.markdown("**Input data**")
             st.write(input_data)
@@ -404,7 +404,7 @@ if section == "Data Modeling":
                 "TFR": [tfr],
                 "FRR": [frr],
                 "AQUEOUS": [buffer],
-                "SIZE": [float('nan')],
+                "SIZE": [118],
             })
             st.markdown("**Input data**")
             st.write(input_data)
