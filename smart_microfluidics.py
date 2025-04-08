@@ -445,11 +445,7 @@ if section == "Data Modeling":
                 predictions = model.predict(input_data)
                 predicted_pdi = predictions[0]
                 st.markdown("**Model predictions**")
-                if predicted_pdi > 0.5:
-                    st.write("The system doesn't form")
-                    st.write(f"`OUTPUT`: 0")
-                else:
-                    st.write(f"Predicted `SIZE`: {predicted_pdi}")
+                st.write(f"Predicted `SIZE`: {predicted_pdi}")
             elif size > 0.0 and pdi==0.0:  
                 input_data = pd.DataFrame({
                     "ESM": [esm],  
@@ -466,11 +462,7 @@ if section == "Data Modeling":
                 predictions = model.predict(input_data)
                 predicted_size = predictions[0]
                 st.markdown("**Model predictions**")
-                if predicted_size > 500:
-                    st.write("The system doesn't form")
-                    st.write(f"`OUTPUT`: 0")
-                else:
-                    st.write(f"Predicted `PDI`: {predicted_size}")
+                st.write(f"Predicted `PDI`: {predicted_size}")
             else:
                 st.warning("Invalid inputs.")
                 
