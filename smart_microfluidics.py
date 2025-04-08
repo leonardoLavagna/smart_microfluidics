@@ -422,19 +422,19 @@ if section == "Data Modeling":
         st.write("Here you can input values for all features, as in the advanced models, but you can specify either `SIZE` or `PDI`. If you input one, the other will be blocked, and the corresponding single-target model will be used to predict the missing value.")
         esm_disabled = ml == "HSPC"
         hspc_disabled = ml == "ESM"
-        esm = st.number_input("ESM", value=0.0 if esm_disabled else 0.1, min_value=0.0, max_value=100.0, step=0.1, disabled=esm_disabled)
-        hspc = st.number_input("HSPC", value=0.0 if hspc_disabled else 3.75, min_value=0.0, max_value=100.0, step=0.1, disabled=hspc_disabled)
-        chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1)
-        peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
-        tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
-        frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
-        buffer = st.selectbox("AQUEOUS", ["PBS", "MQ"])
-        size = st.number_input("SIZE", value=0, min_value=0.0, max_value=5000.0, step=10)
-        pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.1)
+        esm = st.number_input("ESM", value=0.0 if esm_disabled else 0.1, min_value=0.0, max_value=100.0, step=0.1, disabled=esm_disabled, key="esm_in")
+        hspc = st.number_input("HSPC", value=0.0 if hspc_disabled else 3.75, min_value=0.0, max_value=100.0, step=0.1, disabled=hspc_disabled, key="hspc_in")
+        chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1, key="chol_in")
+        peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1, key="peg_in")
+        tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1, key="tfr_in")
+        frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1, key="frr_in")
+        buffer = st.selectbox("AQUEOUS", ["PBS", "MQ"], key="buf_in")
+        size = st.number_input("SIZE", value=0, min_value=0.0, max_value=5000.0, step=10, key="size_in")
+        pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.1, key="pdi_in")
         size_disabled = pdi > 0 
         pdi_disabled = size > 0  
-        size = st.number_input("SIZE", value=size, min_value=0.0, max_value=5000.0, step=10, disabled=size_disabled)
-        pdi = st.number_input("PDI", value=pdi, min_value=0.0, max_value=1.0, step=0.1, disabled=pdi_disabled)
+        size = st.number_input("SIZE", value=size, min_value=0.0, max_value=5000.0, step=10, disabled=size_disabled, key="siz_in")
+        pdi = st.number_input("PDI", value=pdi, min_value=0.0, max_value=1.0, step=0.1, disabled=pdi_disabled, key="pd_in")
         if st.button("Predict"):
             if pdi > 0 and size==0:  
                 input_data = pd.DataFrame({
