@@ -420,10 +420,8 @@ if section == "Data Modeling":
     elif option == "Single target models":
         st.subheader("Single target models")
         st.write("Here you can input values for all features, as in the advanced models, but you can specify either `SIZE` or `PDI`. If you input one, the other will be blocked, and the corresponding single-target model will be used to predict the missing value.")
-        esm_disabled = ml == "HSPC"
-        hspc_disabled = ml == "ESM"
-        esm = st.number_input("ESM", value=0.0 if esm_disabled else 0.1, min_value=0.0, max_value=100.0, step=0.1, disabled=esm_disabled, key="esm_in")
-        hspc = st.number_input("HSPC", value=0.0 if hspc_disabled else 3.75, min_value=0.0, max_value=100.0, step=0.1, disabled=hspc_disabled, key="hspc_in")
+        esm = st.number_input("ESM", value=0.0, min_value=0.0, max_value=100.0, step=0.1, disabled=esm_disabled, key="esm_in")
+        hspc = st.number_input("HSPC", value=3.75, min_value=0.0, max_value=100.0, step=0.1, disabled=hspc_disabled, key="hspc_in")
         chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1, key="chol_in")
         peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1, key="peg_in")
         tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1, key="tfr_in")
