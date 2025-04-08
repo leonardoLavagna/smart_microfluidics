@@ -71,6 +71,15 @@ def authenticate(user_id, password, credentials):
     return hashed_user_id in credentials and credentials[hashed_user_id] == hashed_password
 
 
+def display_output(size, pdi):
+    if size > 500 or pdi > 0.5:
+        st.write("The system doesn't form")
+        st.write(f"`OUTPUT`: 0")
+    else:
+        st.write(f"`SIZE`: {size:.2f}")
+        st.write(f"`PDI`: {pdi:.2f}")
+
+
 ################################################
 # COLOPHON
 ################################################                    
@@ -217,12 +226,8 @@ if section == "Data Modeling":
             predictions = model.predict(input_data)
             size, pdi = predictions[0]
             st.markdown("**Model predictions**")
-            if size > 500 or pdi > 0.5:
-                st.write("The sistem doesn't form")
-                st.write(f"`OUTPUT`: 0")
-            else:
-                st.write(f"`SIZE`: {size:.2f}")
-                st.write(f"`PDI`: {pdi:.2f}")
+            display_output(size, pdi)
+
                
     # 2.2 XGBoost
     elif option == "XGBoost":
@@ -266,12 +271,8 @@ if section == "Data Modeling":
             predictions = model.predict(input_data_)
             size, pdi = predictions[0]
             st.markdown("**Model predictions**")
-            if size > 500 or pdi > 0.5:
-                st.write("The sistem doesn't form")
-                st.write(f"`OUTPUT`: 0")
-            else:
-                st.write(f"`SIZE`: {size:.2f}")
-                st.write(f"`PDI`: {pdi:.2f}")
+            display_output(size, pdi)
+
     
     # 2.3 Inverse model
     elif option == "Inverse model":
