@@ -434,8 +434,8 @@ if section == "Data Modeling":
         if st.button("Predict"):
             if pdi > 0.0 and size==0.0:  
                 input_data = pd.DataFrame({
-                    "ESM": [0.0 if esm_disabled else esm],  
-                    "HSPC": [0.0 if hspc_disabled else hspc],  
+                    "ESM": [esm],  
+                    "HSPC": [hspc],  
                     "CHOL": [chol],
                     "PEG": [peg],
                     "TFR": [tfr],
@@ -455,8 +455,8 @@ if section == "Data Modeling":
                     st.write(f"Predicted `PDI`: {predicted_pdi:.2f}")
             elif size > 0.0 and pdi==0.0:  
                 input_data = pd.DataFrame({
-                    "ESM": [0.0 if esm_disabled else esm],  
-                    "HSPC": [0.0 if hspc_disabled else hspc],  
+                    "ESM": [esm],  
+                    "HSPC": [hspc],  
                     "CHOL": [chol],
                     "PEG": [peg],
                     "TFR": [tfr],
