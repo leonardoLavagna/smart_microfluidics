@@ -80,6 +80,40 @@ def display_output(size, pdi):
         st.write(f"`PDI`: {pdi:.2f}")
 
 
+def plot_model_performance(metrics, before, after):
+    # Calculate improvements
+    improvements = [
+        ((after[i] - before[i]) / before[i]) * 100 if metrics[i] == "R-squared" 
+        else ((before[i] - after[i]) / before[i]) * 100  
+        for i in range(len(metrics))
+    ]
+    fig, ax1 = plt.subplots(figsize=(8, 5))
+    bar_width = 0.35
+    x = np.arange(len(metrics))
+    bars_before = ax1.bar(x - bar_width/2, before, bar_width, label="Before", color="red", alpha=0.7)
+    bars_after = ax1.bar(x + bar_width/2, after, bar_width, label="After", color="green", alpha=0.7)
+    for bar in bars_before:
+        ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height(), f"{bar.get_height():.2f}", 
+                 ha="center", va="bottom", fontsize=10, color="black")
+    for bar in bars_after:
+        ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height(), f"{bar.get_height():.2f}", 
+                 ha="center", va="bottom", fontsize=10, color="black")
+    ax2 = ax1.twinx()
+    ax2.plot(x, improvements, marker="o", linestyle="--", color="blue", label="Improvement (%)", linewidth=2)
+    for i, val in enumerate(improvements):
+        ax2.text(x[i], val, f"{val:.1f}%", ha="center", va="bottom", fontsize=12, color="blue")
+    ax1.set_xlabel("Metrics")
+    ax1.set_ylabel("Values (Before & After)")
+    ax2.set_ylabel("Improvement (%)")
+    ax1.set_title("Model Performance Improvement")
+    ax1.set_xticks(x)
+    ax1.set_xticklabels(metrics)
+    ax1.legend(loc="upper right", bbox_to_anchor=(1, 1), ncol=1, frameon=False)
+    ax2.legend(loc="upper right", bbox_to_anchor=(1, 0.85), ncol=1, frameon=False)
+    plt.tight_layout()
+    plt.show()
+
+
 ################################################
 # COLOPHON
 ################################################                    
@@ -326,35 +360,7 @@ if section == "Data Modeling":
         metrics = ["R-squared", "MSE", "MAE"]
         before = [0.3285, 1967.81, 14.65]
         after = [0.8744, 340.26, 11.83]
-        improvements = [
-        ((after[i] - before[i]) / before[i]) * 100 if metrics[i] == "R-squared" 
-        else ((before[i] - after[i]) / before[i]) * 100  
-        for i in range(len(metrics))
-        ]
-        fig, ax1 = plt.subplots(figsize=(8, 5))
-        bar_width = 0.35
-        x = np.arange(len(metrics))
-        bars_before = ax1.bar(x - bar_width/2, before, bar_width, label="Before", color="red", alpha=0.7)
-        bars_after = ax1.bar(x + bar_width/2, after, bar_width, label="After", color="green", alpha=0.7)
-        for bar in bars_before:
-            ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height(), f"{bar.get_height():.2f}", 
-                     ha="center", va="bottom", fontsize=10, color="black")
-        for bar in bars_after:
-            ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height(), f"{bar.get_height():.2f}", 
-                     ha="center", va="bottom", fontsize=10, color="black")
-        ax2 = ax1.twinx()
-        ax2.plot(x, improvements, marker="o", linestyle="--", color="blue", label="Improvement (%)", linewidth=2)
-        for i, val in enumerate(improvements):
-            ax2.text(x[i], val, f"{val:.1f}%", ha="center", va="bottom", fontsize=12, color="blue")
-        ax1.set_xlabel("Metrics")
-        ax1.set_ylabel("Values (Before & After)")
-        ax2.set_ylabel("Improvement (%)")
-        ax1.set_title("Model Performance Improvement")
-        ax1.set_xticks(x)
-        ax1.set_xticklabels(metrics)
-        ax1.legend(loc="upper right", bbox_to_anchor=(1, 1), ncol=1, frameon=False)
-        ax2.legend(loc="upper right", bbox_to_anchor=(1, 0.85), ncol=1, frameon=False)
-        st.pyplot(fig)
+        plot_model_performance(metrics, before, after)
         st.write("Depending on the number of samples available for training and validation we can boost the performances even further.")
         # 2.4.1 ensemble-size
         st.subheader("Try the `ensemble-size` model")
@@ -444,35 +450,7 @@ if section == "Data Modeling":
         metrics = ["R-squared", "MSE", "MAE"]
         before = [0.3285, 1967.81, 14.65]
         after = [0.9996433258056641, 492.2565612792969, 8.92746639251709]
-        improvements = [
-        ((after[i] - before[i]) / before[i]) * 100 if metrics[i] == "R-squared" 
-        else ((before[i] - after[i]) / before[i]) * 100  
-        for i in range(len(metrics))
-        ]
-        fig, ax1 = plt.subplots(figsize=(8, 5))
-        bar_width = 0.35
-        x = np.arange(len(metrics))
-        bars_before = ax1.bar(x - bar_width/2, before, bar_width, label="Before", color="red", alpha=0.7)
-        bars_after = ax1.bar(x + bar_width/2, after, bar_width, label="After", color="green", alpha=0.7)
-        for bar in bars_before:
-            ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height(), f"{bar.get_height():.2f}", 
-                     ha="center", va="bottom", fontsize=10, color="black")
-        for bar in bars_after:
-            ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height(), f"{bar.get_height():.2f}", 
-                     ha="center", va="bottom", fontsize=10, color="black")
-        ax2 = ax1.twinx()
-        ax2.plot(x, improvements, marker="o", linestyle="--", color="blue", label="Improvement (%)", linewidth=2)
-        for i, val in enumerate(improvements):
-            ax2.text(x[i], val, f"{val:.1f}%", ha="center", va="bottom", fontsize=12, color="blue")
-        ax1.set_xlabel("Metrics")
-        ax1.set_ylabel("Values (Before & After)")
-        ax2.set_ylabel("Improvement (%)")
-        ax1.set_title("Model Performance Improvement")
-        ax1.set_xticks(x)
-        ax1.set_xticklabels(metrics)
-        ax1.legend(loc="upper right", bbox_to_anchor=(1, 1), ncol=1, frameon=False)
-        ax2.legend(loc="upper right", bbox_to_anchor=(1, 0.85), ncol=1, frameon=False)
-        st.pyplot(fig)
+        plot_model_performance(metrics, before, after)
         st.write("Depending on the number of samples available for training and validation we can boost the performances even further.")
         if st.button("Predict"):
             if pdi > 0.0 and size==0.0:  
