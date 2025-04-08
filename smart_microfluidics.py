@@ -428,7 +428,7 @@ if section == "Data Modeling":
         frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1, key="frr_in")
         buffer = st.selectbox("AQUEOUS", ["PBS", "MQ"], key="buf_in")
         size_disabled = pdi = 0.0 
-        pdi_disabled = size = 0
+        pdi_disabled = size = 0.0
         size = st.number_input("SIZE", value=size, min_value=0.0, max_value=5000.0, step=10.0, disabled=size_disabled, key="siz_in")
         pdi = st.number_input("PDI", value=pdi, min_value=0.0, max_value=1.0, step=0.1, disabled=pdi_disabled, key="pd_in")
         if st.button("Predict"):
@@ -462,7 +462,7 @@ if section == "Data Modeling":
                     "TFR": [tfr],
                     "FRR": [frr],
                     "AQUEOUS": [buffer],
-                    "PDI": [pdi],
+                    "SIZE": [size],
                 })                
                 with open("_models/best_xgboost_model_size.pkl", "rb") as file:
                     model = pickle.load(file)
