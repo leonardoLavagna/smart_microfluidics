@@ -197,6 +197,16 @@ if section == "Data Modeling":
     elif option =="Inverse model":
         size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=5000.0, step=10)
         pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.1)
+    elif option == "Single target models":
+        esm = st.number_input("ESM", value=0.0, min_value=0.0, max_value=100.0, step=0.1, key="esm_in")
+        hspc = st.number_input("HSPC", value=3.75, min_value=0.0, max_value=100.0, step=0.1, key="hspc_in")
+        chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1, key="chol_in")
+        peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1, key="peg_in")
+        tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1, key="tfr_in")
+        frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1, key="frr_in")
+        buffer = st.selectbox("AQUEOUS", ["PBS", "MQ"], key="buf_in")
+        size = st.number_input("SIZE", value=0.0, min_value=0.0, max_value=5000.0, step=10.0, key="siz_in")
+        pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.1, key="pd_in")
     
     # 2.1 Random forest regressor
     if option == "Random forest regressor":
@@ -418,19 +428,6 @@ if section == "Data Modeling":
 
     # 2.5 Single target models
     elif option == "Single target models":
-        st.subheader("Single target models")
-        st.write("Here you can input values for all features, as in the advanced models, but you can specify either `SIZE` or `PDI`. If you input one, the other will be blocked, and the corresponding single-target model will be used to predict the missing value.")
-        esm = st.number_input("ESM", value=0.0, min_value=0.0, max_value=100.0, step=0.1, key="esm_in")
-        hspc = st.number_input("HSPC", value=3.75, min_value=0.0, max_value=100.0, step=0.1, key="hspc_in")
-        chol = st.number_input("CHOL", value=0.0, min_value=0.0, max_value=100.0, step=0.1, key="chol_in")
-        peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1, key="peg_in")
-        tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1, key="tfr_in")
-        frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1, key="frr_in")
-        buffer = st.selectbox("AQUEOUS", ["PBS", "MQ"], key="buf_in")
-        size_disabled = True if pdi > 0 else False
-        pdi_disabled = True if size > 0 else False
-        size = st.number_input("SIZE", value=0.0, min_value=0.0, max_value=5000.0, step=10.0, key="siz_in")
-        pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.1, key="pd_in")
         if st.button("Predict"):
             if pdi > 0.0 and size==0.0:  
                 input_data = pd.DataFrame({
