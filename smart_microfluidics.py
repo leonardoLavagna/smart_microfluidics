@@ -180,7 +180,7 @@ if section == "Data Modeling":
             "Single target models",
         ],
     )
-    if option != "Inverse model":
+    if option != "Inverse model" and option != "Single target models":
         ml = st.selectbox("ML", ["HSPC", "ESM"])
         chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
         #tlp = st.number_input("TLP", value=5.0, min_value=0.0, max_value=100.0, step=0.1)
@@ -194,7 +194,7 @@ if section == "Data Modeling":
         frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
         buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
         tlp = (hspc if hspc > 0 else esm) + chol + peg
-    else:
+    elif option =="Inverse model":
         size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=500.0, step=0.1)
         pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.01)
     
