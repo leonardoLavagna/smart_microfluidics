@@ -416,12 +416,10 @@ if section == "Data Modeling":
             else:
                 st.write(f"Predicted `PDI`: {model.predict(input_data_)}")
 
-# 2.5 Single target models
+    # 2.5 Single target models
     elif option == "Single target models":
         st.subheader("Single target models")
         st.write("Here you can input values for all features, as in the advanced models, but you can specify either `SIZE` or `PDI`. If you input one, the other will be blocked, and the corresponding single-target model will be used to predict the missing value.")
-        ml = st.selectbox("ML", ["HSPC", "ESM"])
-        chip = st.selectbox("CHIP", ["Micromixer", "Droplet junction"])
         esm_disabled = ml == "HSPC"
         hspc_disabled = ml == "ESM"
         esm = st.number_input("ESM", value=0.0 if esm_disabled else 0.1, min_value=0.0, max_value=100.0, step=0.1, disabled=esm_disabled)
@@ -430,30 +428,26 @@ if section == "Data Modeling":
         peg = st.number_input("PEG", value=1.25, min_value=0.0, max_value=100.0, step=0.1)
         tfr = st.number_input("TFR", value=1.0, min_value=0.0, max_value=100.0, step=0.1)
         frr = st.number_input("FRR", value=3.0, min_value=0.0, max_value=100.0, step=0.1)
-        buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
-        tlp = (hspc if hspc > 0 else esm) + chol + peg
-        size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=500.0, step=0.1)
-        pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.01)
+        buffer = st.selectbox("AQUEOUS", ["PBS", "MQ"])
+        size = st.number_input("SIZE", value=0, min_value=0.0, max_value=5000.0, step=10)
+        pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.1)
         size_disabled = pdi > 0 
         pdi_disabled = size > 0  
-        # Disable SIZE or PDI input based on the entered value
-        size = st.number_input("SIZE", value=size, min_value=0.0, max_value=500.0, step=0.1, disabled=size_disabled)
-        pdi = st.number_input("PDI", value=pdi, min_value=0.0, max_value=1.0, step=0.01, disabled=pdi_disabled)
+        size = st.number_input("SIZE", value=size, min_value=0.0, max_value=5000.0, step=10, disabled=size_disabled)
+        pdi = st.number_input("PDI", value=pdi, min_value=0.0, max_value=1.0, step=0.1, disabled=pdi_disabled)
         if st.button("Predict"):
-            input_data = pd.DataFrame({
-                "ML": [ml],
-                "CHIP": [chip],
-                "TLP": [tlp],
-                "ESM": [0.0 if esm_disabled else esm],  
-                "HSPC": [0.0 if hspc_disabled else hspc],  
-                "CHOL": [chol],
-                "PEG": [peg],
-                "TFR": [tfr],
-                "FRR": [frr],
-                "AQUEOUS": [buffer],
-            })
-            if size > 0:  
-                with open("_models/best_xgboost_model_pdi.pkl", "rb") as file:
+            if pdi > 0 and size==0:  
+                input_data = pd.DataFrame({
+                    "ESM": [0.0 if esm_disabled else esm],  
+                    "HSPC": [0.0 if hspc_disabled else hspc],  
+                    "CHOL": [chol],
+                    "PEG": [peg],
+                    "TFR": [tfr],
+                    "FRR": [frr],
+                    "AQUEOUS": [buffer],
+                    "PDI": [pdi],
+                })
+                with open("_models/best_xgboost_model_size.pkl", "rb") as file:
                     model = pickle.load(file)
                 predictions = model.predict(input_data)
                 predicted_pdi = predictions[0]
@@ -463,7 +457,17 @@ if section == "Data Modeling":
                     st.write(f"`OUTPUT`: 0")
                 else:
                     st.write(f"Predicted `PDI`: {predicted_pdi:.2f}")
-            elif pdi > 0:  
+            elif size > 0 and pdi==0:  
+                input_data = pd.DataFrame({
+                    "ESM": [0.0 if esm_disabled else esm],  
+                    "HSPC": [0.0 if hspc_disabled else hspc],  
+                    "CHOL": [chol],
+                    "PEG": [peg],
+                    "TFR": [tfr],
+                    "FRR": [frr],
+                    "AQUEOUS": [buffer],
+                    "PDI": [pdi],
+                })                
                 with open("_models/best_xgboost_model_size.pkl", "rb") as file:
                     model = pickle.load(file)
                 predictions = model.predict(input_data)
@@ -474,6 +478,8 @@ if section == "Data Modeling":
                     st.write(f"`OUTPUT`: 0")
                 else:
                     st.write(f"Predicted `SIZE`: {predicted_size:.2f}")
+            else:
+                st.warning("Invalid inputs.")
                 
 
 ################################################
