@@ -366,10 +366,10 @@ if section == "Data Modeling":
                 "HSPC": [hspc],
                 "CHOL": [chol],
                 "PEG": [peg],
-                "TFR ": [tfr],
+                "TFR": [tfr],
                 "FRR": [frr],
                 "AQUEOUS": [buffer],
-                "PDI": [0],
+                "PDI": [NaN],
             })
             st.markdown("**Input data**")
             st.write(input_data)
@@ -400,7 +400,7 @@ if section == "Data Modeling":
                 "HSPC": [hspc],
                 "CHOL": [chol],
                 "PEG": [peg],
-                "TFR ": [tfr],
+                "TFR": [tfr],
                 "FRR": [frr],
                 "AQUEOUS": [buffer],
                 "PDI": [NaN],
