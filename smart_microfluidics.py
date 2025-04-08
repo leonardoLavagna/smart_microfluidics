@@ -449,7 +449,7 @@ if section == "Data Modeling":
                     st.write("The system doesn't form")
                     st.write(f"`OUTPUT`: 0")
                 else:
-                    st.write(f"Predicted `PDI`: {predicted_pdi:.2f}")
+                    st.write(f"Predicted `SIZE`: {predicted_size:.2f}")
             elif size > 0.0 and pdi==0.0:  
                 input_data = pd.DataFrame({
                     "ESM": [esm],  
@@ -461,7 +461,7 @@ if section == "Data Modeling":
                     "AQUEOUS": [buffer],
                     "SIZE": [size],
                 })                
-                with open("_models/best_xgboost_model_size.pkl", "rb") as file:
+                with open("_models/best_xgboost_modele_pdi.pkl", "rb") as file:
                     model = pickle.load(file)
                 predictions = model.predict(input_data)
                 predicted_size = predictions[0]
@@ -470,7 +470,7 @@ if section == "Data Modeling":
                     st.write("The system doesn't form")
                     st.write(f"`OUTPUT`: 0")
                 else:
-                    st.write(f"Predicted `SIZE`: {predicted_size:.2f}")
+                    st.write(f"Predicted `PDI`: {predicted_pdi:.2f}")
             else:
                 st.warning("Invalid inputs.")
                 
