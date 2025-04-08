@@ -52,7 +52,7 @@ def fetch_csv_data(file_path):
 def fetch_xlsx_data(file_path):
     data = pd.read_excel(file_path)
     return data
-    
+
 
 def load_credentials(url):
     response = requests.get(url)
@@ -347,7 +347,7 @@ if section == "Data Modeling":
         st.write("Depending on the number of samples available for training and validation we can boost the performances even further.")
         # 2.4.1 best_xgboost_model_size
         st.subheader("Try the `best_xgboost_model_size` model")
-        with open(best_xgboost_model_size, "rb") as file:
+        with open(_models/best_xgboost_model_size.pkl, "rb") as file:
             model = pickle.load(file)
         if st.button("Predict"):
             input_data = pd.DataFrame({
