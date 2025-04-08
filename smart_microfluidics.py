@@ -110,8 +110,7 @@ def plot_model_performance(metrics, before, after):
     ax1.set_xticklabels(metrics)
     ax1.legend(loc="upper right", bbox_to_anchor=(1, 1), ncol=1, frameon=False)
     ax2.legend(loc="upper right", bbox_to_anchor=(1, 0.85), ncol=1, frameon=False)
-    plt.tight_layout()
-    plt.show()
+    st.pyplot(fig)
 
 
 ################################################
