@@ -461,7 +461,7 @@ if section == "Data Modeling":
                     "AQUEOUS": [buffer],
                     "SIZE": [size],
                 })                
-                with open("_models/best_xgboost_modele_pdi.pkl", "rb") as file:
+                with open("_models/best_xgboost_model_pdi.pkl", "rb") as file:
                     model = pickle.load(file)
                 predictions = model.predict(input_data)
                 predicted_size = predictions[0]
