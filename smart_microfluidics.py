@@ -182,7 +182,7 @@ if st.session_state.section == "Dataset":
         st.dataframe(data_)
         #st.dataframe(data.style.format(thousands=""))
         st.markdown("""The default dataset contains the following features:""")
-        st.markdown("""- `ID`: a uniqe identifier for each formulation;""")
+        st.markdown("""- `ID`: a unique identifier for each formulation;""")
         st.markdown("""- `ML`: the Main Lipid used;""")
         st.markdown("""- `CHIP`: the type of chip used in the microfluidinc setup;""")
         st.markdown("""- `ESM`: the concentration (mg/mL) of the ESM lipid;""")
