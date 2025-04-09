@@ -184,7 +184,7 @@ if st.session_state.section == "Dataset":
         st.markdown("""The default dataset contains the following features:""")
         st.markdown("""- `ID`: a unique identifier for each formulation;""")
         st.markdown("""- `ML`: the Main Lipid used;""")
-        st.markdown("""- `CHIP`: the type of chip used in the microfluidinc setup;""")
+        st.markdown("""- `CHIP`: the type of chip used in the microfluidic setup;""")
         st.markdown("""- `ESM`: the concentration (mg/mL) of the ESM lipid;""")
         st.markdown("""- `HSPC`: the concentration (mg/mL) of the HSPC lipid;""")
         st.markdown("""- `CHOL`: the concentration (mg/mL) of Cholesterol used;""")
