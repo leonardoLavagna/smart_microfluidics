@@ -429,26 +429,7 @@ if section == "Data Modeling":
                 st.write(f"`OUTPUT`: 0")                
             else:
                 st.write(f"Predicted `PDI`: {model.predict(input_data_)}")
-        #2.4.3 best joint model
-        st.subheader("Try the `best_refined_model_size_pdi` to jointly predict `SIZE` and `PDI`")
-        if st.button("Predict", key='adv_pred_3'):
-            input_data = pd.DataFrame({
-                "ESM": [esm],  
-                "HSPC": [hspc],  
-                "CHOL": [chol],
-                "PEG": [peg],
-                "TFR": [tfr],
-                "FRR": [frr],
-                "AQUEOUS": [buffer],
-                })
-            with open("_models/best_refined_model_size_pdi.pkl", "rb") as file:
-                model = pickle.load(file)
-            st.markdown("**Input data**")
-            st.write(input_data)
-            predictions = model.predict(input_data_)
-            size, pdi = predictions[0]
-            st.markdown("**Model predictions**")
-            display_output(size, pdi)
+                
     # 2.5 Single target models
     elif option == "Single target models":
         st.header("Single target models")
