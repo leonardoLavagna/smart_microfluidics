@@ -227,7 +227,7 @@ if section == "Data Modeling":
         buffer = st.selectbox("BUFFER", ["PBS", "MQ"])
         tlp = (hspc if hspc > 0 else esm) + chol + peg
     elif option =="Inverse model":
-        size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=5000.0, step=10)
+        size = st.number_input("SIZE", value=118.0, min_value=0.0, max_value=5000.0, step=10.0)
         pdi = st.number_input("PDI", value=0.33, min_value=0.0, max_value=1.0, step=0.1)
     elif option == "Single target models":
         esm = st.number_input("ESM", value=0.0, min_value=0.0, max_value=100.0, step=0.1, key="esm_in")
@@ -329,7 +329,7 @@ if section == "Data Modeling":
             "Value": [0.11767681688070297, 89.26007080078125, 3.7459394931793213]
         }))
         if st.button("Predict"):
-            input_data = pd.DataFrame({"SIZE": [float(size)],"PDI": [float(pdi)]})
+            input_data = pd.DataFrame({"SIZE": [size],"PDI": [pdi]})
             predictions = model.predict(input_data)
             predictions = np.abs(predictions)
             predictions = np.where(predictions < 0.5, 0, predictions)
