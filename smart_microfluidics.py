@@ -377,6 +377,8 @@ if section == "Data Modeling":
                 })
                 with open("_models/best_xgboost_model_size.pkl", "rb") as file:
                     model = pickle.load(file)
+                st.markdown("**Input data**")
+                st.write(input_data)
                 predictions = model.predict(input_data)
                 predicted_pdi = predictions[0]
                 st.markdown("**Model predictions**")
