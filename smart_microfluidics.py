@@ -429,7 +429,45 @@ if section == "Data Modeling":
                 st.write(f"`OUTPUT`: 0")                
             else:
                 st.write(f"Predicted `PDI`: {model.predict(input_data_)}")
-
+        #2.4.3 best joint model
+        st.subheader("Preview of some available advanced models for predicting `SIZE` and `PDI`")
+        st.write("`best_refined_model_size_pdi`")
+        st.table(pd.DataFrame({
+            "Metric": ["R-squared for SIZE", "R-squared for PDI"],
+            "Value": [0.9265, 0.7307]
+        }))
+        if st.button("Predict"):
+            input_data = pd.DataFrame({
+                "ML": [ml],
+                "CHIP": [chip],
+                "TLP": [tlp],
+                "ESM": [0.0 if esm_disabled else esm],  
+                "HSPC": [0.0 if hspc_disabled else hspc],  
+                "CHOL": [chol],
+                "PEG": [peg],
+                "TFR ": [tfr],
+                "FRR": [frr],
+                "BUFFER": [buffer],
+            })
+            input_data_ = pd.DataFrame({
+                "ML": [ml],
+                "CHIP": [chip],
+                "TLP": [tlp],
+                "ESM": [0.0 if esm_disabled else esm],  
+                "HSPC": [0.0 if hspc_disabled else hspc],  
+                "CHOL": [chol],
+                "PEG": [peg],
+                "TFR ": [tfr],
+                "FRR": [frr],
+                "BUFFER": [buffer],
+                "OUTPUT": [1],
+            })
+            st.markdown("**Input data**")
+            st.write(input_data)
+            predictions = model.predict(input_data_)
+            size, pdi = predictions[0]
+            st.markdown("**Model predictions**")
+            display_output(size, pdi)
     # 2.5 Single target models
     elif option == "Single target models":
         st.header("Single target models")
