@@ -383,6 +383,7 @@ if section == "Data Modeling":
                 predicted_pdi = predictions[0]
                 st.markdown("**Model predictions**")
                 st.write(f"Predicted `SIZE`: {predicted_pdi}")
+            st.subheader("Try the `best_xgboost_model_size` model")
             elif size > 0.0 and pdi==0.0:  
                 input_data = pd.DataFrame({
                     "ESM": [esm],  
@@ -396,6 +397,8 @@ if section == "Data Modeling":
                 })                
                 with open("_models/best_xgboost_model_pdi.pkl", "rb") as file:
                     model = pickle.load(file)
+                st.markdown("**Input data**")
+                st.write(input_data)
                 predictions = model.predict(input_data)
                 predicted_size = predictions[0]
                 st.markdown("**Model predictions**")
