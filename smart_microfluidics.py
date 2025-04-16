@@ -329,7 +329,7 @@ if section == "Data Modeling":
             "Value": [0.11767681688070297, 89.26007080078125, 3.7459394931793213]
         }))
         if st.button("Predict"):
-            input_data = pd.DataFrame({"SIZE": [size],"PDI": [pdi]})
+            input_data = pd.DataFrame({"SIZE": [float(size)],"PDI": [float(pdi)]})
             predictions = model.predict(input_data)
             predictions = np.abs(predictions)
             predictions = np.where(predictions < 0.5, 0, predictions)
