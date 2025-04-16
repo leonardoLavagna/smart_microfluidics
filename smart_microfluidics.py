@@ -436,7 +436,7 @@ if section == "Data Modeling":
             "Metric": ["R-squared for SIZE", "R-squared for PDI"],
             "Value": [0.9265, 0.7307]
         }))
-        if st.button("Predict"):
+        if st.button("Predict", key='adv_pred_3'):
             input_data = pd.DataFrame({
                 "ML": [ml],
                 "CHIP": [chip],
