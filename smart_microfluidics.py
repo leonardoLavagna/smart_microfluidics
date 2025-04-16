@@ -342,9 +342,9 @@ if section == "Data Modeling":
     # 2.4 Advanced single target models
     elif option == "Single target models":
         st.header("Advanced single target models")
-        st.markdown(r"These models will predict one target variable at a time, for example `SIZE`, given all the other features. If you want to predict `SIZE` set `PDI` to zero.
+        st.markdown(r"""These models will predict one target variable at a time, for example `SIZE`, given all the other features. If you want to predict `SIZE` set `PDI` to zero.
                         If you want to predict `PDI` set `SIZE` to zero. These kind of advanced models can be integrated in a single mixture of experts to predict jointly the target
-                        variables, as detailed in www.....................")
+                        variables, as detailed in www.....................""")
         st.subheader("Preview of some available advanced models for predicting `SIZE` or `PDI`")
         st.write("`xgboost_one_target_pdi`")
         st.table(pd.DataFrame({
