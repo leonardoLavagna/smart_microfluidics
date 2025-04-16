@@ -362,6 +362,7 @@ if section == "Data Modeling":
         after = [0.9996433258056641, 492.2565612792969, 8.92746639251709]
         plot_model_performance(metrics, before, after)
         st.write("Depending on the number of samples available for training and validation we can boost the performances even further.")
+        st.subheader("Try the `best_xgboost_model_size` model")
         if st.button("Predict"):
             if pdi > 0.0 and size==0.0:  
                 input_data = pd.DataFrame({
