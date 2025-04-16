@@ -430,31 +430,19 @@ if section == "Data Modeling":
             else:
                 st.write(f"Predicted `PDI`: {model.predict(input_data_)}")
         #2.4.3 best joint model
-        st.subheader("Predict `SIZE` and `PDI`")
-        st.write("`best_refined_model_size_pdi`")
-        st.table(pd.DataFrame({
-            "Metric": ["R-squared for SIZE", "R-squared for PDI"],
-            "Value": [0.9265, 0.7307]
-        }))
+        st.subheader("Try the `best_refined_model_size_pdi` to jointly predict `SIZE` and `PDI`")
         if st.button("Predict", key='adv_pred_3'):
             input_data = pd.DataFrame({
-                "ESM": [0.0 if esm_disabled else esm],  
-                "HSPC": [0.0 if hspc_disabled else hspc],  
+                "ESM": [esm],  
+                "HSPC": [hspc],  
                 "CHOL": [chol],
                 "PEG": [peg],
-                "TFR ": [tfr],
+                "TFR": [tfr],
                 "FRR": [frr],
                 "AQUEOUS": [buffer],
-            })
-            input_data_ = pd.DataFrame({
-                "ESM": [0.0 if esm_disabled else esm],  
-                "HSPC": [0.0 if hspc_disabled else hspc],  
-                "CHOL": [chol],
-                "PEG": [peg],
-                "TFR ": [tfr],
-                "FRR": [frr],
-                "AQUEOUS": [buffer],
-            })
+                })
+            with open("_models/best_refined_model_size_pdi.pkl", "rb") as file:
+                model = pickle.load(file)
             st.markdown("**Input data**")
             st.write(input_data)
             predictions = model.predict(input_data_)
