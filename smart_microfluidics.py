@@ -209,7 +209,6 @@ if section == "Data Modeling":
             "Random forest regressor",
             "XGBoost",
             "Inverse model",
-            "Advanced models",
             "Single target models",
         ],
     )
@@ -339,100 +338,10 @@ if section == "Data Modeling":
             st.markdown("**Model predictions**")
             prediction_df = pd.DataFrame(predictions, columns=["ESM", "HSPC", "CHOL", "PEG", "TFR", "FRR"])
             st.write(prediction_df)
-        
-    # 2.4 Advanced models
-    elif option == "Advanced models":
-        st.subheader("Advanced models")
-        st.write("Multiple models working in parallel for targeted predictions. These models reduce the prediction dispersion, with less robust point estimators (when compared with simpler models), so the tradeoff between accuracy and error must be considered.") 
-        st.subheader("Preview of some available advanced models for predicting `SIZE` or `PDI`")
-        st.write("`ensemble-pdi`")
-        st.table(pd.DataFrame({
-            "Metric": ["R-squared", "Mean Squared Error (MSE)", "Mean Absolute Error (MAE)"],
-            "Value": [0.5328156582541348, 0.00245118805677467875, 0.04254484741522172]
-        }))
-        st.write("`ensemble-size`")
-        st.table(pd.DataFrame({
-            "Metric": ["R-squared", "Mean Squared Error", "Mean Absolute Error"],
-            "Value": [0.874431019712665, 340.2617544655023, 11.834716059736861]
-        }))
-        st.write("With an improvement in terms of metrics given by the following plot.")
-        metrics = ["R-squared", "MSE", "MAE"]
-        before = [0.3285, 1967.81, 14.65]
-        after = [0.8744, 340.26, 11.83]
-        plot_model_performance(metrics, before, after)
-        st.write("Depending on the number of samples available for training and validation we can boost the performances even further.")
-        # 2.4.1 ensemble-size
-        st.subheader("Try the `ensemble-size` model")
-        with open(size_model, "rb") as file:
-            model = pickle.load(file)
-        if st.button("Predict"):
-            input_data = pd.DataFrame({
-                "ML": [ml],
-                "CHIP": [chip],
-                "TLP": [tlp],
-                "ESM": [0.0 if esm_disabled else esm],  
-                "HSPC": [0.0 if hspc_disabled else hspc],  
-                "CHOL": [chol],
-                "PEG": [peg],
-                "TFR ": [tfr],
-                "FRR": [frr],
-                "BUFFER": [buffer],
-            })
-            input_data_ = pd.DataFrame({
-                "TLP": [tlp],
-                "ESM": [esm],
-                "HSPC": [hspc],
-                "CHOL": [chol],
-                "PEG": [peg],
-                "TFR ": [tfr],
-                "FRR": [frr],
-            })
-            st.markdown("**Input data**")
-            st.write(input_data)
-            st.markdown("**Model predictions**")
-            if model.predict(input_data_) > 500:
-                st.write("The sistem doesn't form")
-                st.write(f"`OUTPUT`: 0")                
-            else:
-                st.write(f"Predicted `SIZE`: {model.predict(input_data_)}")   
-        # 2.4.2 ensemble-pdi
-        st.subheader("Try the `ensemble-pdi` model")
-        with open(pdi_model, "rb") as file:
-            model = pickle.load(file)
-        if st.button("Predict", key='adv_pred_2'):
-            input_data = pd.DataFrame({
-                "ML": [ml],
-                "CHIP": [chip],
-                "TLP": [tlp],
-                "ESM": [0.0 if esm_disabled else esm],  
-                "HSPC": [0.0 if hspc_disabled else hspc],  
-                "CHOL": [chol],
-                "PEG": [peg],
-                "TFR ": [tfr],
-                "FRR": [frr],
-                "BUFFER": [buffer],
-            })
-            input_data_ = pd.DataFrame({
-                "TLP": [tlp],
-                "ESM": [esm],
-                "HSPC": [hspc],
-                "CHOL": [chol],
-                "PEG": [peg],
-                "TFR ": [tfr],
-                "FRR": [frr],
-            })
-            st.markdown("**Input data**")
-            st.write(input_data)
-            st.markdown("**Model predictions**")
-            if model.predict(input_data_) > 0.5:
-                st.write("The sistem doesn't form")
-                st.write(f"`OUTPUT`: 0")                
-            else:
-                st.write(f"Predicted `PDI`: {model.predict(input_data_)}")
                 
-    # 2.5 Single target models
+    # 2.4 Advanced single target models
     elif option == "Single target models":
-        st.header("Single target models")
+        st.header("Advanced single target models")
         st.markdown("These models will predict one target variable at a time, for example `SIZE`, given all the other features. If you want to predict `SIZE` set `PDI` to zero. If you want to predict `PDI` set `SIZE` to zero.")
         st.subheader("Preview of some available advanced models for predicting `SIZE` or `PDI`")
         st.write("`xgboost_one_target_pdi`")
