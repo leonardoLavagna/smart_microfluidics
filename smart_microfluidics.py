@@ -383,8 +383,8 @@ if section == "Data Modeling":
                 predicted_pdi = predictions[0]
                 st.markdown("**Model predictions**")
                 st.write(f"Predicted `SIZE`: {predicted_pdi}")
-            st.subheader("Try the `best_xgboost_model_size` model")
-            elif size > 0.0 and pdi==0.0:  
+                elif size > 0.0 and pdi==0.0: 
+                st.subheader("Try the `best_xgboost_model_size` model")
                 input_data = pd.DataFrame({
                     "ESM": [esm],  
                     "HSPC": [hspc],  
