@@ -145,7 +145,7 @@ st.title("Smart Microfluidics: Machine Learning tools for Liposome Production Ex
 #    )
 #section = st.session_state.section
 #st.write(f"You selected: {section}")
-
+st.session_state.section = "Dataset" 
 st.sidebar.title("Choose an Option")
 st.session_state.section = st.sidebar.selectbox(
     "Data preprocessing, data modelization or data visualization:",
