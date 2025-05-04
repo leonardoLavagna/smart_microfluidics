@@ -117,34 +117,41 @@ def plot_model_performance(metrics, before, after):
 # COLOPHON
 ################################################                    
 st.title("Smart Microfluidics: Machine Learning tools for Liposome Production Experiments")
-GITHUB_CREDENTIALS_URL = "https://raw.githubusercontent.com/leonardoLavagna/smart_microfluidics/main/_includes/credentials.json"
-credentials = load_credentials(GITHUB_CREDENTIALS_URL)
-if "authenticated" not in st.session_state:
-    st.session_state.authenticated = False
-if "section" not in st.session_state:
-    st.session_state.section = "Authenticate" 
-if not st.session_state.authenticated:
-    st.session_state.section = "Authenticate"
-    user_id = st.text_input("Enter your ID:")
-    password = st.text_input("Enter the global password:", type="password")
-    if st.button("Login"):
-        if credentials and authenticate(user_id, password, credentials):
-            st.success("Authentication successful! You can proceed.")
-            st.session_state.authenticated = True  
-            st.session_state.section = "Dataset"  
-            st.session_state.authenticated = True
-            st.rerun()
-        else:
-            st.error("Authentication failed! Please check your credentials.")
-else:
-    st.sidebar.title("Choose an Option")
-    st.session_state.section = st.sidebar.selectbox(
-        "Data preprocessing, data modelization or data visualization:",
-        ["Dataset", "Data Modeling", "Data Exploration"],
-        index=["Dataset", "Data Modeling", "Data Exploration"].index(st.session_state.section)
-    )
-section = st.session_state.section
-st.write(f"You selected: {section}")
+#GITHUB_CREDENTIALS_URL = "https://raw.githubusercontent.com/leonardoLavagna/smart_microfluidics/main/_includes/credentials.json"
+#credentials = load_credentials(GITHUB_CREDENTIALS_URL)
+#if "authenticated" not in st.session_state:
+#    st.session_state.authenticated = False
+#if "section" not in st.session_state:
+#    st.session_state.section = "Authenticate" 
+#if not st.session_state.authenticated:
+#    st.session_state.section = "Authenticate"
+#    user_id = st.text_input("Enter your ID:")
+#    password = st.text_input("Enter the global password:", type="password")
+#    if st.button("Login"):
+#        if credentials and authenticate(user_id, password, credentials):
+#            st.success("Authentication successful! You can proceed.")
+#            st.session_state.authenticated = True  
+#            st.session_state.section = "Dataset"  
+#            st.session_state.authenticated = True
+#            st.rerun()
+#        else:
+#            st.error("Authentication failed! Please check your credentials.")
+#else:
+#    st.sidebar.title("Choose an Option")
+#    st.session_state.section = st.sidebar.selectbox(
+#        "Data preprocessing, data modelization or data visualization:",
+#        ["Dataset", "Data Modeling", "Data Exploration"],
+#        index=["Dataset", "Data Modeling", "Data Exploration"].index(st.session_state.section)
+#    )
+#section = st.session_state.section
+#st.write(f"You selected: {section}")
+
+st.sidebar.title("Choose an Option")
+st.session_state.section = st.sidebar.selectbox(
+    "Data preprocessing, data modelization or data visualization:",
+    ["Dataset", "Data Modeling", "Data Exploration"],
+    index=["Dataset", "Data Modeling", "Data Exploration"].index(st.session_state.section)
+)
 
 
 ################################################
