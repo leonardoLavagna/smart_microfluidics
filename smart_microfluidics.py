@@ -327,7 +327,7 @@ if section == "Data Modeling":
     elif option == "Inverse model":
         st.subheader("Inverse model")
         st.markdown("This inference method pivots the pretrained XGBoost model to solve an [inverse problem](https://en.wikipedia.org/wiki/Inverse_problem): given target `SIZE` and `PDI` returns predictions for the other numerical features.")
-        st.warning(":male-technologist: Work in progress... Only numerical predictions available.")
+        st.warning("🧑🏻‍💻: Work in progress... Only numerical predictions available.")
         with open(inverse_xgboost_model, "rb") as file:
             model = pickle.load(file)
         st.write(f"Loaded {inverse_xgboost_model} with the folloing performance metrics.")
