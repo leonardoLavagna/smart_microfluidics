@@ -441,9 +441,10 @@ elif section == "Data Exploration":
         scaler = StandardScaler()
         df_standardized = pd.DataFrame(scaler.fit_transform(numeric_data), columns=numeric_data.columns)
         st.subheader("Stacked densities")
-        plt.figure(figsize=(12, 8))
-        joypy.joyplot(df_standardized, colormap=plt.cm.coolwarm, x_range=[-5, 10], figsize=(12, 8))
-        st.pyplot(plt)
+        fig, axes = joypy.joyplot(df_standardized,colormap=plt.cm.coolwarm,x_range=[-5, 10],figsize=(12, 8))
+        plt.title("Ridgeline Plot")
+        st.pyplot(fig)
+        plt.close(fig)
 
     # 3.2 Correlation heatmap
     if option == "Correlation heatmaps":
