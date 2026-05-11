@@ -6,7 +6,6 @@ pandas
 numpy
 matplotlib==3.7.5
 seaborn
-joypy==0.2.6
 scikit-learn==1.6.1
 plotly
 scipy
